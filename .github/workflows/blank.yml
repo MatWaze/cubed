@@ -1,5 +1,5 @@
 name: CI
-#
+
 on:
   push
 
@@ -9,6 +9,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x' # Use the appropriate version for norminette
+
+      - name: Install norminette
+        run: python3 -m pip install norminette
 
       - name: Run norminette
         run: norminette $(find . -type d | grep cubed | head -1)
