@@ -1,5 +1,6 @@
 #include <stdio.h>
-	
+
+//svi
 int	main(int argc, char **argv)
 {
 	int	ans;
