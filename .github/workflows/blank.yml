@@ -23,7 +23,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run norminette
-        run: norminette $(find . -type d | grep cub3d | head -1)
+        run: norminette $(find . -type d | grep cubed | head -1)
 
       # Runs a set of commands using the runners shell
       #- name: Run a multi-line script
