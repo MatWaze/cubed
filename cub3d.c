@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/09 11:29:03 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:37:24 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	main(int argc, char **argv)
 		}
 	}
 	else
-		printf("Usage: ./cub3d path_to_cub_file.\n");
+		printf("Usage: ./cub3d path_to_cub_file\n");
 	return (ans);
 }
