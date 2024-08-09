@@ -1,6 +1,6 @@
 name = cub3d
 build_dir = build
-mlx_dir = mlx_linux 
+mlx_dir = minilibx_opengl_20191021
 libft_dir = libft
 lflags = -L$(libft_dir) -L$(mlx_dir)
 iflags = -I. -I$(include_dir) -I$(libft_dir) -I/usr/include -I$(mlx_dir) -O3
@@ -21,9 +21,9 @@ $(mlx_dir)/libmlx.a:
 PARSING_BUILD_DIR=$(build_dir)/parsing
 
 PARSING_MODULES = parsing
-PARSING_OBJ = $(addprefix $(PARSING_BUILD_DIR/), $(addsuffix .o, $(PARSING_MODULES)))
+PARSING_OBJ = $(addprefix $(PARSING_BUILD_DIR)/, $(addsuffix .o, $(PARSING_MODULES)))
 $(PARSING_BUILD_DIR) : | $(build_dir)
-	mkdir $@
+	mkdir -p $@
 
 depflags = -MT $@ -MMD -MP -MF $(build_dir)/$*.d
 
@@ -33,7 +33,7 @@ $(build_dir)/%.o: %.c $(build_dir)/%.d Makefile
 	cc $(cflags) $(iflags) $(depflags) -c $< -o $@
 
 $(name) : $(mlx_dir)/libmlx.a $(libft_dir)/libft.a $(obj)
-	cc $(lflags) -o $@ $(obj) -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz
+	cc $(lflags) -o $@ $(obj) -lmlx -framework OpenGL -framework AppKit
 
 clean : $(mlx_dir)/Makefile
 	rm -rf $(build_dir)
@@ -51,7 +51,7 @@ re : fclean all
 dirs: $(PARSING_BUILD_DIR)
 
 $(build_dir):
-	mkdir $@
+	mkdir -p $@
 
 $(obj:.o=.d):
 include $(obj:.o=.d)
