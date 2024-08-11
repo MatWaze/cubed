@@ -5,17 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/10 10:55:55 by mamazari         ###   ########.fr       */
+/*   Created: 2024/08/10 17:15:34 by mamazari          #+#    #+#             */
+/*   Updated: 2024/08/10 17:15:35 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "incs/t_cub.h"
-
-int	get_map(t_cub *args)
-{
-	int	ans;
-
-	ans = 0;
-	return (ans);
-}

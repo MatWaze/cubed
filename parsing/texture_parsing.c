@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:16:52 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/09 15:01:37 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/08/10 12:59:18 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	free_mem(char *line, char *trim, char **split)
 	return (0);
 }
 
-int	get_textures_colors(t_cub *args)
+int	get_textures_colors(t_cub *args, int *line_count)
 {
 	int		count;
 	char	*line;
@@ -51,6 +51,7 @@ int	get_textures_colors(t_cub *args)
 	count = 0;
 	while (count != 6)
 	{
+		(*line_count)++;
 		line = get_next_line(args->fd);
 		if (line == NULL)
 			break ;
