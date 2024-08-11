@@ -13,7 +13,7 @@
 #ifndef COMMON_H
 # define COMMON_H
 
-int		free_return(void *var);
+int		free_return(char *var);
 int		free_arr(char **av);
 int		check_file(int *fd);
 int		split_count(char **s);

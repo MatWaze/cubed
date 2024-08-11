@@ -16,13 +16,10 @@
 
 #include "libft/libft.h"
 
-int	free_return(void *var)
+int	free_return(char *var)
 {
-	if (var)
-	{
+	if (var != NULL)
 		free(var);
-		var = NULL;
-	}
 	return (0);
 }
 
