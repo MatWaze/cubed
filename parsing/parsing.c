@@ -16,8 +16,8 @@
 #include "common/common.h"
 #include "incs/t_cub.h"
 
-int	get_map(t_cub *cubed, int *line_count);
-int	get_textures_colors(t_cub *args, int *line_count);
+int		get_map(t_cub *cubed, int *line_count);
+int		get_textures_colors(t_cub *args, int *line_count);
 void	set_cubed(t_cub *cubed, char *name);
 
 void	set_cubed(t_cub *cubed, char *name)

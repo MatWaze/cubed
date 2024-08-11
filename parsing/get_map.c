@@ -41,20 +41,15 @@ int	get_map(t_cub *cubed, int *line_count)
 	while (line)
 	{
 		new_line = ft_strtrim(line, "\n");
-		printf("%p, %s\n", &new_line, new_line);
-		free(line);
+		free_return(line);
 		line = convert_line(new_line);
-		printf("%p, %s\n", &line, line);
 		free_return(new_line);
-		map[i] = ft_strdup(line);
-		printf("size: %zu; [%s]\n", ft_strlen(map[i]), map[i]);
-		i++;
+		map[i++] = ft_strdup(line);
 		free_return(line);
 		line = get_next_line(cubed->fd);
-		printf("%p, %s\n", &line, line);
 	}
 	map[i] = NULL;
-	free_arr(map);
+	cubed->map = map;
 	return (ans);
 }
 
@@ -68,19 +63,20 @@ int	nl_count(int fd, int l_count)
 	while (line)
 	{
 		if (l_count == 0 && count++)
-			break;
+			break ;
 		else if (l_count != 0)
 			l_count--;
 		free(line);
 		line = get_next_line(fd);
 	}
 	skip_empty(fd, &line);
+	free(line);
 	line = get_next_line(fd);
 	while (line)
 	{
 		count++;
-		line = get_next_line(fd);
 		free(line);
+		line = get_next_line(fd);
 	}
 	return (count);
 }
