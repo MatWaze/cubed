@@ -22,7 +22,7 @@ $(mlx_dir)/libmlx.a:
 PARSING_BUILD_DIR = $(build_dir)/parsing
 COMMON_BUILD_DIR = $(build_dir)/common
 
-PARSING_MODULES = parsing texture_parsing valid_texture map_parsing get_map
+PARSING_MODULES = validation texture_parsing valid_texture valid_map get_map check_characters
 PARSING_OBJ = $(addprefix $(PARSING_BUILD_DIR)/, $(addsuffix .o, $(PARSING_MODULES)))
 $(PARSING_BUILD_DIR) : | $(build_dir)
 	mkdir $@
