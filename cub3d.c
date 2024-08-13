@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
 
 #include "parsing/parsing.h"
 #include "common/common.h"
