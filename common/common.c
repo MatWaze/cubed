@@ -20,7 +20,7 @@ int	free_return(char *var)
 {
 	if (var != NULL)
 		free(var);
-	return (0);
+	return (1);
 }
 
 int	free_arr(char **av)
