@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "common/common.h"
 #include "incs/t_cub.h"
@@ -84,7 +85,7 @@ int	other_characters(char **map)
 	while (map[i])
 	{
 		trimmed = ft_strtrim(map[i], "\n ");
-		if (ft_strlen(trimmed) == 0)
+		if (*trimmed == '\0' && free_return(trimmed))
 			return (0);
 		else
 		{
