@@ -63,8 +63,8 @@ int	spaces_after_chars(char **map)
 			{
 				if ((j > 0 && !is_set(map[i][j - 1], "1 ")) \
 				|| (j + 1 < ft_strlen(map[i]) && !is_set(map[i][j + 1], "1 ")) \
-				|| (i > 0 && j < ft_strlen(map[i - 1]) && !is_set(map[i - 1][j], \
-				"1 ")) || (map[i + 1] && j < ft_strlen(map[i + 1]) && \
+				|| (i > 0 && j < ft_strlen(map[i - 1]) && !is_set(map[i - 1][j] \
+				, "1 ")) || (map[i + 1] && j < ft_strlen(map[i + 1]) && \
 				!is_set(map[i + 1][j], "1 ")))
 					ans = 0;
 			}
