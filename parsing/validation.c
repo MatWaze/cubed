@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:56:23 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/10 17:16:23 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:41:36 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 #include "common/common.h"
 #include "incs/t_cub.h"
 
-int		get_map(t_cub *cubed, int *line_count);
+void	get_map(t_cub *cubed, int *line_count);
 int		get_textures_colors(t_cub *args, int *line_count);
+int		is_map_valid(t_cub *cubed);
 void	set_cubed(t_cub *cubed, char *name);
 
 void	set_cubed(t_cub *cubed, char *name)
@@ -47,10 +48,12 @@ int	validation(char *filename, t_cub *cubed)
 			printf("Error with texture(s) or color(s).\n");
 		else
 		{
-			printf("Check for map errors.\n");
-			ans = get_map(cubed, &l_count);
+			get_map(cubed, &l_count);
+			ans = is_map_valid(cubed);
 			if (ans == 1)
 				printf("Error with map\n");
+			else
+				printf("No problem.\n");
 		}
 	}
 	return (ans);
