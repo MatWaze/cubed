@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_err.h                                            :+:      :+:    :+:   */
+/*   t_vec.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 06:53:40 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/14 03:28:13 by zanikin          ###   ########.fr       */
+/*   Created: 2024/08/14 04:38:36 by zanikin           #+#    #+#             */
+/*   Updated: 2024/08/14 04:39:18 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_ERR_H
-# define T_ERR_H
-# include <stdbool.h>
+#ifndef T_VEC_H
+# define T_VEC_H
 
-# include "libft/libft.h"
-# include "t_trace.h"
-
-typedef struct s_err
+typedef struct s_vec
 {
-	int		error;
-	t_trace	*trace;
-}	t_err;
+	float	x;
+	float	y;
+}	t_vec;
 #endif
