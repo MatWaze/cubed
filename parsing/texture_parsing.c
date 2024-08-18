@@ -68,3 +68,4 @@ int	get_textures_colors(t_cub *args, int *line_count)
 	}
 	return (count != 6);
 }
+
