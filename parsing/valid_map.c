@@ -6,138 +6,101 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:15:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/13 18:48:56 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:41:21 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <unistd.h>
 
 #include "common/common.h"
+#include "c3d_math/c3d_math.h"
+#include "t_cub.h"
 #include "libft/libft.h"
-#include "incs/t_cub.h"
 
-int	spaces_after_chars(char **map);
 int	other_characters(char **map);
 int	player_pos(char **map);
 int	map_closed_horizontally(char **map);
 int	is_set(char c, char *set);
 
-// int	map_closed_horizontally(char **map)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		ans;
-// 	char	*trim;
-
-// 	i = -1;
-// 	while (map[++i])
-// 	{
-// 		ans = 0;
-// 		trim = ft_strtrim(map[i], " ");
-// 		j = 0;
-// 		if (trim[j] == '1')
-// 			ans += 2;
-// 		while ((j + 1) < (int) ft_strlen(trim) && \
-// 		trim[j + 1])
-// 			j++;
-// 		if (trim[j] == '1')
-// 			ans--;
-// 		if (free_return(trim) && ans != 1)
-// 			break ;
-// 	}
-// 	return (ans);
-// }
-
-int	get_map_width(char **map)
+int	is_closed_zero(t_mat *map, size_t i, size_t j)
 {
-	int	i;
-	int	len;
-	int	max;
-
-	i = 0;
-	max = -100;
-	while (map[i])
-	{
-		len = ft_strlen(map[i]);
-		if (len > max)
-			max = len;
-		i++;
-	}
-	return (max);
-}
-
-int	get_map_height(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-		i++;
-	return (i);
-}
-
-int	is_closed_zero(char **map, size_t i, size_t j)
-{
-	int	ans;
+	int		ans;
 
 	ans = 1;
-	if (map[i][j] == '0' || (is_set(map[i][j], "NSEW")))
+	if (map->m[i][j] == '0' || (is_set(map->m[i][j], "NSEW")))
 	{
-		if ((j > 0 && !is_set(map[i][j - 1], "10NSEW")) \
-		|| (j + 1 < ft_strlen(map[i]) && !is_set(map[i][j + 1], "10NSEW")) \
-		|| (i > 0 && j < ft_strlen(map[i - 1]) && !is_set(map[i - 1][j] \
-		, "10NSEW")) || (map[i + 1] && j < ft_strlen(map[i + 1]) && \
-		!is_set(map[i + 1][j], "10NSEW")))
+		if ((i == 0 || i == map->h - 1 || j == 0 || j == map->w - 1) \
+		|| (j > 0 && map->m[i][j - 1] == ' ') || \
+		(j + 1 < ft_strlen(map->m[i]) && (map->m[i][j + 1] == ' ' || \
+		map->m[i][j + 1] == '\0')) || (i > 0 && j < ft_strlen(map->m[i - 1]) \
+		&& map->m[i - 1][j] == ' ') || (map->m[i + 1] && \
+		j < ft_strlen(map->m[i + 1]) && map->m[i + 1][j] == ' '))
 			ans = 0;
 	}
 	return (ans);
 }
 
-int	check_if_closed(char **new_map)
+void	fill_matrix(t_mat *new_map, char **map)
+{
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	len;
+
+	i = 0;
+	while (i < new_map->h && map[i])
+	{
+		j = 0;
+		len = (unsigned int)ft_strlen(map[i]);
+		if (len > 0)
+		{
+			while (j < new_map->w)
+			{
+				if (j < len)
+					new_map->m[i][j] = map[i][j];
+				else
+					new_map->m[i][j] = ' ';
+				j++;
+			}
+		}
+		i++;
+	}
+}
+
+int	check_if_closed(t_mat *mat)
 {
 	size_t	i;
 	size_t	j;
 	int		ans;
-	char	*first_line;
-	char	*last_line;
 
 	i = 0;
 	ans = 1;
-	first_line = new_map[0];
-	last_line = new_map[get_map_height(new_map) - 1];
-	if (ft_strchr(first_line, '0') || ft_strchr(last_line, '0'))
-		ans = 0;
-	else
+	while (ans == 1 && i < mat->h)
 	{
-		while (ans == 1 && new_map[i])
+		j = 0;
+		while (j < mat->w)
 		{
-			j = 0;
-			while (new_map[i][j])
-			{
-				ans = is_closed_zero(new_map, i, j);
-				if (ans == 0)
-					break ;
-				j++;
-			}
-			i++;
+			ans = is_closed_zero(mat, i, j);
+			if (ans == 0)
+				break ;
+			j++;
 		}
+		i++;
 	}
 	return (ans);
 }
 
-// int	map_closed_vertically(char **map)
-// {
-
-// }
-
 int	is_map_valid(t_cub *cubed)
 {
-	int	ans;
+	int				ans;
+	t_mat			mat;
+	static t_err	err = {0};
 
 	ans = 0;
-	if (player_pos(cubed->map) == 0 || other_characters(cubed->map) == 0 || \
-	check_if_closed(cubed->map) == 0)
+	create_mat(&mat, get_map_width(cubed->map), \
+	get_map_height(cubed->map), &err);
+	fill_matrix(&mat, cubed->map);
+	if (player_pos(cubed->map) == 0 || other_characters(cubed->map) == 0 \
+	|| check_if_closed(&mat) == 0)
 		ans = 1;
 	return (ans);
 }

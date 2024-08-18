@@ -6,16 +6,25 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 17:38:22 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/13 14:02:44 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:30:33 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "common/common.h"
-#include "incs/t_cub.h"
 #include "libft/libft.h"
+
+int	is_xpm_file(char *filename)
+{
+	int	len;
+	int	ans;
+
+	len = ft_strlen(filename);
+	ans = 1;
+	if (len > 4 && filename[len - 1] == 'm' && filename[len - 2] == 'p' && \
+	filename[len - 3] == 'x' && filename[len - 4] == '.')
+		ans = 0;
+	return (ans);
+}
 
 int	is_set(char c, char *set)
 {
@@ -45,34 +54,6 @@ int	char_count(char *line, char *set)
 		i++;
 	}
 	return (count);
-}
-
-int	spaces_after_chars(char **map)
-{
-	int		i;
-	size_t	j;
-	int		ans;
-
-	i = -1;
-	ans = 1;
-	while (map[++i])
-	{
-		j = 0;
-		while (j < ft_strlen(map[i]))
-		{
-			if (map[i][j] == ' ')
-			{
-				if ((j > 0 && !is_set(map[i][j - 1], "1 ")) \
-				|| (j + 1 < ft_strlen(map[i]) && !is_set(map[i][j + 1], "1 ")) \
-				|| (i > 0 && j < ft_strlen(map[i - 1]) && !is_set(map[i - 1][j] \
-				, "1 ")) || (map[i + 1] && j < ft_strlen(map[i + 1]) && \
-				!is_set(map[i + 1][j], "1 ")))
-					ans = 0;
-			}
-			j++;
-		}
-	}
-	return (ans);
 }
 
 int	other_characters(char **map)

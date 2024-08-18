@@ -2,9 +2,8 @@ NAME = cub3D
 BUILD_DIR = build
 mlx_dir = minilibx_opengl_20191021
 libft_dir = libft
-include_dir = incs
 lflags = -L$(libft_dir) -L$(mlx_dir)
-iflags = -I. -I$(include_dir) -I/usr/include
+iflags = -I. -I/usr/include
 cflags = -Wall -Wextra -Werror
 
 all : make_dirs $(NAME)
@@ -19,7 +18,7 @@ sanitize : all
 #        (__)  \_/\_/(__\_)(____/(__)\_)__) \___/
 
 parsing_dir = $(BUILD_DIR)/parsing
-parsing_modules = parsing texture_parsing valid_texture map_parsing get_map
+parsing_modules = validation check_characters texture_parsing valid_texture valid_map get_map
 obj += $(addprefix $(parsing_dir)/, $(addsuffix .o, $(parsing_modules)))
 $(parsing_dir): | $(BUILD_DIR)
 	mkdir $@
@@ -30,7 +29,7 @@ $(parsing_dir): | $(BUILD_DIR)
 #         \___)\__/ \_)(_/\_)(_/ \__/ \_)__)
 
 common_dir=$(BUILD_DIR)/common
-common_modules=common
+common_modules= common matrix
 obj += $(addprefix $(common_dir)/, $(addsuffix .o, $(common_modules)))
 $(common_dir): | $(BUILD_DIR)
 	mkdir $@

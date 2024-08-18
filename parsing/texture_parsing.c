@@ -16,7 +16,7 @@
 
 #include "libft/libft.h"
 #include "common/common.h"
-#include "incs/t_cub.h"
+#include "t_cub.h"
 
 int		is_valid_str(char *line, char **s, t_cub *args);
 int		free_mem(char *line, char *trim, char **split);

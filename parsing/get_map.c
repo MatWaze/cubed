@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/12 17:41:06 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:07:07 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#include "incs/t_cub.h"
+#include "t_cub.h"
 #include "libft/libft.h"
 #include "common/common.h"
 
@@ -33,7 +33,7 @@ void	get_map(t_cub *cubed, int *line_count)
 
 	line = NULL;
 	map = (char **) malloc(sizeof(char *) * \
-	(nl_count(open(cubed->name, O_RDONLY), *line_count) + 1));
+	(nl_count(open(cubed->name, O_RDONLY), *line_count) + 2));
 	skip_empty(cubed->fd, &line);
 	i = 0;
 	while (line)

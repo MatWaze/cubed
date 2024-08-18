@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   t_cub.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 20:29:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/10 12:07:51 by mamazari         ###   ########.fr       */
+/*   Created: 2024/08/08 12:07:30 by mamazari          #+#    #+#             */
+/*   Updated: 2024/08/10 18:57:59 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#ifndef T_CUB_H
+# define T_CUB_H
 
-# include "t_cub.h"
+# include "common/t_color_sides.h"
 
-int	validation(char *filename, t_cub *cubed);
-
+typedef struct s_cub
+{
+	t_color_sides	col_sides;
+	int				fd;
+	char			*name;
+	char			**map;
+}			t_cub;
 #endif
