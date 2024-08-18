@@ -14,7 +14,10 @@
 #include <fcntl.h>
 
 #include "common/common.h"
+#include "error/codes.h"
+#include "error/error.h"
 #include "t_cub.h"
+#include "error/t_err.h"
 
 void	get_map(t_cub *cubed, int *line_count);
 int		get_textures_colors(t_cub *args, int *line_count);
@@ -32,7 +35,7 @@ void	set_cubed(t_cub *cubed, char *name)
 	cubed->col_sides.ceiling_found = -1;
 }
 
-int	validation(char *filename, t_cub *cubed)
+int	validation(char *filename, t_cub *cubed, t_err *err)
 {
 	int	ans;
 	int	l_count;
@@ -40,23 +43,20 @@ int	validation(char *filename, t_cub *cubed)
 	ans = 0;
 	l_count = 0;
 	cubed->fd = open(filename, O_RDONLY);
-	if (check_file(&cubed->fd) == 0)
+	if (track(err, "validation") && \
+		check_err(err, check_file(&cubed->fd) == 0, PARSING_FILE_NOT_OPEN))
 	{
 		set_cubed(cubed, filename);
 		ans = get_textures_colors(cubed, &l_count);
-		if (ans == 1)
-			printf("Error with texture(s) or color(s).\n");
-		else
+		if (track(err, "get_textures_colors") && check_err(err, ans == 1, PARSING_TEXTURE_COLOR))
 		{
 			get_map(cubed, &l_count);
 			ans = is_map_valid(cubed);
-			if (ans == 1)
-				printf("Error with map\n");
-			else
+			if (track(err, "is_map_valid") && check_err(err, ans == 1, PARSING_MAP))
 				printf("No problem.\n");
 		}
+		untrack(err);
 	}
-	else
-		printf("Error opening file\n");
+	print_trace(err);
 	return (ans);
 }
