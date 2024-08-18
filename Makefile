@@ -1,17 +1,86 @@
-name = cub3d
-build_dir = build
+NAME = cub3D
+BUILD_DIR = build
 mlx_dir = minilibx_opengl_20191021
 libft_dir = libft
 include_dir = incs
 lflags = -L$(libft_dir) -L$(mlx_dir)
-iflags = -I. -I$(include_dir) -I$(libft_dir) -I/usr/include -I$(mlx_dir) -O3
-cflags = -Wall -Wextra -Werror -g3
+iflags = -I. -I$(include_dir) -I/usr/include
+cflags = -Wall -Wextra -Werror
 
-all : dirs $(name)
+all : make_dirs $(NAME)
 
-sanitize : cflags += -g3 -fsanitize=address -fsanitize=undefined
-sanitize : lflags += -g3 -fsanitize=address -fsanitize=undefined
+sanitize : cflags += -g -fsanitize=address -fsanitize=undefined
+sanitize : lflags += -g -fsanitize=address -fsanitize=undefined
 sanitize : all
+
+#         ____   __   ____  ____  __  __ _   ___ 
+#        (  _ \ / _\ (  _ \/ ___)(  )(  ( \ / __)
+#         ) __//    \ )   /\___ \ )( /    /( (_ \
+#        (__)  \_/\_/(__\_)(____/(__)\_)__) \___/
+
+parsing_dir = $(BUILD_DIR)/parsing
+parsing_modules = parsing texture_parsing valid_texture map_parsing get_map
+obj += $(addprefix $(parsing_dir)/, $(addsuffix .o, $(parsing_modules)))
+$(parsing_dir): | $(BUILD_DIR)
+	mkdir $@
+
+#          ___  __   _  _  _  _   __   __ _ 
+#         / __)/  \ ( \/ )( \/ ) /  \ (  ( \
+#        ( (__(  O )/ \/ \/ \/ \(  O )/    /
+#         \___)\__/ \_)(_/\_)(_/ \__/ \_)__)
+
+common_dir=$(BUILD_DIR)/common
+common_modules=common
+obj += $(addprefix $(common_dir)/, $(addsuffix .o, $(common_modules)))
+$(common_dir): | $(BUILD_DIR)
+	mkdir $@
+
+#         ____  ____  ____   __  ____ 
+#        (  __)(  _ \(  _ \ /  \(  _ \
+#         ) _)  )   / )   /(  O ))   /
+#        (____)(__\_)(__\_) \__/(__\_)
+
+error_dir=$(BUILD_DIR)/error
+error_modules = error trace
+obj += $(addprefix $(error_dir)/, $(addsuffix .o, $(error_modules)))
+$(error_dir): | $(BUILD_DIR)
+	mkdir $@
+
+#          ___  ____  ____        _  _   __  ____  _  _ 
+#         / __)( __ \(    \      ( \/ ) / _\(_  _)/ )( \
+#        ( (__  (__ ( ) D ( ____ / \/ \/    \ )(  ) __ (
+#         \___)(____/(____/(____)\_)(_/\_/\_/(__) \_)(_/
+
+c3d_math_dir=$(BUILD_DIR)/c3d_math
+c3d_math_modules = create
+obj += $(addprefix $(c3d_math_dir)/, $(addsuffix .o, $(c3d_math_modules)))
+$(c3d_math_dir): | $(BUILD_DIR)
+	mkdir $@
+
+obj += $(BUILD_DIR)/cub3D.o
+
+depflags = -MT $@ -MMD -MP -MF $(BUILD_DIR)/$*.d
+
+$(NAME): $(mlx_dir)/libmlx.a $(libft_dir)/libft.a $(obj)
+	cc $(lflags) $(cflags) -o $@ $(obj) -lmlx -lft -framework OpenGL -framework AppKit
+
+$(BUILD_DIR)/%.o: %.c $(BUILD_DIR)/%.d Makefile
+	cc $(cflags) $(iflags) $(depflags) -c $< -o $@
+
+clean : $(mlx_dir)/Makefile
+	rm -rf $(BUILD_DIR)
+	make -C $(libft_dir) clean
+	make -C $(mlx_dir) clean
+
+fclean: clean
+	make -C $(libft_dir) fclean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re make_dirs
+
+make_dirs: $(parsing_dir) $(common_dir) $(error_dir) $(c3d_math_dir)
 
 $(libft_dir)/libft.a:
 	make -C $(libft_dir)
@@ -19,47 +88,8 @@ $(libft_dir)/libft.a:
 $(mlx_dir)/libmlx.a:
 	make -C $(mlx_dir)
 
-PARSING_BUILD_DIR = $(build_dir)/parsing
-COMMON_BUILD_DIR = $(build_dir)/common
-
-PARSING_MODULES = validation texture_parsing valid_texture valid_map get_map check_characters
-PARSING_OBJ = $(addprefix $(PARSING_BUILD_DIR)/, $(addsuffix .o, $(PARSING_MODULES)))
-$(PARSING_BUILD_DIR) : | $(build_dir)
+$(BUILD_DIR):
 	mkdir $@
-
-
-COMMON_MODULES = common
-COMMON_OBJ = $(addprefix $(COMMON_BUILD_DIR)/, $(addsuffix .o, $(COMMON_MODULES)))
-$(COMMON_BUILD_DIR): | $(build_dir)
-	mkdir $@
-
-depflags = -MT $@ -MMD -MP -MF $(build_dir)/$*.d
-
-obj = $(build_dir)/cub3d.o $(PARSING_OBJ) $(COMMON_OBJ)
-
-$(build_dir)/%.o: %.c $(build_dir)/%.d Makefile
-	cc $(cflags) $(iflags) $(depflags) -c $< -o $@
-
-$(name) : $(mlx_dir)/libmlx.a $(libft_dir)/libft.a $(obj)
-	cc $(lflags) -o $@ $(obj) -lmlx -lft -framework OpenGL -framework AppKit
-
-clean : $(mlx_dir)/Makefile
-	rm -rf $(build_dir)
-	make -C $(libft_dir) clean
-	make -C $(mlx_dir) clean
-
-fclean : clean
-	make -C $(libft_dir) fclean
-	rm -f $(name)
-
-re : fclean all
-
-.PHONY: all clean fclean re dirs
-
-dirs: $(PARSING_BUILD_DIR) $(COMMON_BUILD_DIR)
-
-$(build_dir):
-	mkdir -p $@
 
 $(obj:.o=.d):
 include $(obj:.o=.d)
