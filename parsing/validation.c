@@ -48,15 +48,13 @@ int	validation(char *filename, t_cub *cubed, t_err *err)
 	{
 		set_cubed(cubed, filename);
 		ans = get_textures_colors(cubed, &l_count);
-		if (track(err, "get_textures_colors") && check_err(err, ans == 1, PARSING_TEXTURE_COLOR))
-		{
-			get_map(cubed, &l_count);
-			ans = is_map_valid(cubed);
-			if (track(err, "is_map_valid") && check_err(err, ans == 1, PARSING_MAP))
-				printf("No problem.\n");
-		}
+		get_map(cubed, &l_count);
+		ans = is_map_valid(cubed);
+		if (ans == 0)
+			printf("No problem.\n");
+		else
+			printf("Problem.\n");
 		untrack(err);
 	}
-	print_trace(err);
 	return (ans);
 }

@@ -70,6 +70,12 @@ static void	print_error(t_err *err)
 		str = C3D_ALL_DESK;
 	else if (err->error == C3D_MAIN_INV_PARAM)
 		str = C3D_MAIN_INV_PARAM_DESK;
+	else if (err->error == PARSING_MAP)
+		str = PARSING_MAP_DESK;
+	else if (err->error == PARSING_FILE_NOT_OPEN)
+		str = PARSING_FILE_NOT_OPEN_DESK;
+	else if (err->error == PARSING_TEXTURE_COLOR)
+		str = PARSING_TEXTURE_COLOR_DESK;
 	else
 		str = "Unknown error";
 	if (!(err->error == C3D_TRACE_TRACK_ALL

@@ -18,6 +18,8 @@
 #include "t_cub.h"
 #include "libft/libft.h"
 #include "common/common.h"
+#include "error/error.h"
+#include "error/codes.h"
 
 int		nl_count(int fd, int l_count);
 char	*convert_line(char *line);
@@ -34,20 +36,23 @@ void	get_map(t_cub *cubed, int *line_count)
 	line = NULL;
 	map = (char **) malloc(sizeof(char *) * \
 	(nl_count(open(cubed->name, O_RDONLY), *line_count) + 2));
-	skip_empty(cubed->fd, &line);
-	i = 0;
-	while (line)
+	if (map)
 	{
-		new_line = ft_strtrim(line, "\n");
-		free_return(line);
-		line = convert_line(new_line);
-		free_return(new_line);
-		map[i++] = ft_strdup(line);
-		free_return(line);
-		line = get_next_line(cubed->fd);
+		skip_empty(cubed->fd, &line);
+		i = 0;
+		while (line)
+		{
+			new_line = ft_strtrim(line, "\n");
+			free_return(line);
+			line = convert_line(new_line);
+			free_return(new_line);
+			map[i++] = ft_strdup(line);
+			free_return(line);
+			line = get_next_line(cubed->fd);
+		}
+		map[i] = NULL;
+		cubed->map = map;
 	}
-	map[i] = NULL;
-	cubed->map = map;
 }
 
 int	nl_count(int fd, int l_count)
