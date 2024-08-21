@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:48:36 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/09 15:38:39 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/08/16 16:20:27 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "incs/t_cub.h"
+#include "t_cub.h"
 #include "libft/libft.h"
 #include "common/common.h"
 
@@ -22,6 +22,8 @@ void	check_textures(char **s, t_cub *args, int *res);
 int		check_colors(char *line, char **s, t_cub *args);
 int		set_rgb(char *str, char **split_rgb, t_cub *col);
 void	set_colors(char *str, char **split_rgb, t_cub *col, int *ans);
+int		is_xpm_file(char *filename);
+int		char_count(char *line, char *set);
 
 int	is_valid_str(char *line, char **s, t_cub *args)
 {
@@ -31,14 +33,15 @@ int	is_valid_str(char *line, char **s, t_cub *args)
 
 	ans = 0;
 	res = 0;
-	if (((split_count(s) == 2) && (access(s[1], F_OK) == 0) && \
+	if (((split_count(s) == 2) && \
+		(access(s[1], F_OK) == 0 && is_xpm_file(s[1]) == 0) && \
 		((ft_strcmp(s[0], "NO") == 0 && args->col_sides.north_found \
-		== 0) || (ft_strcmp(s[0], "SO") == 0 && \
-		args->col_sides.south_found == 0) || (ft_strcmp(s[0], "WE") == 0 && \
-		args->col_sides.west_found == 0) || (ft_strcmp(s[0], "EA") == 0 && \
-		args->col_sides.east_found == 0))) || \
-		((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == 0) || \
-		(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == 0)))
+		== -1) || (ft_strcmp(s[0], "SO") == 0 && \
+		args->col_sides.south_found == -1) || (ft_strcmp(s[0], "WE") == 0 && \
+		args->col_sides.west_found == -1) || (ft_strcmp(s[0], "EA") == 0 && \
+		args->col_sides.east_found == -1))) || \
+		((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
+		(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
 	{
 		temp = ft_strtrim(line, "\t\b ");
 		check_textures(s, args, &res);
@@ -55,22 +58,22 @@ void	check_textures(char **s, t_cub *args, int *res)
 	if (ft_strcmp(s[0], "NO") == 0)
 	{
 		args->col_sides.north = ft_strdup(s[1]);
-		args->col_sides.north_found = 1;
+		args->col_sides.north_found = 0;
 	}
 	else if (ft_strcmp(s[0], "SO") == 0)
 	{
 		args->col_sides.south = ft_strdup(s[1]);
-		args->col_sides.south_found = 1;
+		args->col_sides.south_found = 0;
 	}
 	else if (ft_strcmp(s[0], "WE") == 0)
 	{
 		args->col_sides.west = ft_strdup(s[1]);
-		args->col_sides.west_found = 1;
+		args->col_sides.west_found = 0;
 	}
 	else if (ft_strcmp(s[0], "EA") == 0)
 	{
 		args->col_sides.east = ft_strdup(s[1]);
-		args->col_sides.east_found = 1;
+		args->col_sides.east_found = 0;
 	}
 	else
 		*res = 1;
@@ -88,7 +91,7 @@ int	check_colors(char *line, char **s, t_cub *args)
 	if (line + 1 != NULL)
 	{
 		split_rgb = ft_split(line + 1, ',');
-		if (split_count(split_rgb) == 3)
+		if (char_count(line, ",") == 2)
 		{
 			while (j < 3)
 			{
@@ -134,13 +137,13 @@ void	set_colors(char *str, char **split_rgb, t_cub *col, int *ans)
 		col->col_sides.floor_color.red = red;
 		col->col_sides.floor_color.green = green;
 		col->col_sides.floor_color.blue = blue;
-		col->col_sides.floor_found = 1;
+		col->col_sides.floor_found = 0;
 	}
 	else if (ft_strcmp(str, "C") == 0)
 	{
 		col->col_sides.ceiling_color.red = red;
 		col->col_sides.ceiling_color.green = green;
 		col->col_sides.ceiling_color.blue = blue;
-		col->col_sides.ceiling_found = 1;
+		col->col_sides.ceiling_found = 0;
 	}
 }

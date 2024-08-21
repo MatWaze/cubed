@@ -24,4 +24,10 @@
 # define C3D_INV_PAR_DESK "Invalid parameters"
 # define C3D_MAIN_INV_PARAM 4
 # define C3D_MAIN_INV_PARAM_DESK "Usage: cub3D path_to_cub_file"
+# define PARSING_FILE_NOT_OPEN 10
+# define PARSING_FILE_NOT_OPEN_DESK "Can't open a file"
+# define PARSING_TEXTURE_COLOR 11
+# define PARSING_TEXTURE_COLOR_DESK "Error with texture(s) or color(s)."
+# define PARSING_MAP 12
+# define PARSING_MAP_DESK "Error with map"
 #endif

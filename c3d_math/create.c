@@ -16,7 +16,6 @@
 #include "t_mat.h"
 #include "error/error.h"
 #include "error/codes.h"
-#include "libft/libft.h"
 
 bool	create_mat(t_mat *mat, unsigned int w, unsigned int h, t_err *error)
 {

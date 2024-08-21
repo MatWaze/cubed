@@ -1,25 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_cub.h                                            :+:      :+:    :+:   */
+/*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/08 12:07:30 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/10 18:57:59 by mamazari         ###   ########.fr       */
+/*   Created: 2024/08/16 14:45:48 by mamazari          #+#    #+#             */
+/*   Updated: 2024/08/16 14:46:54 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_CUB_H
-# define T_CUB_H
+#include "libft/libft.h"
 
-# include "t_color_sides.h"
-
-typedef struct s_cub
+int	get_map_width(char **map)
 {
-	t_color_sides	col_sides;
-	int				fd;
-	char			*name;
-	char			**map;
-}			t_cub;
-#endif
+	int	i;
+	int	len;
+	int	max;
+
+	i = 0;
+	max = -100;
+	while (map[i])
+	{
+		len = ft_strlen(map[i]);
+		if (len > max)
+			max = len;
+		i++;
+	}
+	return (max);
+}
+
+int	get_map_height(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+		i++;
+	return (i);
+}

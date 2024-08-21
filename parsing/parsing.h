@@ -13,8 +13,9 @@
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "incs/t_cub.h"
+# include "t_cub.h"
+# include "error/t_err.h"
 
-int	validation(char *filename, t_cub *cubed);
+int	validation(char *filename, t_cub *cubed, t_err *err);
 
 #endif
