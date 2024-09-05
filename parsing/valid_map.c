@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: matevos <matevos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:15:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/16 16:41:21 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/05 20:13:58 by matevos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 
 #include "common/common.h"
 #include "c3d_math/c3d_math.h"
@@ -102,5 +103,6 @@ int	is_map_valid(t_cub *cubed)
 	if (player_pos(cubed->map) == 0 || other_characters(cubed->map) == 0 \
 	|| check_if_closed(&mat) == 0)
 		ans = 1;
+	free(mat.m);
 	return (ans);
 }

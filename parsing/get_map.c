@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: matevos <matevos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/16 16:07:07 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/05 20:08:59 by matevos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	get_map(t_cub *cubed, int *line_count)
 	line = NULL;
 	map = (char **) malloc(sizeof(char *) * \
 	(nl_count(open(cubed->name, O_RDONLY), *line_count) + 2));
+	printf("%p\n", map);
 	if (map)
 	{
 		skip_empty(cubed->fd, &line);
