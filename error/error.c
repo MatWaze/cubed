@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 06:45:34 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/15 00:56:06 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/08 21:35:22 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ static void	print_error(t_err *err)
 		str = PARSING_FILE_NOT_OPEN_DESK;
 	else if (err->error == PARSING_TEXTURE_COLOR)
 		str = PARSING_TEXTURE_COLOR_DESK;
+	else if (err->error == MAIN_INV_FILE_NAME)
+		str = MAIN_INV_FILE_NAME_DESK;
 	else
 		str = "Unknown error";
 	if (!(err->error == C3D_TRACE_TRACK_ALL

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codes.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 07:45:33 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/14 04:33:32 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/08 21:35:17 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@
 # define PARSING_FILE_NOT_OPEN 10
 # define PARSING_FILE_NOT_OPEN_DESK "Can't open a file"
 # define PARSING_TEXTURE_COLOR 11
-# define PARSING_TEXTURE_COLOR_DESK "Error with texture(s) or color(s)."
+# define PARSING_TEXTURE_COLOR_DESK "Error with texture(s) or color(s)"
 # define PARSING_MAP 12
 # define PARSING_MAP_DESK "Error with map"
+# define MAIN_INV_FILE_NAME 13
+# define MAIN_INV_FILE_NAME_DESK "Not a .cub file"
+
 #endif
