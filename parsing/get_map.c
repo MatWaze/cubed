@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matevos <matevos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/05 20:08:59 by matevos          ###   ########.fr       */
+/*   Updated: 2024/09/08 21:35:43 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,34 +26,16 @@ char	*convert_line(char *line);
 void	tab_to_space(char *line, char *new_line);
 void	skip_empty(int fd, char **line);
 
-void	get_map(t_cub *cubed, int *line_count)
+char	**init_map(char *name, int *line_count, int* i)
 {
-	char	*line;
-	char	*new_line;
 	char	**map;
-	int		i;
+	int		nl_c;
 
-	line = NULL;
-	map = (char **) malloc(sizeof(char *) * \
-	(nl_count(open(cubed->name, O_RDONLY), *line_count) + 2));
-	printf("%p\n", map);
-	if (map)
-	{
-		skip_empty(cubed->fd, &line);
-		i = 0;
-		while (line)
-		{
-			new_line = ft_strtrim(line, "\n");
-			free_return(line);
-			line = convert_line(new_line);
-			free_return(new_line);
-			map[i++] = ft_strdup(line);
-			free_return(line);
-			line = get_next_line(cubed->fd);
-		}
-		map[i] = NULL;
-		cubed->map = map;
-	}
+	nl_c = nl_count(open(name, O_RDONLY), *line_count);
+	printf("nl_c: %d\n", nl_c + 1);
+	map = (char **) malloc(sizeof(char *) * (nl_c + 1));
+	*i = 0;
+	return (map);
 }
 
 int	nl_count(int fd, int l_count)
@@ -61,24 +43,24 @@ int	nl_count(int fd, int l_count)
 	char	*line;
 	int		count;
 
-	count = 1;
-	line = get_next_line(fd);
+	count = -1;
+	line = ft_strdup(" ");
 	while (line)
 	{
-		if (l_count == 0 && count++)
+		if (l_count == 0 && ++count)
 			break ;
 		else if (l_count != 0)
 			l_count--;
 		free(line);
 		line = get_next_line(fd);
 	}
+	printf("line after textures: %s\n", line);
 	skip_empty(fd, &line);
-	free(line);
-	line = get_next_line(fd);
+	printf("line after skip empty: %s\n", line);
 	while (line)
 	{
 		count++;
-		free(line);
+		free_return(line);
 		line = get_next_line(fd);
 	}
 	return (count);
@@ -101,7 +83,8 @@ char	*convert_line(char *line)
 		}
 		i = -1;
 		new_line = (char *) malloc(sizeof(char) * (count + 1));
-		tab_to_space(line, new_line);
+		if (new_line != NULL)
+			tab_to_space(line, new_line);
 	}
 	else
 		new_line = ft_strdup(line);
@@ -135,15 +118,13 @@ void	skip_empty(int fd, char **line)
 {
 	char	*trim;
 
-	free(*line);
-	*line = get_next_line(fd);
 	trim = ft_strtrim(*line, "\n\t ");
 	while (*line && ft_strlen(trim) == 0)
 	{
-		free(*line);
-		free(trim);
+		free_return(*line);
+		free_return(trim);
 		*line = get_next_line(fd);
 		trim = ft_strtrim(*line, "\n\t ");
 	}
-	free(trim);
+	free_return(trim);
 }
