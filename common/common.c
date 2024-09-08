@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:03:56 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/10 19:20:23 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/08 21:35:02 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 int	free_return(char *var)
 {
 	if (var != NULL)
+	{
 		free(var);
+	}
 	return (1);
 }
 
@@ -27,14 +29,16 @@ int	free_arr(char **av)
 {
 	int	i;
 
-	i = 0;
-	while (av[i])
-	{
-		free(av[i]);
-		i++;
-	}
 	if (av)
+	{
+		i = 0;
+		while (av[i] != NULL)
+		{
+			free(av[i]);
+			i++;
+		}
 		free(av);
+	}
 	return (0);
 }
 
