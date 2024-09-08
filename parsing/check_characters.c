@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 17:38:22 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/16 16:30:33 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/08 21:35:32 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,22 @@
 
 int	is_xpm_file(char *filename)
 {
-	int	len;
-	int	ans;
+	char	**strs;
+	int		last;
+	int		len;
+	int		ans;
 
-	len = ft_strlen(filename);
+	strs = ft_split(filename, '/');
+	last = split_count(strs) - 1;
 	ans = 1;
-	if (len > 4 && filename[len - 1] == 'm' && filename[len - 2] == 'p' && \
-	filename[len - 3] == 'x' && filename[len - 4] == '.')
-		ans = 0;
+	if (strs && strs[last])
+	{
+		len = ft_strlen(strs[last]);
+		if (len > 4 && strs[last][len - 1] == 'm' && strs[last][len - 2] == 'p' && \
+		strs[last][len - 3] == 'x' && strs[last][len - 4] == '.')
+			ans = 0;
+		free_arr(strs);
+	}
 	return (ans);
 }
 
