@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/09 20:26:05 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:39:13 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ char	**init_map(char *name, int *line_count, int* i)
 	char	**map;
 	int		nl_c;
 
-	nl_c = nl_count(open(name, O_RDONLY), *line_count);
-	printf("nl_c: %d\n", nl_c + 1);
-	map = (char **) malloc(sizeof(char *) * (nl_c + 1));
+	map = NULL;
 	*i = 0;
+	nl_c = nl_count(open(name, O_RDONLY), *line_count);
+	printf("%d\n", nl_c + 1);
+	if (nl_c + 1 > 0)
+		map = (char **) malloc(sizeof(char *) * (nl_c + 1));
 	return (map);
 }
 
