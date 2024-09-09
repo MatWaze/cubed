@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:56:23 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/08 21:36:16 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:25:41 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,20 @@
 #include "common/common.h"
 #include "error/codes.h"
 #include "error/error.h"
+#include "libft/libft.h"
 #include "t_cub.h"
 #include "error/t_err.h"
-#include <stdlib.h>	
+#include <stdlib.h>
+
 char	*convert_line(char *line);
 void	tab_to_space(char *line, char *new_line);
 void	skip_empty(int fd, char **line);
-char	**init_map(char *name, int *line_count, int* i);
-int		get_textures_colors(t_cub *args, int *line_count);
+char	**init_map(char *name, int *line_count, int *i);
+int		get_textures_colors(t_cub *args, int *line_count, int *count, \
+	int *is_valid);
 int		is_map_valid(t_cub *cubed);
 void	set_cubed(t_cub *cubed, char *name);
+void	valid_check(t_cub *cubed, t_err *err, int l_count);
 
 void	set_cubed(t_cub *cubed, char *name)
 {
@@ -38,6 +42,24 @@ void	set_cubed(t_cub *cubed, char *name)
 	cubed->col_sides.ceiling_found = -1;
 }
 
+int	free_some(char ***map, int i)
+{
+	int	j;
+
+	j = 0;
+	if (*map)
+	{
+		while (j < i)
+		{
+			free_return(*map[j]);
+			j++;
+		}
+		free(*map);
+	}
+	*map = NULL;
+	return (1);
+}
+
 int	get_map(t_cub *cubed, int *line_count, char *new_line, char *line)
 {
 	int		i;
@@ -45,23 +67,30 @@ int	get_map(t_cub *cubed, int *line_count, char *new_line, char *line)
 	cubed->map = init_map(cubed->name, line_count, &i);
 	if (cubed->map)
 	{
+		line = get_next_line(cubed->fd);
 		skip_empty(cubed->fd, &line);
+		printf("line after skip_empty: %s\n", line);
 		while (line)
 		{
-			printf("i: %i, %s", i, line);
 			new_line = ft_strtrim(line, "\n");
-			if (free_return(line) && !new_line)
+			printf("%s", line);
+			if (free_return(line) && new_line == NULL)
 				return (10);
 			line = convert_line(new_line);
-			if (free_return(new_line) && !line)
+			if (free_return(new_line) && line == NULL)
 				return (10);
 			cubed->map[i] = ft_strdup(line);
-			if (free_return(line) && cubed->map[i++] == NULL && free_arr(cubed->map))
+			// printf("[%s]\n", line);
+			if (free_return(line) && cubed->map[i] == NULL)
 				return (10);
 			line = get_next_line(cubed->fd);
+			i++;
+			// printf("%s", line);
 		}
-		printf("i: %d\n", i);
 		cubed->map[i] = NULL;
+		printf("\n\n");
+		// for (int j = 0; cubed->map[j]; j++)
+		// 	printf("[%s], [%zu]\n", cubed->map[j], ft_strlen(cubed->map[j]));
 		return (1);
 	}
 	return (10);
@@ -83,20 +112,43 @@ int	validation(char *filename, t_cub *cubed, t_err *err)
 		line = NULL;
 		new_line = NULL;
 		set_cubed(cubed, filename);
-		ans = get_textures_colors(cubed, &l_count);
-		if (check_err(err, ans != 10, C3D_ALL))
-		{
-			if (check_err(err, ans != 1, PARSING_TEXTURE_COLOR))
-			{
-				ans = get_map(cubed, &l_count, new_line, line);
-				if (check_err(err, ans != 10, C3D_ALL))
-					ans = is_map_valid(cubed);
-				if (check_err(err, ans == 0, PARSING_MAP))
-					printf("no err\n");
-			}
-		}
+		valid_check(cubed, err, l_count);
 		untrack(err);
 	}
 	close(cubed->fd);
 	return (ans);
+}
+
+void	valid_check(t_cub *cubed, t_err *err, int l_count)
+{
+	int		ans;
+	char	*line;
+	int		count;
+	int		is_valid;
+	char	*new_line;
+
+	count = 0;
+	ans = get_textures_colors(cubed, &l_count, &count, &is_valid);
+	line = NULL;
+	new_line = NULL;
+	if (track(err, "valid_check") && \
+		check_err(err, ans != 10, C3D_ALL))
+	{
+		if (check_err(err, ans != 1, PARSING_TEXTURE_COLOR))
+		{
+			ans = get_map(cubed, &l_count, new_line, line);
+			if (track(err, "get_map") && \
+				check_err(err, ans != 10, C3D_ALL))
+			{
+				ans = is_map_valid(cubed);
+				if (check_err(err, ans != 10, C3D_ALL))
+				{
+					if (check_err(err, ans == 0, PARSING_MAP))
+						printf("no err\n");
+				}
+				untrack(err);
+			}
+		}
+		untrack(err);
+	}
 }

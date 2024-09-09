@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:15:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/08 21:35:55 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:23:42 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	fill_matrix(t_mat *new_map, char **map)
 	unsigned int	len;
 
 	i = 0;
+	for (int j = 0; map[j]; j++)
+			printf("[%s], [%zu]\n", map[j], ft_strlen(map[j]));
 	while (i < new_map->h && map[i])
 	{
 		j = 0;
@@ -96,17 +98,24 @@ int	is_map_valid(t_cub *cubed)
 	int				ans;
 	t_mat			mat;
 	static t_err	err = {0};
+	int				other;
 
-	ans = 0;
+	ans = 10;
 	mat.m = NULL;
-	
-	create_mat(&mat, get_map_width(cubed->map), \
-	get_map_height(cubed->map), &err);
-	fill_matrix(&mat, cubed->map);
-	if (player_pos(cubed->map) == 0 || other_characters(cubed->map) == 0 \
-	|| check_if_closed(&mat) == 0)
-		ans = 1;
-	if (mat.m)
-		free(mat.m);
+	if (create_mat(&mat, get_map_width(cubed->map), \
+	get_map_height(cubed->map), &err))
+	{
+		ans = 0;
+		fill_matrix(&mat, cubed->map);
+		other = other_characters(cubed->map);
+		if (other != 10)
+		{
+			if (player_pos(cubed->map) == 0 || other == 0 \
+			|| check_if_closed(&mat) == 0)
+				ans = 1;
+		}
+		if (mat.m)
+			free(mat.m);
+	}
 	return (ans);
 }

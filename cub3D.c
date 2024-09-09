@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/08 21:36:23 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:06:31 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #include "error/error.h"
 #include "error/codes.h"
-#include "c3d_math/c3d_math.h"
+// #include "c3d_math/c3d_math.h"
 #include "parsing/t_cub.h"
 #include "parsing/parsing.h"
 #include "libft/libft.h"
@@ -36,7 +36,8 @@ int	is_cub(char *filename)
 	if (strs && strs[last])
 	{
 		len = ft_strlen(strs[last]);
-		if (len > 4 && strs[last][len - 1] == 'b' && strs[last][len - 2] == 'u' && \
+		if (len > 4 && strs[last][len - 1] == 'b' \
+		&& strs[last][len - 2] == 'u' && \
 		strs[last][len - 3] == 'c' && strs[last][len - 4] == '.')
 			ans = 1;
 		free_arr(strs);
@@ -66,7 +67,9 @@ int	main2(int argc, char **argv)
 	}
 	if (cubed.map)
 	{
-		free_arr(cubed.map);
+		// for (int i = 0; cubed.map[i]; i++)
+		// 	printf("%s\n", cubed.map[i]);
+		// free_arr(cubed.map);
 	}
 	free_return(cubed.col_sides.north);
 	free_return(cubed.col_sides.south);
@@ -76,9 +79,9 @@ int	main2(int argc, char **argv)
 	return (err.error);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	main2(argc, argv);
-	system("leaks cub3D");
+	// system("leaks cub3D");
 	return (0);
 }

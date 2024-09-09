@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:48:36 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/08 21:36:12 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:03:49 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,26 @@
 #include "libft/libft.h"
 #include "common/common.h"
 
-void	check_textures(char **s, t_cub *args, int *res);
-int		check_colors(char *line, char **s, t_cub *args);
-int		set_rgb(char *str, char **split_rgb, t_cub *col);
-void	set_colors(char *str, char **split_rgb, t_cub *col, int *ans);
-int		is_xpm_file(char *filename);
-int		char_count(char *line, char *set);
+void		check_textures(char **s, t_cub *args, int *res);
+int			check_colors(char *line, char **s, t_cub *args);
+int			set_rgb(char *str, char **split_rgb, t_cub *col);
+void		set_colors(char *str, char **split_rgb, t_cub *col, int *ans);
+int			is_xpm_file(char *filename);
+int			char_count(char *line, char *set);
 void		any_null(t_cub *args, int *res, int *ans);
+
+int	condition(t_cub *args, char **s)
+{
+	int	ans;
+
+	ans = 0;
+	if ((ft_strcmp(s[0], "SO") == 0 && \
+		args->col_sides.south_found == -1) || (ft_strcmp(s[0], "WE") == 0 && \
+		args->col_sides.west_found == -1) || (ft_strcmp(s[0], "EA") == 0 && \
+		args->col_sides.east_found == -1))
+		ans = 1;
+	return (ans);
+}
 
 int	is_valid_str(char *line, char **s, t_cub *args)
 {
@@ -45,6 +58,8 @@ int	is_valid_str(char *line, char **s, t_cub *args)
 		(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
 	{
 		temp = ft_strtrim(line, "\t\b ");
+		if (temp == NULL)
+			return (10);
 		check_textures(s, args, &res);
 		any_null(args, &res, &ans);
 		if (res == 0 || \

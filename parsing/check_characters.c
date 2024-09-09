@@ -6,12 +6,14 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 17:38:22 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/08 21:35:32 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/09 18:26:03 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common/common.h"
 #include "libft/libft.h"
+#include <stdio.h>
+#include <time.h>
 
 int	is_xpm_file(char *filename)
 {
@@ -68,25 +70,25 @@ int	other_characters(char **map)
 {
 	int		i;
 	int		j;
-	char	*trimmed;
+	char	*trim;
 
 	i = 0;
 	while (map[i])
 	{
-		trimmed = ft_strtrim(map[i], "\n ");
-		if (*trimmed == '\0' && free_return(trimmed))
-			return (0);
+		trim = ft_strtrim(map[i], "\n ");
+		if (trim == NULL)
+			return (10);
 		else
 		{
 			j = 0;
-			while (trimmed[j])
+			while (trim[j])
 			{
-				if (is_set(trimmed[j], "01NSEW ") == 0)
+				if (is_set(trim[j], "01NSEW ") == 0 && free_return(trim))
 					return (0);
 				j++;
 			}
 		}
-		free_return(trimmed);
+		free_return(trim);
 		i++;
 	}
 	return (1);
@@ -99,10 +101,13 @@ int	player_pos(char **map)
 
 	pos = 0;
 	i = 0;
-	while (map[i])
+	if (map)
 	{
-		pos += char_count(map[i], "NSEW");
-		i++;
+		while (map[i])
+		{
+			pos += char_count(map[i], "NSEW");
+			i++;
+		}
 	}
 	return (pos == 1);
 }

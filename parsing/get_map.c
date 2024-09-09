@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/08 21:35:43 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:26:05 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#include "t_cub.h"
 #include "libft/libft.h"
 #include "common/common.h"
 #include "error/error.h"
@@ -54,9 +53,7 @@ int	nl_count(int fd, int l_count)
 		free(line);
 		line = get_next_line(fd);
 	}
-	printf("line after textures: %s\n", line);
 	skip_empty(fd, &line);
-	printf("line after skip empty: %s\n", line);
 	while (line)
 	{
 		count++;

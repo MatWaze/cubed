@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matevos <matevos@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:16:52 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/08 19:42:46 by matevos          ###   ########.fr       */
+/*   Updated: 2024/09/09 18:56:57 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,15 @@ int	fr(char *line, char *trim, char **split)
 	return (0);
 }
 
-int	get_textures_colors(t_cub *args, int *line_count)
+// (*line_count)++ > -100 - just to increase line_count
+int	get_textures_colors(t_cub *args, int *line_count, int *count, int *is_valid)
 {
-	int		count;
 	char	*l;
 	char	*t;
 	char	**s;
 
-	count = 0;
-	while (count != 6)
+	while ((*line_count)++ > -100 && *count != 6)
 	{
-		(*line_count)++;
 		l = get_next_line(args->fd);
 		if (l == NULL)
 			break ;
@@ -86,12 +84,14 @@ int	get_textures_colors(t_cub *args, int *line_count)
 			return (10);
 		if (split_count(s) == 0 && fr(l, t, s) == 0)
 			continue ;
-		else if (is_valid_str(l, s, args) == 1)
-			count++;
-		else if ((ft_strcmp(t, "\n") != 0 && count != 6) && fr(l, t, s) == 0)
+		*is_valid = is_valid_str(l, s, args);
+		if (*is_valid == 10)
+			return (10);
+		else if (*is_valid == 1)
+			(*count)++;
+		else if ((ft_strcmp(t, "\n") != 0 && *count != 6) && fr(l, t, s) == 0)
 			return (1);
 		fr(l, t, s);
 	}
-	return (count != 6);
+	return (*count != 6);
 }
-

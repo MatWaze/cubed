@@ -4,7 +4,7 @@ mlx_dir = minilibx_opengl_20191021
 libft_dir = libft
 lflags = -L$(libft_dir) -L$(mlx_dir)
 iflags = -I. -I/usr/include
-cflags = -Wall -Wextra -Werror
+cflags = -Wall -Wextra -Werror -g
 
 all : make_dirs $(NAME)
 
