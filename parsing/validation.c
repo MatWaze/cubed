@@ -78,10 +78,10 @@ int	get_map(t_cub *cub, int *line_count, char *n_line, char *line)
 			if (free_return(line) && !n_line && set_to_null(cub->map, i))
 				return (10);
 			line = convert_line(n_line);
-			if (free_return(n_line) && !line && && set_to_null(cub->map, i))
+			if (free_return(n_line) && !line && set_to_null(cub->map, i))
 				return (10);
 			cub->map[i] = ft_strdup(line);
-			if (free_return(line) && !cub->map[i] && && set_to_null(cub->map, i))
+			if (free_return(line) && !cub->map[i] && set_to_null(cub->map, i))
 				return (10);
 			line = get_next_line(cub->fd);
 			i++;
