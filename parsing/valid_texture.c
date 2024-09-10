@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:48:36 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/09 19:03:49 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:30:58 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void		set_colors(char *str, char **split_rgb, t_cub *col, int *ans);
 int			is_xpm_file(char *filename);
 int			char_count(char *line, char *set);
 void		any_null(t_cub *args, int *res, int *ans);
+int			ft_atoi_to_255(const char *str);
 
 int	condition(t_cub *args, char **s)
 {
@@ -48,12 +49,9 @@ int	is_valid_str(char *line, char **s, t_cub *args)
 	ans = 0;
 	res = 0;
 	if (((split_count(s) == 2) && \
-		(access(s[1], X_OK) == 0 && is_xpm_file(s[1]) == 0) && \
+		(access(s[1], F_OK | X_OK) == 0 && is_xpm_file(s[1]) == 0) && \
 		((ft_strcmp(s[0], "NO") == 0 && args->col_sides.north_found \
-		== -1) || (ft_strcmp(s[0], "SO") == 0 && \
-		args->col_sides.south_found == -1) || (ft_strcmp(s[0], "WE") == 0 && \
-		args->col_sides.west_found == -1) || (ft_strcmp(s[0], "EA") == 0 && \
-		args->col_sides.east_found == -1))) || \
+		== -1) || condition(args, s) == 1)) || \
 		((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
 		(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
 	{
@@ -143,11 +141,12 @@ void	set_colors(char *str, char **split_rgb, t_cub *col, int *ans)
 	int	green;
 	int	blue;
 
-	red = ft_atoi(split_rgb[0]);
-	green = ft_atoi(split_rgb[1]);
-	blue = ft_atoi(split_rgb[2]);
-	if ((red < 0 || red > 255) || (green < 0 || green > 255) || \
-	(blue < 0 || blue > 255))
+	red = ft_atoi_to_255(split_rgb[0]);
+	green = ft_atoi_to_255(split_rgb[1]);
+	blue = ft_atoi_to_255(split_rgb[2]);
+	printf("%d, %d, %d\n", red, green, blue);
+	if ((red < 0 || red > 255) || (green < 0 || \
+	green > 255) || (blue < 0 || blue > 255))
 		*ans = 1;
 	if (ft_strcmp(str, "F") == 0)
 	{

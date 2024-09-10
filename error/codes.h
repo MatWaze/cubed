@@ -29,8 +29,10 @@
 # define PARSING_TEXTURE_COLOR 11
 # define PARSING_TEXTURE_COLOR_DESK "Error with texture(s) or color(s)"
 # define PARSING_MAP 12
-# define PARSING_MAP_DESK "Error with map"
+# define PARSING_MAP_DESK "Error with a map"
 # define MAIN_INV_FILE_NAME 13
 # define MAIN_INV_FILE_NAME_DESK "Not a .cub file"
+# define EMPTY_LINE 14
+# define EMPTY_LINE_DESK "Empty line in a map"
 
 #endif

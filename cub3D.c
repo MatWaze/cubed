@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/09 19:06:31 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:46:45 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,27 @@ int	is_cub(char *filename)
 	return (ans);
 }
 
+void	set_cubed(t_cub *cubed, char *name)
+{
+	cubed->map = NULL;
+	cubed->name = name;
+	cubed->col_sides.north = NULL;
+	cubed->col_sides.south = NULL;
+	cubed->col_sides.east = NULL;
+	cubed->col_sides.west = NULL;
+	cubed->col_sides.north_found = -1;
+	cubed->col_sides.south_found = -1;
+	cubed->col_sides.west_found = -1;
+	cubed->col_sides.east_found = -1;
+	cubed->col_sides.floor_found = -1;
+	cubed->col_sides.ceiling_found = -1;
+}
+
 int	main2(int argc, char **argv)
 {
 	t_cub			cubed;
 	static t_err	err = {0};
 
-	(void)argv;
-	cubed.map = NULL;
-	cubed.col_sides.north = NULL;
-	cubed.col_sides.south = NULL;
-	cubed.col_sides.east = NULL;
-	cubed.col_sides.west = NULL;
 	if (track(&err, "main") && check_err(&err, argc == 2, C3D_MAIN_INV_PARAM))
 	{
 		if (check_err(&err, access(argv[1], X_OK) == 0, PARSING_FILE_NOT_OPEN))
@@ -69,7 +79,7 @@ int	main2(int argc, char **argv)
 	{
 		// for (int i = 0; cubed.map[i]; i++)
 		// 	printf("%s\n", cubed.map[i]);
-		// free_arr(cubed.map);
+		free_arr(cubed.map);
 	}
 	free_return(cubed.col_sides.north);
 	free_return(cubed.col_sides.south);

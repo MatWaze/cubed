@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:15:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/09 20:23:42 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:09:55 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	fill_matrix(t_mat *new_map, char **map)
 
 	i = 0;
 	for (int j = 0; map[j]; j++)
-			printf("[%s], [%zu]\n", map[j], ft_strlen(map[j]));
+		printf("[%s], [%zu]\n", map[j], ft_strlen(map[j]));
 	while (i < new_map->h && map[i])
 	{
 		j = 0;

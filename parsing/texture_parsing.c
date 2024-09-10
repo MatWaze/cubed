@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:16:52 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/09 18:56:57 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:28:01 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,42 @@
 #include "common/common.h"
 #include "t_cub.h"
 
-int		is_valid_str(char *line, char **s, t_cub *args);
-int		fr(char *line, char *trim, char **split);
+int				is_valid_str(char *line, char **s, t_cub *args);
+static int		fr(char *line, char *trim, char **split);
+static int		ft_isspace(unsigned char c);
+
+int	ft_atoi_to_255(const char *str)
+{
+	int		num;
+	char	sign;
+
+	num = 0;
+	sign = 1;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		sign = 1 - 2 * (*str == '-');
+		str++;
+	}
+	while (ft_isdigit(*str))
+	{
+		num = num * 10 + (*str++ - '0') * sign;
+		if (num > 255)
+		{
+			num = -100;
+			break ;
+		}
+	}
+	return (num);
+}
+
+static int	ft_isspace(unsigned char c)
+{
+	return (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
+		|| c == ' ');
+}
+
 
 void	any_null(t_cub *args, int *res, int *ans)
 {
@@ -49,7 +83,7 @@ void	any_null(t_cub *args, int *res, int *ans)
 	}
 }
 
-int	fr(char *line, char *trim, char **split)
+static int	fr(char *line, char *trim, char **split)
 {
 	if (line)
 	{
@@ -73,7 +107,7 @@ int	get_textures_colors(t_cub *args, int *line_count, int *count, int *is_valid)
 	char	*t;
 	char	**s;
 
-	while ((*line_count)++ > -100 && *count != 6)
+	while (*count != 6 && (*line_count)++ > -100)
 	{
 		l = get_next_line(args->fd);
 		if (l == NULL)

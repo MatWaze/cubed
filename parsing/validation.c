@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:56:23 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/09 20:25:41 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:11:29 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,68 +29,64 @@ int		get_textures_colors(t_cub *args, int *line_count, int *count, \
 	int *is_valid);
 int		is_map_valid(t_cub *cubed);
 void	set_cubed(t_cub *cubed, char *name);
-void	valid_check(t_cub *cubed, t_err *err, int l_count);
+void	valid_check(t_cub *cubed, t_err *err, int l_count, int *count);
+void	set_cubed(t_cub *cubed, char *name);
 
-void	set_cubed(t_cub *cubed, char *name)
+int	empty_check(char **map)
 {
-	cubed->name = name;
-	cubed->col_sides.north_found = -1;
-	cubed->col_sides.south_found = -1;
-	cubed->col_sides.west_found = -1;
-	cubed->col_sides.east_found = -1;
-	cubed->col_sides.floor_found = -1;
-	cubed->col_sides.ceiling_found = -1;
+	int		i;
+	int		ans;
+	char	*trim;
+
+	i = 0;
+	ans = 0;
+	while (map[i])
+	{
+		trim = ft_strtrim(map[i], " ");
+		if (trim == NULL)
+			return (10);
+		if (ft_strlen(trim) == 0)
+		{
+			free(trim);
+			ans = 1;
+			break ;
+		}
+		free(trim);
+		i++;
+	}
+	return (ans);
 }
 
-int	free_some(char ***map, int i)
+int	set_to_null(char **map, int i)
 {
-	int	j;
-
-	j = 0;
-	if (*map)
-	{
-		while (j < i)
-		{
-			free_return(*map[j]);
-			j++;
-		}
-		free(*map);
-	}
-	*map = NULL;
+	map[i] = NULL;
 	return (1);
 }
 
-int	get_map(t_cub *cubed, int *line_count, char *new_line, char *line)
+int	get_map(t_cub *cub, int *line_count, char *n_line, char *line)
 {
 	int		i;
 
-	cubed->map = init_map(cubed->name, line_count, &i);
-	if (cubed->map)
+	cub->map = init_map(cub->name, line_count, &i);
+	if (cub->map)
 	{
-		line = get_next_line(cubed->fd);
-		skip_empty(cubed->fd, &line);
-		printf("line after skip_empty: %s\n", line);
+		line = get_next_line(cub->fd);
+		skip_empty(cub->fd, &line);
 		while (line)
 		{
-			new_line = ft_strtrim(line, "\n");
-			printf("%s", line);
-			if (free_return(line) && new_line == NULL)
+			n_line = ft_strtrim(line, "\n");
+			if (free_return(line) && !n_line && set_to_null(cub->map, i))
 				return (10);
-			line = convert_line(new_line);
-			if (free_return(new_line) && line == NULL)
+			line = convert_line(n_line);
+			if (free_return(n_line) && !line && && set_to_null(cub->map, i))
 				return (10);
-			cubed->map[i] = ft_strdup(line);
-			// printf("[%s]\n", line);
-			if (free_return(line) && cubed->map[i] == NULL)
+			cub->map[i] = ft_strdup(line);
+			if (free_return(line) && !cub->map[i] && && set_to_null(cub->map, i))
 				return (10);
-			line = get_next_line(cubed->fd);
+			line = get_next_line(cub->fd);
 			i++;
-			// printf("%s", line);
 		}
-		cubed->map[i] = NULL;
-		printf("\n\n");
-		// for (int j = 0; cubed->map[j]; j++)
-		// 	printf("[%s], [%zu]\n", cubed->map[j], ft_strlen(cubed->map[j]));
+		cub->map[i] = NULL;
 		return (1);
 	}
 	return (10);
@@ -99,11 +95,13 @@ int	get_map(t_cub *cubed, int *line_count, char *new_line, char *line)
 int	validation(char *filename, t_cub *cubed, t_err *err)
 {
 	int		ans;
+	int		count;
 	int		l_count;
 	char	*line;
 	char	*new_line;
 
 	ans = 0;
+	count = 0;
 	l_count = 0;
 	cubed->fd = open(filename, O_RDONLY);
 	if (track(err, "validation") && \
@@ -112,33 +110,27 @@ int	validation(char *filename, t_cub *cubed, t_err *err)
 		line = NULL;
 		new_line = NULL;
 		set_cubed(cubed, filename);
-		valid_check(cubed, err, l_count);
+		valid_check(cubed, err, l_count, &count);
 		untrack(err);
 	}
 	close(cubed->fd);
 	return (ans);
 }
 
-void	valid_check(t_cub *cubed, t_err *err, int l_count)
+void	valid_check(t_cub *cubed, t_err *err, int l_count, int *count)
 {
 	int		ans;
-	char	*line;
-	int		count;
 	int		is_valid;
-	char	*new_line;
 
-	count = 0;
-	ans = get_textures_colors(cubed, &l_count, &count, &is_valid);
-	line = NULL;
-	new_line = NULL;
-	if (track(err, "valid_check") && \
-		check_err(err, ans != 10, C3D_ALL))
+	ans = get_textures_colors(cubed, &l_count, count, &is_valid);
+	if (track(err, "valid_check") && check_err(err, ans != 10, C3D_ALL))
 	{
 		if (check_err(err, ans != 1, PARSING_TEXTURE_COLOR))
 		{
-			ans = get_map(cubed, &l_count, new_line, line);
-			if (track(err, "get_map") && \
-				check_err(err, ans != 10, C3D_ALL))
+			ans = get_map(cubed, &l_count, NULL, NULL);
+			if (track(err, "get_map") && check_err(err, ans != 10, C3D_ALL) \
+			&& check_err(err, empty_check(cubed->map) != 1, EMPTY_LINE) \
+			&& check_err(err, empty_check(cubed->map) != 10, C3D_ALL))
 			{
 				ans = is_map_valid(cubed);
 				if (check_err(err, ans != 10, C3D_ALL))
