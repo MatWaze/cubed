@@ -16,7 +16,6 @@
 
 #include "error/error.h"
 #include "error/codes.h"
-// #include "c3d_math/c3d_math.h"
 #include "parsing/t_cub.h"
 #include "parsing/parsing.h"
 #include "libft/libft.h"
