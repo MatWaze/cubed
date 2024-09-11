@@ -63,28 +63,21 @@ void	set_cubed(t_cub *cubed, char *name)
 
 int	main2(int argc, char **argv)
 {
-	t_cub			cubed;
+	t_cub			cub;
 	static t_err	err = {0};
 
-	if (track(&err, "main") && check_err(&err, argc == 2, C3D_MAIN_INV_PARAM))
+	if (track(&err, "main") && check_err(&err, argc == 2, \
+	C3D_MAIN_INV_PARAM) && check_err(&err, access(argv[1], X_OK) == 0, \
+	PARSING_FILE_NOT_OPEN) && check_err(&err, is_cub(argv[1]) == 1, \
+	MAIN_INV_FILE_NAME))
 	{
-		if (check_err(&err, access(argv[1], X_OK) == 0, PARSING_FILE_NOT_OPEN))
-		{
-			if (check_err(&err, is_cub(argv[1]) == 1, MAIN_INV_FILE_NAME))
-				validation(argv[1], &cubed, &err);
-		}
-		untrack(&err);
+		validation(argv[1], &cub, &err);
+		if (cub.map)
+			free_arr(cub.map);
+		free_return(cub.col_sides.north) && free_return(cub.col_sides.south) \
+		&& free_return(cub.col_sides.east) && free_return(cub.col_sides.west);
 	}
-	if (cubed.map)
-	{
-		// for (int i = 0; cubed.map[i]; i++)
-		// 	printf("%s\n", cubed.map[i]);
-		free_arr(cubed.map);
-	}
-	free_return(cubed.col_sides.north);
-	free_return(cubed.col_sides.south);
-	free_return(cubed.col_sides.east);
-	free_return(cubed.col_sides.west);
+	untrack(&err);
 	print_trace(&err);
 	return (err.error);
 }
@@ -92,6 +85,6 @@ int	main2(int argc, char **argv)
 int	main(int argc, char **argv)
 {
 	main2(argc, argv);
-	// system("leaks cub3D");
+	system("leaks cub3D");
 	return (0);
 }
