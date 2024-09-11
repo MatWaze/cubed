@@ -125,19 +125,19 @@ void	valid_check(t_cub *cubed, t_err *err, int l_count, int *count)
 	ans = get_textures_colors(cubed, &l_count, count, &is_valid);
 	if (track(err, "valid_check") && check_err(err, ans != 10, C3D_ALL))
 	{
-		if (check_err(err, ans != 1, PARSING_TEXTURE_COLOR))
+		if (track(err, "get_textures_colors") && check_err(err, ans != 1, \
+			PARSING_TEXTURE_COLOR))
 		{
+			untrack(err);
 			ans = get_map(cubed, &l_count, NULL, NULL);
 			if (track(err, "get_map") && check_err(err, ans != 10, C3D_ALL) \
 			&& check_err(err, empty_check(cubed->map) != 1, EMPTY_LINE) \
 			&& check_err(err, empty_check(cubed->map) != 10, C3D_ALL))
 			{
 				ans = is_map_valid(cubed);
-				if (check_err(err, ans != 10, C3D_ALL))
-				{
-					if (check_err(err, ans == 0, PARSING_MAP))
-						printf("no err\n");
-				}
+				if (track(err, "is_map_valid") && check_err(err, \
+				ans != 10, C3D_ALL) && check_err(err, ans == 0, PARSING_MAP))
+					printf("no err\n");
 				untrack(err);
 			}
 		}
