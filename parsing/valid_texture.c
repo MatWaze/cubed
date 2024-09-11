@@ -32,7 +32,8 @@ int	condition(t_cub *args, char **s)
 	int	ans;
 
 	ans = 0;
-	if ((ft_strcmp(s[0], "SO") == 0 && \
+	if ((ft_strcmp(s[0], "NO") == 0 && \
+		args->col_sides.north_found == -1) || (ft_strcmp(s[0], "SO") == 0 && \
 		args->col_sides.south_found == -1) || (ft_strcmp(s[0], "WE") == 0 && \
 		args->col_sides.west_found == -1) || (ft_strcmp(s[0], "EA") == 0 && \
 		args->col_sides.east_found == -1))
@@ -45,15 +46,15 @@ int	is_valid_str(char *line, char **s, t_cub *args)
 	int		ans;
 	int		res;
 	char	*temp;
+	// char	*txtr;
 
 	ans = 0;
 	res = 0;
-	if (((split_count(s) == 2) && \
-		(access(s[1], F_OK | X_OK) == 0 && is_xpm_file(s[1]) == 0) && \
-		((ft_strcmp(s[0], "NO") == 0 && args->col_sides.north_found \
-		== -1) || condition(args, s) == 1)) || \
-		((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
-		(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
+	// txtr = texture_path();
+	if (((split_count(s) == 2) && (access(s[1], F_OK | X_OK) == 0 && \
+	is_xpm_file(s[1]) == 0) && (condition(args, s) == 1)) || \
+	((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
+	(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
 	{
 		temp = ft_strtrim(line, "\t\b ");
 		if (temp == NULL)
