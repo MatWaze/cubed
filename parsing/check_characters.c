@@ -83,7 +83,7 @@ int	other_characters(char **map)
 			j = 0;
 			while (trim[j])
 			{
-				if (is_set(trim[j], "01NSEW ") == 0 && free_return(trim))
+				if (is_set(trim[j], "01NSEWD ") == 0 && free_return(trim))
 					return (0);
 				j++;
 			}

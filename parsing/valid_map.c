@@ -29,7 +29,7 @@ int	is_closed_zero(t_mat *map, size_t i, size_t j)
 	int		ans;
 
 	ans = 1;
-	if (map->m[i][j] == '0' || (is_set(map->m[i][j], "NSEW")))
+	if (map->m[i][j] == '0' || (is_set(map->m[i][j], "NSEWD")))
 	{
 		if ((i == 0 || i == map->h - 1 || j == 0 || j == map->w - 1) \
 		|| (j > 0 && map->m[i][j - 1] == ' ') || \
