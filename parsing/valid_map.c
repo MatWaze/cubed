@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:15:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/10 17:09:55 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:36:18 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,20 @@ int	other_characters(char **map);
 int	player_pos(char **map);
 int	map_closed_horizontally(char **map);
 int	is_set(char c, char *set);
+
+int	condition_for_texture(t_cub *args, char **s)
+{
+	int	ans;
+
+	ans = 0;
+	if ((ft_strcmp(s[0], "NO") == 0 && \
+		args->col_sides.north_found == -1) || (ft_strcmp(s[0], "SO") == 0 && \
+		args->col_sides.south_found == -1) || (ft_strcmp(s[0], "WE") == 0 && \
+		args->col_sides.west_found == -1) || (ft_strcmp(s[0], "EA") == 0 && \
+		args->col_sides.east_found == -1))
+		ans = 1;
+	return (ans);
+}
 
 int	is_closed_zero(t_mat *map, size_t i, size_t j)
 {
@@ -49,8 +63,6 @@ void	fill_matrix(t_mat *new_map, char **map)
 	unsigned int	len;
 
 	i = 0;
-	for (int j = 0; map[j]; j++)
-		printf("[%s], [%zu]\n", map[j], ft_strlen(map[j]));
 	while (i < new_map->h && map[i])
 	{
 		j = 0;
