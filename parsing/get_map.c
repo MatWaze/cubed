@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/09 20:39:13 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:48:53 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,13 @@
 
 #include "libft/libft.h"
 #include "common/common.h"
-#include "error/error.h"
-#include "error/codes.h"
 
 int		nl_count(int fd, int l_count);
 char	*convert_line(char *line);
 void	tab_to_space(char *line, char *new_line);
 void	skip_empty(int fd, char **line);
 
-char	**init_map(char *name, int *line_count, int* i)
+char	**init_map(char *name, int *line_count, int *i)
 {
 	char	**map;
 	int		nl_c;
@@ -33,9 +31,11 @@ char	**init_map(char *name, int *line_count, int* i)
 	map = NULL;
 	*i = 0;
 	nl_c = nl_count(open(name, O_RDONLY), *line_count);
-	printf("%d\n", nl_c + 1);
-	if (nl_c + 1 > 0)
-		map = (char **) malloc(sizeof(char *) * (nl_c + 1));
+	printf("%d\n", nl_c);
+	if (nl_c > 0)
+	{
+		map = (char **) malloc(sizeof(char *) * (nl_c));
+	}
 	return (map);
 }
 
