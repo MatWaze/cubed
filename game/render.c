@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   c3d_math.h                                         :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/12 06:41:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/21 03:00:11 by zanikin          ###   ########.fr       */
+/*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
+/*   Updated: 2024/09/06 20:03:50 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef C3D_MATH_H
-# define C3D_MATH_H
+#include "t_game.h"
 
-# include "t_mat.h"
-# include "error/t_err.h"
+void	render(t_game *game)
+{
 
-void	free_mat(t_mat *mat);
-bool	create_mat(t_mat *mat, unsigned int w, unsigned int h, t_err *error);
-#endif
+}

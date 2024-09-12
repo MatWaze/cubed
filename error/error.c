@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 06:45:34 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/15 00:56:06 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/11 18:43:27 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "t_err.h"
 #include "codes.h"
+#include "libft/libft.h"
 
 bool		track(t_err *err, const char *name);
 bool		check_err(t_err *err, bool pred, int code);
@@ -23,6 +24,7 @@ void		pop_trace(t_trace **trace);
 
 static void	do_nothing(void *content);
 static void	print_error(t_err *err);
+static const char	*other_error(t_err *err);
 
 void	print_trace(t_err *err)
 {
@@ -77,9 +79,22 @@ static void	print_error(t_err *err)
 	else if (err->error == PARSING_TEXTURE_COLOR)
 		str = PARSING_TEXTURE_COLOR_DESK;
 	else
-		str = "Unknown error";
+		str = other_error(err);
 	if (!(err->error == C3D_TRACE_TRACK_ALL
 			|| err->error == C3D_TRACE_PRINT_ALL))
 		printf(" ");
 	printf("%s\n", str);
+}
+
+static const char	*other_error(t_err *err)
+{
+	const char	*str;
+
+	if (err->error == MLX_INIT)
+		str = MLX_INIT_DESK;
+	else if (err->error == MLX_ALLOC)
+		str = MLX_ALLOC_DESK;
+	else
+		str = "Unknown error";
+	return (str);
 }

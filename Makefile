@@ -1,6 +1,6 @@
 NAME = cub3D
 BUILD_DIR = build
-mlx_dir = minilibx_opengl_20191021
+mlx_dir = minilibx
 libft_dir = libft
 lflags = -L$(libft_dir) -L$(mlx_dir)
 iflags = -I. -I/usr/include

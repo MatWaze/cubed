@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 07:45:33 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/14 04:33:32 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/11 18:37:14 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # define C3D_INV_PAR 3
 # define C3D_INV_PAR_DESK "Invalid parameters"
 # define C3D_MAIN_INV_PARAM 4
+# define MLX_INIT 5
+# define MLX_INIT_DESK "minilibx failed initialization"
+# define MLX_ALLOC 6
+# define MLX_ALLOC_DESK "minilibx failed memory allocation"
 # define C3D_MAIN_INV_PARAM_DESK "Usage: cub3D path_to_cub_file"
 # define PARSING_FILE_NOT_OPEN 10
 # define PARSING_FILE_NOT_OPEN_DESK "Can't open a file"

@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 06:53:40 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/14 03:28:13 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/03 18:45:12 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define T_ERR_H
 # include <stdbool.h>
 
-# include "libft/libft.h"
 # include "t_trace.h"
 
 typedef struct s_err

@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 07:32:47 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/15 00:44:40 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/11 17:35:06 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "t_err.h"
 #include "codes.h"
+#include "libft/libft.h"
 
 bool	track(t_err *err, const char *name)
 {
