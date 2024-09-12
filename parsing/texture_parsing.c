@@ -54,7 +54,6 @@ static int	ft_isspace(unsigned char c)
 		|| c == ' ');
 }
 
-
 void	any_null(t_cub *args, int *res, int *ans)
 {
 	if (args->col_sides.east_found == 0 && \
