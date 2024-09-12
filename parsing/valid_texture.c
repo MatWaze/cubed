@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:48:36 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/10 16:30:58 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:36:35 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,7 @@ int			is_xpm_file(char *filename);
 int			char_count(char *line, char *set);
 void		any_null(t_cub *args, int *res, int *ans);
 int			ft_atoi_to_255(const char *str);
-
-int	condition(t_cub *args, char **s)
-{
-	int	ans;
-
-	ans = 0;
-	if ((ft_strcmp(s[0], "NO") == 0 && \
-		args->col_sides.north_found == -1) || (ft_strcmp(s[0], "SO") == 0 && \
-		args->col_sides.south_found == -1) || (ft_strcmp(s[0], "WE") == 0 && \
-		args->col_sides.west_found == -1) || (ft_strcmp(s[0], "EA") == 0 && \
-		args->col_sides.east_found == -1))
-		ans = 1;
-	return (ans);
-}
+int			condition_for_texture(t_cub *args, char **s);
 
 int	is_valid_str(char *line, char **s, t_cub *args)
 {
@@ -47,12 +34,11 @@ int	is_valid_str(char *line, char **s, t_cub *args)
 	int		res;
 	char	*temp;
 	// char	*txtr;
-
 	ans = 0;
 	res = 0;
 	// txtr = texture_path();
 	if (((split_count(s) == 2) && (access(s[1], F_OK | X_OK) == 0 && \
-	is_xpm_file(s[1]) == 0) && (condition(args, s) == 1)) || \
+	is_xpm_file(s[1]) == 0) && (condition_for_texture(args, s) == 1)) || \
 	((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
 	(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
 	{
