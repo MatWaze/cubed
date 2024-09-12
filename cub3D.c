@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/10 15:46:45 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:37:01 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ int	main2(int argc, char **argv)
 		validation(argv[1], &cub, &err);
 		if (cub.map)
 			free_arr(cub.map);
-		free_return(cub.col_sides.north) && free_return(cub.col_sides.south) \
-		&& free_return(cub.col_sides.east) && free_return(cub.col_sides.west);
+		if (free_return(cub.col_sides.north) && \
+		free_return(cub.col_sides.south) && free_return(cub.col_sides.east) \
+		&& free_return(cub.col_sides.west))
+			;
 	}
 	untrack(&err);
 	print_trace(&err);
