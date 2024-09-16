@@ -71,6 +71,8 @@ static char	*print_error_parsing(t_err *err)
 		str = MAIN_INV_FILE_NAME_DESK;
 	else if (err->error == EMPTY_LINE)
 		str = EMPTY_LINE_DESK;
+	else if (err->error == DOOR_ERR)
+		str = DOOR_ERR_DESK;
 	return (str);
 }
 

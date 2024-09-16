@@ -34,5 +34,6 @@
 # define MAIN_INV_FILE_NAME_DESK "Not a .cub file"
 # define EMPTY_LINE 14
 # define EMPTY_LINE_DESK "Empty line in a map"
-
+# define DOOR_ERR 15
+# define DOOR_ERR_DESK "Door not in between walls"
 #endif
