@@ -23,6 +23,7 @@ int	other_characters(char **map);
 int	player_pos(char **map);
 int	map_closed_horizontally(char **map);
 int	is_set(char c, char *set);
+int	door_surrounded(t_mat *mat);
 
 int	condition_for_texture(t_cub *args, char **s)
 {
@@ -125,6 +126,8 @@ int	is_map_valid(t_cub *cubed)
 			if (player_pos(cubed->map) == 0 || other == 0 \
 			|| check_if_closed(&mat) == 0)
 				ans = 1;
+			else if (door_surrounded(&mat) == 4)
+				ans = 4;
 		}
 		if (mat.m)
 			free(mat.m);

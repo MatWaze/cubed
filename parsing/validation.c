@@ -136,7 +136,8 @@ void	valid_check(t_cub *cubed, t_err *err, int l_count, int *count)
 			{
 				ans = is_map_valid(cubed);
 				if (track(err, "is_map_valid") && check_err(err, \
-				ans != 10, C3D_ALL) && check_err(err, ans == 0, PARSING_MAP))
+				ans != 10, C3D_ALL) && check_err(err, ans != 4, DOOR_ERR) && \
+				check_err(err, ans == 0, PARSING_MAP))
 					printf("No error\n");
 				untrack(err);
 			}
