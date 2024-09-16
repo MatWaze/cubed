@@ -31,7 +31,6 @@ char	**init_map(char *name, int *line_count, int *i)
 	map = NULL;
 	*i = 0;
 	nl_c = nl_count(open(name, O_RDONLY), *line_count);
-	printf("%d\n", nl_c);
 	if (nl_c > 0)
 	{
 		map = (char **) malloc(sizeof(char *) * (nl_c));

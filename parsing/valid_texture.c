@@ -33,10 +33,9 @@ int	is_valid_str(char *line, char **s, t_cub *args)
 	int		ans;
 	int		res;
 	char	*temp;
-	// char	*txtr;
+
 	ans = 0;
 	res = 0;
-	// txtr = texture_path();
 	if (((split_count(s) == 2) && (access(s[1], F_OK | X_OK) == 0 && \
 	is_xpm_file(s[1]) == 0) && (condition_for_texture(args, s) == 1)) || \
 	((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
@@ -131,7 +130,6 @@ void	set_colors(char *str, char **split_rgb, t_cub *col, int *ans)
 	red = ft_atoi_to_255(split_rgb[0]);
 	green = ft_atoi_to_255(split_rgb[1]);
 	blue = ft_atoi_to_255(split_rgb[2]);
-	printf("%d, %d, %d\n", red, green, blue);
 	if ((red < 0 || red > 255) || (green < 0 || \
 	green > 255) || (blue < 0 || blue > 255))
 		*ans = 1;
