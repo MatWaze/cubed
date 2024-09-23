@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:33:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/11 18:16:41 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/15 18:20:22 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,6 @@ typedef struct s_render
 	void	*win;
 	void	*img;
 	char	*img_buff;
-	int		pixel_bits;
-	int		line_bytes;
-	int		endian;
 	t_cube	textures[LAST_MAP_SYMBOL - FIRST_MAP_SYMBOL + 1];
 }	t_render;
 

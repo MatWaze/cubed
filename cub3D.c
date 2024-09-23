@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/11 18:56:00 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/16 20:12:53 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ bool	test_level(t_game *game);
 int	main(int argc, char **argv)
 {
 	static t_game	game = {0};
+	int				tmp;
 
 	(void)argv;
 	if (track(&game.e, "main") && check_err(&game.e, argc == 2,
@@ -43,8 +44,8 @@ int	main(int argc, char **argv)
 			if (check_err(&game.e, game.r.win != NULL, MLX_ALLOC)
 				&& check_err(&game.e, game.r.img != NULL, MLX_ALLOC))
 			{
-				game.r.img_buff = mlx_get_data_addr(game.r.img,
-					&game.r.pixel_bits, &game.r.line_bytes, &game.r.endian);
+				game.r.img_buff = mlx_get_data_addr(game.r.img, &tmp, &tmp,
+					&tmp);
 				mlx_do_key_autorepeaton(game.r.mlx);
 				mlx_hook(game.r.win, KeyPress, 0, key_hook, &game);
 				mlx_hook(game.r.win, DestroyNotify, 0, exit_game, &game);
@@ -72,12 +73,12 @@ bool	test_level(t_game *game)
 		memcpy(game->map.m[4], "1000000001", 10);
 		memcpy(game->map.m[5], "1111111111", 10);
 		game->ppos.x = 8.0f;
-		game->ppos.y = 4.0f;
+		game->ppos.y = 1.0f;
 		game->prot.x = 0.0f;
 		game->prot.y = 1.0f;
 		game->cam.x = tanf(CAMERA_FOV/2);
 		game->cam.y = 1.0f;
-		//game->r.textures['1' - FIRST_MAP_SYMBOL].east_img = mlx_png_file_to_image(game->r.mlx, "textures/backrooms.png"
+		//game->r.textures['1' - FIRST_MAP_SYMBOL].east_img = mlx_png_file_to_image(game->r.mlx, "textures/backrooms.xpm"
 		untrack(&game->e);
 	}
 	return (game->map.m != NULL);
