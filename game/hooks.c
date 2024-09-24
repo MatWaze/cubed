@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:23:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/07 11:27:03 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/24 19:12:02 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	mouse_look(t_game *game)
 		rotate(game, cosf(x * MOUSE_SENSIVITY), -sin(x * MOUSE_SENSIVITY));
 		mlx_mouse_move(game->r.win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
 	}
+	return 0;
 }
 
 int	key_hook(int keycode, t_game *game)
@@ -57,6 +58,7 @@ int	key_hook(int keycode, t_game *game)
 		move(game, -game->prot.y, game->prot.x);
 	else if (keycode == kVK_ANSI_D)
 		move(game, game->prot.y, game->prot.x);
+	return 0;
 }
 
 static void	rotate(t_game *game, float cos_v, float sin_v)

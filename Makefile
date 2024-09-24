@@ -8,8 +8,11 @@ cflags = -Wall -Wextra -Werror
 
 all : make_dirs $(NAME)
 
+debug: cflags += -g
+debug: all
+
 sanitize : cflags += -g -fsanitize=address -fsanitize=undefined
-sanitize : lflags += -g -fsanitize=address -fsanitize=undefined
+sanitize : lflags += -fsanitize=address -fsanitize=undefined
 sanitize : all
 
 #         ____   __   ____  ____  __  __ _   ___ 
@@ -51,9 +54,31 @@ $(error_dir): | $(BUILD_DIR)
 #         \___)(____/(____/(____)\_)(_/\_/\_/(__) \_)(_/
 
 c3d_math_dir=$(BUILD_DIR)/c3d_math
-c3d_math_modules = create
+c3d_math_modules = create distances set vec_op
 obj += $(addprefix $(c3d_math_dir)/, $(addsuffix .o, $(c3d_math_modules)))
 $(c3d_math_dir): | $(BUILD_DIR)
+	mkdir $@
+
+#          ___    __    __  __  ____ 
+#         / __)  /__\  (  \/  )( ___)
+#        ( (_-. /(__)\  )    (  )__) 
+#         \___/(__)(__)(_/\/\_)(____)
+
+game_dir=$(BUILD_DIR)/game
+game_modules=hooks render
+obj += $(addprefix $(game_dir)/, $(addsuffix .o, $(game_modules)))
+$(game_dir): | $(BUILD_DIR)
+	mkdir $@
+
+#         ____    __   _  _  ___    __    ___  ____ 
+#        (  _ \  /__\ ( \/ )/ __)  /__\  / __)(_  _)
+#         )   / /(__)\ \  /( (__  /(__)\ \__ \  )(  
+#        (_)\_)(__)(__)(__) \___)(__)(__)(___/ (__) 
+
+raycast_dir=$(BUILD_DIR)/raycast
+raycast_modules=raycast
+obj += $(addprefix $(raycast_dir)/, $(addsuffix .o, $(raycast_modules)))
+$(raycast_dir): | $(BUILD_DIR)
 	mkdir $@
 
 obj += $(BUILD_DIR)/cub3D.o
@@ -79,7 +104,7 @@ re: fclean all
 
 .PHONY: all clean fclean re make_dirs
 
-make_dirs: $(parsing_dir) $(common_dir) $(error_dir) $(c3d_math_dir)
+make_dirs: $(parsing_dir) $(common_dir) $(error_dir) $(c3d_math_dir) $(game_dir) $(raycast_dir)
 
 $(libft_dir)/libft.a:
 	make -C $(libft_dir)

@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:11:49 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/23 09:44:27 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/23 12:45:17 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 typedef struct s_raycast_internal
 {
 	t_ivec	step;
-	t_ivec	idx;
 	char	symb;
 	t_vec	cross;
 	t_vec	cx;

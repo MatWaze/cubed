@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:33:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/15 18:20:22 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/23 19:17:25 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,16 @@
 # include "c3d_math/t_mat.h"
 # include "error/t_err.h"
 
-typedef struct s_cube
-{
-	t_texture	north_img;
-	t_texture	south_img;
-	t_texture	west_img;
-	t_texture	east_img;
-}	t_cube;
-
 typedef struct s_render
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*img_buff;
-	t_cube	textures[LAST_MAP_SYMBOL - FIRST_MAP_SYMBOL + 1];
+	void		*mlx;
+	void		*win;
+	void		*img;
+	int			*img_buff;
+	t_texture	textures[LAST_MAP_SYMBOL - FIRST_MAP_SYMBOL + 1][4];
+	t_texture	door_frames[DOOR_FRAMES_COUNT];
+	int			ceil_color;
+	int			floor_color;
 }	t_render;
 
 typedef struct s_game
@@ -42,6 +37,7 @@ typedef struct s_game
 	t_vec		prot;
 	t_vec		cam;
 	t_mat		map;
+	t_mat		states;
 	t_render	r;
 	t_err		e;
 }	t_game;
