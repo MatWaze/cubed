@@ -45,9 +45,13 @@ int	empty_check(char **map)
 		trim = ft_strtrim(map[i], " ");
 		if (trim == NULL)
 			return (10);
-		if (ft_strlen(trim) == 0)
+		if (ft_strlen(trim) == 0 && ans == 0 && free_return(trim))
 		{
-			free(trim);
+			ans = 2;
+			continue ;
+		}
+		if (ft_strlen(trim) > 0 && ans == 2 && free_return(trim))
+		{
 			ans = 1;
 			break ;
 		}
@@ -134,9 +138,10 @@ void	valid_check(t_cub *cubed, t_err *err, int l_count, int *count)
 			&& check_err(err, empty_check(cubed->map) != 1, EMPTY_LINE) \
 			&& check_err(err, empty_check(cubed->map) != 10, C3D_ALL))
 			{
+				untrack(err);
 				ans = is_map_valid(cubed);
 				if (track(err, "is_map_valid") && check_err(err, \
-				ans != 10, C3D_ALL) && check_err(err, ans != 4, DOOR_ERR) && \
+				ans != 12, MAP_CREAT) && check_err(err, ans != 4, DOOR_ERR) && \
 				check_err(err, ans == 0, PARSING_MAP))
 					printf("No error\n");
 				untrack(err);
