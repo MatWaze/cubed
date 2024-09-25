@@ -31,9 +31,10 @@ char	**init_map(char *name, int *line_count, int *i)
 	map = NULL;
 	*i = 0;
 	nl_c = nl_count(open(name, O_RDONLY), *line_count);
-	if (nl_c > 0)
+	*line_count = nl_c;
+	if (*line_count > 0)
 	{
-		map = (char **) malloc(sizeof(char *) * (nl_c));
+		map = (char **) malloc(sizeof(char *) * (*line_count));
 	}
 	return (map);
 }
@@ -55,10 +56,9 @@ int	nl_count(int fd, int l_count)
 		line = get_next_line(fd);
 	}
 	skip_empty(fd, &line);
-	while (line)
+	while (line && free_return(line))
 	{
 		count++;
-		free_return(line);
 		line = get_next_line(fd);
 	}
 	return (count);
