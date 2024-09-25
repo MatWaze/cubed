@@ -15,7 +15,7 @@ sanitize : cflags += -g -fsanitize=address -fsanitize=undefined
 sanitize : lflags += -fsanitize=address -fsanitize=undefined
 sanitize : all
 
-#         ____   __   ____  ____  __  __ _   ___ 
+#         ____   __   ____  ____  __  __ _   ___
 #        (  _ \ / _\ (  _ \/ ___)(  )(  ( \ / __)
 #         ) __//    \ )   /\___ \ )( /    /( (_ \
 #        (__)  \_/\_/(__\_)(____/(__)\_)__) \___/
@@ -26,7 +26,7 @@ obj += $(addprefix $(parsing_dir)/, $(addsuffix .o, $(parsing_modules)))
 $(parsing_dir): | $(BUILD_DIR)
 	mkdir $@
 
-#          ___  __   _  _  _  _   __   __ _ 
+#          ___  __   _  _  _  _   __   __ _
 #         / __)/  \ ( \/ )( \/ ) /  \ (  ( \
 #        ( (__(  O )/ \/ \/ \/ \(  O )/    /
 #         \___)\__/ \_)(_/\_)(_/ \__/ \_)__)
@@ -37,7 +37,7 @@ obj += $(addprefix $(common_dir)/, $(addsuffix .o, $(common_modules)))
 $(common_dir): | $(BUILD_DIR)
 	mkdir $@
 
-#         ____  ____  ____   __  ____ 
+#         ____  ____  ____   __  ____
 #        (  __)(  _ \(  _ \ /  \(  _ \
 #         ) _)  )   / )   /(  O ))   /
 #        (____)(__\_)(__\_) \__/(__\_)
@@ -48,7 +48,7 @@ obj += $(addprefix $(error_dir)/, $(addsuffix .o, $(error_modules)))
 $(error_dir): | $(BUILD_DIR)
 	mkdir $@
 
-#          ___  ____  ____        _  _   __  ____  _  _ 
+#          ___  ____  ____        _  _   __  ____  _  _
 #         / __)( __ \(    \      ( \/ ) / _\(_  _)/ )( \
 #        ( (__  (__ ( ) D ( ____ / \/ \/    \ )(  ) __ (
 #         \___)(____/(____/(____)\_)(_/\_/\_/(__) \_)(_/
@@ -59,9 +59,9 @@ obj += $(addprefix $(c3d_math_dir)/, $(addsuffix .o, $(c3d_math_modules)))
 $(c3d_math_dir): | $(BUILD_DIR)
 	mkdir $@
 
-#          ___    __    __  __  ____ 
+#          ___    __    __  __  ____
 #         / __)  /__\  (  \/  )( ___)
-#        ( (_-. /(__)\  )    (  )__) 
+#        ( (_-. /(__)\  )    (  )__)
 #         \___/(__)(__)(_/\/\_)(____)
 
 game_dir=$(BUILD_DIR)/game
@@ -70,10 +70,10 @@ obj += $(addprefix $(game_dir)/, $(addsuffix .o, $(game_modules)))
 $(game_dir): | $(BUILD_DIR)
 	mkdir $@
 
-#         ____    __   _  _  ___    __    ___  ____ 
+#         ____    __   _  _  ___    __    ___  ____
 #        (  _ \  /__\ ( \/ )/ __)  /__\  / __)(_  _)
-#         )   / /(__)\ \  /( (__  /(__)\ \__ \  )(  
-#        (_)\_)(__)(__)(__) \___)(__)(__)(___/ (__) 
+#         )   / /(__)\ \  /( (__  /(__)\ \__ \  )(
+#        (_)\_)(__)(__)(__) \___)(__)(__)(___/ (__)
 
 raycast_dir=$(BUILD_DIR)/raycast
 raycast_modules=raycast

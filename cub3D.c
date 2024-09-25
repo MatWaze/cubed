@@ -6,15 +6,14 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/24 19:16:46 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/25 19:11:10 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <math.h>
 #include <fcntl.h>
 #include <string.h>
-# include <Tk/X11/X.h>
+#include <Tk/X11/X.h>
 #include <sys/fcntl.h>
 
 #include "minilibx/mlx.h"
@@ -32,29 +31,28 @@ int	main(int argc, char **argv)
 	int				tmp;
 
 	(void)argv;
-	if (track(&game.e, "main") && check_err(&game.e, argc == 2,
-			C3D_MAIN_INV_PARAM) && test_level(&game))
+	game.r.mlx = mlx_init();
+	if (track(&game.e, "main")
+		&& check_err(&game.e, game.r.mlx != NULL, MLX_INIT)
+		&& check_err(&game.e, argc == 2, C3D_MAIN_INV_PARAM)
+		&& test_level(&game))
 	{
-		game.r.mlx = mlx_init();
-		if (check_err(&game.e, game.r.mlx != NULL, MLX_INIT))
+		game.r.win = mlx_new_window(game.r.mlx, WIN_WIDTH, WIN_HEIGHT,
+				"cub3D");
+		game.r.img = mlx_new_image(game.r.mlx, WIN_WIDTH, WIN_HEIGHT);
+		if (check_err(&game.e, game.r.win != NULL, MLX_ALLOC)
+			&& check_err(&game.e, game.r.img != NULL, MLX_ALLOC))
 		{
-			game.r.win = mlx_new_window(game.r.mlx, WIN_WIDTH, WIN_HEIGHT,
-							"cub3D");
-			game.r.img = mlx_new_image(game.r.mlx, WIN_WIDTH, WIN_HEIGHT);
-			if (check_err(&game.e, game.r.win != NULL, MLX_ALLOC)
-				&& check_err(&game.e, game.r.img != NULL, MLX_ALLOC))
-			{
-				game.r.img_buff = (int *)mlx_get_data_addr(game.r.img, &tmp,
+			game.r.img_buff = (int *)mlx_get_data_addr(game.r.img, &tmp,
 					&tmp, &tmp);
-				mlx_do_key_autorepeaton(game.r.mlx);
-				mlx_hook(game.r.win, KeyPress, 0, key_hook, &game);
-				mlx_hook(game.r.win, DestroyNotify, 0, exit_game, &game);
-				mlx_loop_hook(game.r.mlx, mouse_look, &game);
-				mlx_mouse_move(game.r.win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
-				mlx_mouse_hide();
-				render(&game);
-				mlx_loop(game.r.mlx);
-			}
+			mlx_do_key_autorepeaton(game.r.mlx);
+			mlx_hook(game.r.win, KeyPress, 0, key_hook, &game);
+			mlx_hook(game.r.win, DestroyNotify, 0, exit_game, &game);
+			mlx_loop_hook(game.r.mlx, mouse_look, &game);
+			mlx_mouse_move(game.r.win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+			mlx_mouse_hide();
+			render(&game);
+			mlx_loop(game.r.mlx);
 		}
 	}
 	print_trace(&game.e);
@@ -78,7 +76,7 @@ bool	test_level(t_game *game)
 		game->ppos.y = 1.5f;
 		game->prot.x = 0.0f;
 		game->prot.y = 1.0f;
-		game->cam.x = tanf(CAMERA_FOV/2);
+		game->cam.x = tanf(CAMERA_FOV / 2);
 		game->cam.y = 1.0f;
 		game->r.ceil_color = 0x6e5020;
 		game->r.floor_color = 0xa68444;
