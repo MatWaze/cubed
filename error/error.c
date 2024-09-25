@@ -73,6 +73,8 @@ static char	*print_error_parsing(t_err *err)
 		str = EMPTY_LINE_DESK;
 	else if (err->error == DOOR_ERR)
 		str = DOOR_ERR_DESK;
+	else if (err->error == MAP_CREAT)
+		str = MAP_CREAT_DESK;
 	return (str);
 }
 

@@ -36,4 +36,7 @@
 # define EMPTY_LINE_DESK "Empty line in a map"
 # define DOOR_ERR 15
 # define DOOR_ERR_DESK "Door not in between walls"
+# define MAP_CREAT 16
+# define MAP_CREAT_DESK "Error creating map"
+
 #endif
