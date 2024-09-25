@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <time.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-
+#include "error/error.h"
 #include "common/common.h"
 #include "c3d_math/c3d_math.h"
 #include "t_cub.h"
@@ -113,8 +114,8 @@ int	is_map_valid(t_cub *cubed)
 	static t_err	err = {0};
 	int				other;
 
-	ans = 10;
 	mat.m = NULL;
+	ans = 12;
 	if (create_mat(&mat, get_map_width(cubed->map), \
 	get_map_height(cubed->map), &err))
 	{
