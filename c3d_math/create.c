@@ -36,8 +36,6 @@ bool	create_mat(t_mat *mat, unsigned int w, unsigned int h, t_err *error)
 				row -= w;
 			}
 		}
-		untrack(error);
 	}
-	print_trace(error);
 	return (!error->error);
 }
