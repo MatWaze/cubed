@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/26 19:46:05 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/26 19:54:29 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,7 @@ void	raycast(const t_game *game, const t_vec *dir, t_rayhit *hit,
 		set_ivec(&ri.step, (dir->x > 0) * 2 - 1, (dir->y > 0) * 2 - 1);
 		while (!hit->type)
 		{
-			if (ri.sdy < ri.sdx)
-				hit_y(game, &ri, hit, hit_doors);
-			else if (ri.sdy > ri.sdx)
-				hit_x(game, &ri, hit, hit_doors);
-			else
+			hit_xy(game, &ri, hit, hit_doors);
 			cross(&ri, &game->ppos);
 			ri.sdy = square_distance(&ri.cy, &game->ppos);
 			ri.sdx = square_distance(&ri.cx, &game->ppos);
@@ -114,9 +110,13 @@ static void	hit_xy(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 
 	set_ivec(&idx, (int)(ri->cross.x - (ri->step.x == -1)),
 		game->map.h - 1 - ((int)(ri->cross.y - (ri->step.y == -1))));
-	if (game->map.m[idx.y][hit->idx.x] != '0')
+	if (ri->sdy < ri->sdx)
 		hit_y(game, ri, hit, hit_doors);
-	else if (game->map.m[hit->idx.y][idx.x])
+	else if (ri->sdy > ri->sdx)
+		hit_x(game, ri, hit, hit_doors);
+	else if (game->map.m[idx.y][hit->idx.x] != '0')
+		hit_y(game, ri, hit, hit_doors);
+	else if (game->map.m[hit->idx.y][idx.x] != '0')
 		hit_x(game, ri, hit, hit_doors);
 	else
 	{
