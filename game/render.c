@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/24 19:13:27 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/26 15:52:44 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,
 	t_ivec	x_height;
 
 	idx->y = 0;
-	x_height.y = (int)(WIN_HEIGHT * (1.0f - hit->dist / CLIPPING_DISTANCE));
+	x_height.y = (int)(WIN_WIDTH * CAMERA_HALF_FOV_TAN / 2 / hit->dist);
 	len = (WIN_HEIGHT - x_height.y) / 2;
 	if (draw_back)
 	{
@@ -68,7 +68,7 @@ static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,
 		idx->y = len;
 	len += x_height.y;
 	x_height.x = (int)(game->r.textures[(int)hit->type][(int)hit->side].w
-		* hit->v_cord);
+			* hit->v_cord);
 	render_texture_stripe(game->r.img_buff, idx, &x_height,
 		game->r.textures[(int)hit->type] + hit->side);
 	if (draw_back)

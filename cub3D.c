@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/25 19:11:10 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/26 16:02:58 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ bool	test_level(t_game *game)
 		game->ppos.y = 1.5f;
 		game->prot.x = 0.0f;
 		game->prot.y = 1.0f;
-		game->cam.x = tanf(CAMERA_FOV / 2);
-		game->cam.y = 1.0f;
+		game->cam.x = CAMERA_HALF_FOV_TAN;
+		game->cam.y = 0.0f;
 		game->r.ceil_color = 0x6e5020;
 		game->r.floor_color = 0xa68444;
 		texture = game->r.textures['1' - FIRST_MAP_SYMBOL];

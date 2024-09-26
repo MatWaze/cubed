@@ -76,7 +76,7 @@ $(game_dir): | $(BUILD_DIR)
 #        (_)\_)(__)(__)(__) \___)(__)(__)(___/ (__)
 
 raycast_dir=$(BUILD_DIR)/raycast
-raycast_modules=raycast
+raycast_modules=raycast raycast_direct
 obj += $(addprefix $(raycast_dir)/, $(addsuffix .o, $(raycast_modules)))
 $(raycast_dir): | $(BUILD_DIR)
 	mkdir $@

@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/24 15:50:08 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/26 19:46:05 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,24 @@
 #include "t_raycast_internal.h"
 #include "t_rayhit.h"
 
-static void	cross(t_raycast_internal *ri, const t_vec *ppos);
-static void	raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+void		raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+				bool hit_doors);
+void		raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+				bool hit_doors);
+bool	check_hit_y(const t_vec *ppos, t_raycast_internal *ri, t_rayhit *hit,
 			bool hit_doors);
-static void	raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+bool	check_hit_x(const t_vec *ppos, t_raycast_internal *ri, t_rayhit *hit,
 			bool hit_doors);
 
-static void	hit_check(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+static void	cross(t_raycast_internal *ri, const t_vec *ppos);
+static void	hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 				bool hit_doors);
+static void	hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+				bool hit_doors);
+static void	hit_xy(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+				bool hit_doors);
+static void	init_idx(const t_game *game, t_raycast_internal *ri,
+				t_rayhit *hit);
 
 void	raycast(const t_game *game, const t_vec *dir, t_rayhit *hit,
 			bool hit_doors)
@@ -44,67 +54,19 @@ void	raycast(const t_game *game, const t_vec *dir, t_rayhit *hit,
 		set_vec(&ri.k, dir->x / dir->y, dir->y / dir->x);
 		ri.cross = game->ppos;
 		cross(&ri, &game->ppos);
+		init_idx(game, &ri, hit);
 		set_ivec(&ri.step, (dir->x > 0) * 2 - 1, (dir->y > 0) * 2 - 1);
 		while (!hit->type)
 		{
-			if (square_distance(&ri.cy, &game->ppos)
-				< square_distance(&ri.cx, &game->ppos))
-				ri.cross = ri.cy;
+			if (ri.sdy < ri.sdx)
+				hit_y(game, &ri, hit, hit_doors);
+			else if (ri.sdy > ri.sdx)
+				hit_x(game, &ri, hit, hit_doors);
 			else
-				ri.cross = ri.cx;
-			hit_check(game, &ri, hit, hit_doors);
 			cross(&ri, &game->ppos);
+			ri.sdy = square_distance(&ri.cy, &game->ppos);
+			ri.sdx = square_distance(&ri.cx, &game->ppos);
 		}
-	}
-}
-
-static void	raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
-			bool hit_doors)
-{
-	set_vec(&ri->cross, game->ppos.x, (int)(game->ppos.y + ri->step.y));
-	hit->v_cord = ri->cross.x - (int)ri->cross.x;
-	ri->step.y = 2 * (ri->step.y == 1) - 1;
-	set_ivec(&hit->idx, (int)game->ppos.x,
-		game->map.h - 1 - (int)(game->ppos.y + ri->step.y));
-	hit->type = 0;
-	while (!hit->type)
-	{
-		ri->symb = game->map.m[hit->idx.y][hit->idx.x];
-		if (ri->symb && (hit_doors || ri->symb != 'D'))
-		{
-			hit->type = ri->symb;
-			ri->cross.y = game->map.h - 1 - hit->idx.y + (ri->step.y == -1);
-			hit->dist = distance(&game->ppos, &ri->cross);
-			hit->side = (ri->step.x == 1) * SOUTH + (ri->step.x == -1) * NORTH;
-			if (ri->step.x == -1)
-				hit->v_cord = 1.0f - hit->v_cord;
-		}
-		hit->idx.y += ri->step.y;
-	}
-}
-
-static void	raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
-			bool hit_doors)
-{
-	set_vec(&ri->cross, (int)(game->ppos.x + ri->step.x), game->ppos.y);
-	hit->v_cord = ri->cross.y - (int)ri->cross.y;
-	ri->step.x = 2 * (ri->step.x == 1) - 1;
-	set_ivec(&hit->idx, (int)(game->ppos.x + ri->step.x),
-		game->map.h - 1 - (int)game->ppos.y);
-	hit->type = 0;
-	while (!hit->type)
-	{
-		ri->symb = game->map.m[hit->idx.y][hit->idx.x];
-		if (ri->symb && (hit_doors || ri->symb != 'D'))
-		{
-			hit->type = ri->symb;
-			ri->cross.x = hit->idx.x;
-			hit->dist = distance(&game->ppos, &ri->cross);
-			hit->side = (ri->step.x == 1) * WEST + (ri->step.x == -1) * EAST;
-			if (ri->step.x == 1)
-				hit->v_cord = 1.0f - hit->v_cord;
-		}
-		hit->idx.x += ri->step.x;
 	}
 }
 
@@ -116,31 +78,49 @@ static void	cross(t_raycast_internal *ri, const t_vec *ppos)
 	ri->cx.x = ri->k.x * (ri->cx.y - ppos->y) + ppos->x;
 }
 
-static void	hit_check(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+static void	init_idx(const t_game *game, t_raycast_internal *ri,
+				t_rayhit *hit)
+{
+	ri->sdy = square_distance(&ri->cy, &game->ppos);
+	ri->sdx = square_distance(&ri->cx, &game->ppos);
+	if (ri->sdy < ri->sdy)
+		hit->idx.y = game->map.h - 1 - (int)(ri->cross.y);
+	else
+		hit->idx.x = (int)ri->cross.x;
+}
+
+static void	hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 				bool hit_doors)
 {
-	hit->idx.y = game->map.h - 1 - ((int)(ri->cross.y - 1 + (ri->step.y == 1)));
-	hit->idx.x = (int)(ri->cross.x - 1 + (ri->step.x == 1));
+	ri->cross = ri->cx;
+	hit->idx.y = game->map.h - 1 - ((int)(ri->cross.y - (ri->step.y == -1)));
 	ri->symb = game->map.m[hit->idx.y][hit->idx.x];
-	if (ri->symb && (hit_doors || ri->symb != 'D'))
+	check_hit_x(&game->ppos, ri, hit, hit_doors);
+}
+
+static void	hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+				bool hit_doors)
+{
+	ri->cross = ri->cy;
+	hit->idx.x = (int)(ri->cross.x - (ri->step.x == -1));
+	ri->symb = game->map.m[hit->idx.y][hit->idx.x];
+	check_hit_y(&game->ppos, ri, hit, hit_doors);
+}
+
+static void	hit_xy(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
+				bool hit_doors)
+{
+	t_ivec	idx;
+
+	set_ivec(&idx, (int)(ri->cross.x - (ri->step.x == -1)),
+		game->map.h - 1 - ((int)(ri->cross.y - (ri->step.y == -1))));
+	if (game->map.m[idx.y][hit->idx.x] != '0')
+		hit_y(game, ri, hit, hit_doors);
+	else if (game->map.m[hit->idx.y][idx.x])
+		hit_x(game, ri, hit, hit_doors);
+	else
 	{
-		hit->type = ri->symb;
-		hit->dist = distance(&ri->cross, &game->ppos);
-		if (ri->cross.x - (int)ri->cross.x == 0.0f)
-		{
-			hit->side = (ri->step.x == 1) * WEST + (ri->step.x == -1) * EAST;
-			if (ri->step.x == 1)
-				hit->v_cord = 1.0f - ri->cross.y - (int)ri->cross.y;
-			else
-				hit->v_cord = ri->cross.y - (int)ri->cross.y;
-		}
-		else
-		{
-			hit->side = (ri->step.y == 1) * SOUTH + (ri->step.y == -1) * NORTH;
-			if (ri->step.y == 1)
-				hit->v_cord = ri->cross.x - (int)ri->cross.x;
-			else
-				hit->v_cord = 1.0f - ri->cross.x - (int)ri->cross.x;
-		}
+		hit->idx.x = idx.x;
+		hit_y(game, ri, hit, hit_doors);
 	}
 }
