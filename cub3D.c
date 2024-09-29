@@ -6,11 +6,10 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/26 16:02:58 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/29 19:38:49 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <math.h>
 #include <fcntl.h>
 #include <string.h>
 #include <Tk/X11/X.h>
@@ -24,10 +23,11 @@
 #include "game/config.h"
 
 bool	test_level(t_game *game);
+void	free_game(t_render *r, t_mat *map, t_mat *states);
 
 int	main(int argc, char **argv)
 {
-	static t_game	game = {.e = {0}};
+	static t_game	game = {.e = {0}, .r = {0}};
 	int				tmp;
 
 	(void)argv;
@@ -56,13 +56,12 @@ int	main(int argc, char **argv)
 		}
 	}
 	print_trace(&game.e);
+	free_game(&game.r, &game.map, &game.states);
 	return (game.e.error);
 }
 
 bool	test_level(t_game *game)
 {
-	t_texture	*texture;
-
 	if (track(&game->e, "test_level") && create_mat(&game->map, 10, 6,
 			&game->e))
 	{
@@ -80,12 +79,40 @@ bool	test_level(t_game *game)
 		game->cam.y = 0.0f;
 		game->r.ceil_color = 0x6e5020;
 		game->r.floor_color = 0xa68444;
-		texture = game->r.textures['1' - FIRST_MAP_SYMBOL];
-		texture->img = mlx_xpm_file_to_image(game->r.mlx, "textures/backrooms.xpm", &texture->w, &texture->h);
-		texture[1].img = mlx_xpm_file_to_image(game->r.mlx, "textures/chess.xpm", &texture->w, &texture->h);
-		texture[2].img = mlx_xpm_file_to_image(game->r.mlx, "textures/pool.xpm", &texture->w, &texture->h);
-		texture[3].img = mlx_xpm_file_to_image(game->r.mlx, "textures/tubes.xpm", &texture->w, &texture->h);
-		untrack(&game->e);
+		game->r.wall_sides[0].img = mlx_xpm_file_to_image(game->r.mlx,
+				"textures/backrooms.xpm", &game->r.wall_sides[0].w,
+				&game->r.wall_sides[0].h);
+		game->r.wall_sides[1].img = mlx_xpm_file_to_image(game->r.mlx,
+				"textures/chess.xpm", &game->r.wall_sides[1].w,
+				&game->r.wall_sides[1].h);
+		game->r.wall_sides[2].img = mlx_xpm_file_to_image(game->r.mlx,
+				"textures/pool.xpm", &game->r.wall_sides[2].w,
+				&game->r.wall_sides[2].h);
+		game->r.wall_sides[3].img = mlx_xpm_file_to_image(game->r.mlx,
+				"textures/tubes.xpm", &game->r.wall_sides[3].w,
+				&game->r.wall_sides[3].h);
+		if (check_err(&game->e, game->r.wall_sides[0].img != NULL, MLX_ALLOC)
+			&& check_err(&game->e, game->r.wall_sides[1].img != NULL, MLX_ALLOC)
+			&& check_err(&game->e, game->r.wall_sides[2].img != NULL, MLX_ALLOC)
+			&& check_err(&game->e, game->r.wall_sides[3].img != NULL,
+				MLX_ALLOC))
+			untrack(&game->e);
 	}
 	return (game->map.m != NULL);
+}
+
+void	free_game(t_render *r, t_mat *map, t_mat *states)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+		mlx_destroy_image(r->mlx, r->wall_sides[i].img);
+	i = 0;
+	while (i < DOOR_FRAMES_COUNT)
+		mlx_destroy_image(r->mlx, r->door_frames[i].img);
+	mlx_destroy_image(r->mlx, r->img);
+	mlx_destroy_window(r->mlx, r->win);
+	free_mat(map);
+	free_mat(states);
 }

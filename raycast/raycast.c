@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/28 19:53:44 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/29 19:53:49 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void		raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 				bool hit_doors);
 void		raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 				bool hit_doors);
-bool		check_hit_y(const t_vec *ppos, t_raycast_internal *ri,
+bool		check_hit_x(const t_game *game, t_raycast_internal *ri,
 				t_rayhit *hit, bool hit_doors);
-bool		check_hit_x(const t_vec *ppos, t_raycast_internal *ri,
+bool		check_hit_y(const t_game *game, t_raycast_internal *ri,
 				t_rayhit *hit, bool hit_doors);
 
 static void	cross(t_raycast_internal *ri, const t_vec *ppos);
@@ -40,7 +40,7 @@ void	raycast(const t_game *game, const t_vec *dir, t_rayhit *hit,
 {
 	t_raycast_internal	ri;
 
-	hit->type = 0;
+	hit->type = '0';
 	set_ivec(&ri.step, dir->x > 0.0f, dir->y > 0.0f);
 	if (dir->x == 0.0f)
 		raycast_y(game, &ri, hit, hit_doors);
@@ -56,9 +56,11 @@ void	raycast(const t_game *game, const t_vec *dir, t_rayhit *hit,
 		set_ivec(&hit->idx, (int)ri.cross.x,
 			game->map.h - 1 - (int)(ri.cross.y));
 		set_ivec(&ri.step, (dir->x > 0) * 2 - 1, (dir->y > 0) * 2 - 1);
-		while (!hit->type)
+		while (hit->type == '0')
 			hit_xy(game, &ri, hit, hit_doors);
 	}
+	if (hit->type == 'D')
+		hit->side = game->states.m[hit->idx.y][hit->idx.x];
 }
 
 static void	cross(t_raycast_internal *ri, const t_vec *ppos)
@@ -74,8 +76,7 @@ static void	hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 {
 	ri->cross = ri->cx;
 	hit->idx.y = game->map.h - 1 - ((int)(ri->cross.y - (ri->step.y == -1)));
-	ri->symb = game->map.m[hit->idx.y][hit->idx.x];
-	check_hit_x(&game->ppos, ri, hit, hit_doors);
+	check_hit_x(game, ri, hit, hit_doors);
 }
 
 static void	hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
@@ -83,8 +84,7 @@ static void	hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 {
 	ri->cross = ri->cy;
 	hit->idx.x = (int)(ri->cross.x - (ri->step.x == -1));
-	ri->symb = game->map.m[hit->idx.y][hit->idx.x];
-	check_hit_y(&game->ppos, ri, hit, hit_doors);
+	check_hit_y(game, ri, hit, hit_doors);
 }
 
 static void	hit_xy(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
@@ -107,8 +107,7 @@ static void	hit_xy(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 		{
 			hit->idx = idx;
 			ri->cross = ri->cy;
-			ri->symb = game->map.m[hit->idx.y][hit->idx.x];
-			check_hit_y(&game->ppos, ri, hit, hit_doors);
+			check_hit_y(game, ri, hit, hit_doors);
 		}
 	}
 	cross(ri, &game->ppos);

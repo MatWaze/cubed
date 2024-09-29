@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:33:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/23 19:17:25 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/29 18:56:29 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_render
 	void		*win;
 	void		*img;
 	int			*img_buff;
-	t_texture	textures[LAST_MAP_SYMBOL - FIRST_MAP_SYMBOL + 1][4];
+	t_texture	wall_sides[4];
 	t_texture	door_frames[DOOR_FRAMES_COUNT];
 	int			ceil_color;
 	int			floor_color;
