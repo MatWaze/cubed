@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/29 20:16:03 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/30 20:01:20 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,19 @@ static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,
 	const t_texture	*texture;
 
 	idx->y = 0;
-	x_height.y = (int)(WIN_WIDTH * CAMERA_HALF_FOV_TAN / 2 / hit->dist);
-	if (draw_back)
-		render_color_stripe(game->r.img_buff, idx, game->r.ceil_color,
-			(WIN_HEIGHT - x_height.y) / 2);
 	texture = choose_texture(hit->type, hit->side, &game->r);
 	if (texture)
 	{
+		x_height.y = (int)(WIN_WIDTH * CAMERA_HALF_FOV_TAN / hit->dist / 2);
+		if (draw_back)
+			render_color_stripe(game->r.img_buff, idx, game->r.ceil_color,
+				(WIN_HEIGHT - x_height.y) / 2);
 		x_height.x = (int)(texture->w * hit->v_cord);
 		render_texture_stripe(game->r.img_buff, idx, &x_height, texture);
+		if (draw_back)
+			render_color_stripe(game->r.img_buff, idx, game->r.floor_color,
+				WIN_HEIGHT);
 	}
-	if (draw_back)
-		render_color_stripe(game->r.img_buff, idx, game->r.floor_color,
-			WIN_HEIGHT);
 }
 
 static void	render_color_stripe(int *img_buff, t_ivec *idx, int color, int len)

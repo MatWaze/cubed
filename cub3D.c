@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/29 19:38:49 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/30 20:04:56 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ bool	test_level(t_game *game)
 				"textures/backrooms.xpm", &game->r.wall_sides[0].w,
 				&game->r.wall_sides[0].h);
 		game->r.wall_sides[1].img = mlx_xpm_file_to_image(game->r.mlx,
-				"textures/chess.xpm", &game->r.wall_sides[1].w,
+				"textures/pool.xpm", &game->r.wall_sides[1].w,
 				&game->r.wall_sides[1].h);
 		game->r.wall_sides[2].img = mlx_xpm_file_to_image(game->r.mlx,
-				"textures/pool.xpm", &game->r.wall_sides[2].w,
+				"textures/chess.xpm", &game->r.wall_sides[2].w,
 				&game->r.wall_sides[2].h);
 		game->r.wall_sides[3].img = mlx_xpm_file_to_image(game->r.mlx,
 				"textures/tubes.xpm", &game->r.wall_sides[3].w,
@@ -98,7 +98,7 @@ bool	test_level(t_game *game)
 				MLX_ALLOC))
 			untrack(&game->e);
 	}
-	return (game->map.m != NULL);
+	return (!game->e.error);
 }
 
 void	free_game(t_render *r, t_mat *map, t_mat *states)
