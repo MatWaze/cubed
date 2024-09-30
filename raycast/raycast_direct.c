@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:27:30 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/29 19:52:46 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/30 17:28:52 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ bool	check_hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 void	raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 			bool hit_doors)
 {
-	set_vec(&ri->cross, game->ppos.x, (int)(game->ppos.y + ri->step.y));
-	ri->step.y = 2 * (ri->step.y == 1) - 1;
+	if (game->ppos.y - (int)game->ppos.y == 0.0f)
+		set_vec(&ri->cross, game->ppos.x, (int)(game->ppos.y + ri->step.y));
+	else
+		set_vec(&ri->cross, game->ppos.x,
+			(int)(game->ppos.y + (ri->step.y == 1)));
 	set_ivec(&hit->idx, (int)game->ppos.x,
 		game->map.h - 1 - (int)(game->ppos.y + ri->step.y));
 	hit->type = 0;
@@ -41,8 +44,11 @@ void	raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 void	raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 			bool hit_doors)
 {
-	set_vec(&ri->cross, (int)(game->ppos.x + ri->step.x), game->ppos.y);
-	ri->step.x = 2 * (ri->step.x == 1) - 1;
+	if (game->ppos.x - (int)game->ppos.x == 0.0f)
+		set_vec(&ri->cross, (int)(game->ppos.x + ri->step.x), game->ppos.y);
+	else
+		set_vec(&ri->cross, (int)(game->ppos.x + (ri->step.x == 1)),
+			game->ppos.y);
 	set_ivec(&hit->idx, (int)(game->ppos.x + ri->step.x),
 		game->map.h - 1 - (int)game->ppos.y);
 	hit->type = 0;

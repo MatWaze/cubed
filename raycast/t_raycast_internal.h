@@ -6,15 +6,17 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:11:49 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/26 18:33:07 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/09/30 19:21:11 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_RAYCAST_INTERNAL
-# define T_RAYCAST_INTERNAL
+#ifndef T_RAYCAST_INTERNAL_H
+# define T_RAYCAST_INTERNAL_H
 
-#include "c3d_math/t_segment.h"
-#include "c3d_math/t_ivec.h"
+# include <stdbool.h>
+
+# include "c3d_math/t_segment.h"
+# include "c3d_math/t_ivec.h"
 
 typedef struct s_raycast_internal
 {
