@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/30 20:04:56 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/01 15:01:02 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,10 @@ void	free_game(t_render *r, t_mat *map, t_mat *states)
 
 	i = 0;
 	while (i < 4)
-		mlx_destroy_image(r->mlx, r->wall_sides[i].img);
+		mlx_destroy_image(r->mlx, r->wall_sides[i++].img);
 	i = 0;
 	while (i < DOOR_FRAMES_COUNT)
-		mlx_destroy_image(r->mlx, r->door_frames[i].img);
+		mlx_destroy_image(r->mlx, r->door_frames[i++].img);
 	mlx_destroy_image(r->mlx, r->img);
 	mlx_destroy_window(r->mlx, r->win);
 	free_mat(map);

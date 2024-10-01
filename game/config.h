@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:53:31 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/29 18:07:10 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/01 15:00:59 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define MOVEMENT_RESOLUTION 0.1f
 # define MOUSE_SENSIVITY 0.1f
 # define CAMERA_HALF_FOV_TAN 1.0f
-# define DOOR_FRAMES_COUNT 5
+# define DOOR_FRAMES_COUNT 0
 # define WALL_COLLISION_OFFSET 0.1f
 # define NORTH 0
 # define WEST 1
