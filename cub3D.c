@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/01 15:16:11 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/01 17:35:33 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ bool	test_level(t_game *game)
 	{
 		memcpy(game->map.m[0], "1111111111", 10);
 		memcpy(game->map.m[1], "1000000001", 10);
-		memcpy(game->map.m[2], "1011111101", 10);
-		memcpy(game->map.m[3], "1010000101", 10);
+		memcpy(game->map.m[2], "1000000001", 10);
+		memcpy(game->map.m[3], "1000000001", 10);
 		memcpy(game->map.m[4], "1000000001", 10);
 		memcpy(game->map.m[5], "1111111111", 10);
 		game->ppos.x = 8.5f;
@@ -80,16 +80,16 @@ bool	test_level(t_game *game)
 		game->r.ceil_color = 0x6e5020;
 		game->r.floor_color = 0xa68444;
 		game->r.wall_sides[0].img = mlx_xpm_file_to_image(game->r.mlx,
-				"textures/backrooms.xpm", &game->r.wall_sides[0].w,
+				"textures/horizon-2.xpm", &game->r.wall_sides[0].w,
 				&game->r.wall_sides[0].h);
 		game->r.wall_sides[1].img = mlx_xpm_file_to_image(game->r.mlx,
 				"textures/pool.xpm", &game->r.wall_sides[1].w,
 				&game->r.wall_sides[1].h);
 		game->r.wall_sides[2].img = mlx_xpm_file_to_image(game->r.mlx,
-				"textures/chess.xpm", &game->r.wall_sides[2].w,
+				"textures/horizon.xpm", &game->r.wall_sides[2].w,
 				&game->r.wall_sides[2].h);
 		game->r.wall_sides[3].img = mlx_xpm_file_to_image(game->r.mlx,
-				"textures/tubes.xpm", &game->r.wall_sides[3].w,
+				"textures/vertical.xpm", &game->r.wall_sides[3].w,
 				&game->r.wall_sides[3].h);
 		if (check_err(&game->e, game->r.wall_sides[0].img != NULL, MLX_ALLOC)
 			&& check_err(&game->e, game->r.wall_sides[1].img != NULL, MLX_ALLOC)
