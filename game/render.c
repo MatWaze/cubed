@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/30 20:01:20 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/01 17:00:17 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,16 +105,21 @@ static void	render_texture_stripe(int *buff, t_ivec *idx,
 
 	tb = (int *)mlx_get_data_addr(t->img, &color, &color, &color);
 	if (idx->y + x_height->y > WIN_HEIGHT)
+	{
 		len = WIN_HEIGHT;
+		y = (idx->y + x_height->y - WIN_HEIGHT) / 2;
+	}
 	else
+	{
 		len = idx->y + x_height->y;
-	y = 0;
+		y = 0;
+	}
 	while (idx->y < len)
 	{
 		color = tb[t->w * t->h * y++ / x_height->y
 			+ x_height->x * t->w / WIN_HEIGHT];
-		if (color)
-			buff[WIN_WIDTH * idx->y + idx->x] = color;
+		//if (color)
+		buff[WIN_WIDTH * idx->y + idx->x] = color;
 		idx->y += 1;
 	}
 }
