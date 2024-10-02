@@ -117,3 +117,6 @@ $(BUILD_DIR):
 
 $(obj:.o=.d):
 include $(obj:.o=.d)
+
+test: Makefile texture_resizing_test.c
+	cc $(cflags) texture_resizing_test.c -o $@ $(lflags) -lmlx -framework OpenGL -framework AppKit

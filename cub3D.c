@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/01 17:35:33 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/02 23:39:47 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,13 @@ int	main(int argc, char **argv)
 
 bool	test_level(t_game *game)
 {
-	if (track(&game->e, "test_level") && create_mat(&game->map, 10, 6,
+	if (track(&game->e, "test_level") && create_mat(&game->map, 3, 3,
 			&game->e))
 	{
-		memcpy(game->map.m[0], "1111111111", 10);
-		memcpy(game->map.m[1], "1000000001", 10);
-		memcpy(game->map.m[2], "1000000001", 10);
-		memcpy(game->map.m[3], "1000000001", 10);
-		memcpy(game->map.m[4], "1000000001", 10);
-		memcpy(game->map.m[5], "1111111111", 10);
-		game->ppos.x = 8.5f;
+		memcpy(game->map.m[0], "111", 3);
+		memcpy(game->map.m[1], "101", 3);
+		memcpy(game->map.m[2], "111", 3);
+		game->ppos.x = 1.5f;
 		game->ppos.y = 1.5f;
 		game->prot.x = 0.0f;
 		game->prot.y = 1.0f;

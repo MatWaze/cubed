@@ -38,7 +38,7 @@ int	main()
 	{
 		for (int y = 0; y < dst_size; y += 1)
 		{
-			dst_buff[dst_size * y + x] = src_buff[src_size * src_size * y / dst_size + x * src_size / dst_size];
+			dst_buff[dst_size * y + x] = src_buff[src_size * y / dst_size * src_size + x * src_size / dst_size];
 		}
 	}
 	mlx_put_image_to_window(mlx.mlx, mlx.dst_win, mlx.dst_img, 0, 0);

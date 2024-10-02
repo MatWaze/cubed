@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/01 20:14:11 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/02 23:31:44 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void	render_texture_stripe(int *buff, t_ivec *idx,
 	}
 	while (idx->y < len)
 	{
-		color = tb[t->w * t->h * y++ / x_height->y
+		color = tb[t->h * y++ / x_height->y * t->w
 			+ x_height->x * t->w / WIN_HEIGHT];
 		//if (color)
 		buff[WIN_WIDTH * idx->y + idx->x] = color;
