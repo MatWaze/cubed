@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/16 16:07:07 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/25 16:56:02 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,28 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#include "t_cub.h"
 #include "libft/libft.h"
 #include "common/common.h"
-#include "error/error.h"
-#include "error/codes.h"
 
 int		nl_count(int fd, int l_count);
 char	*convert_line(char *line);
 void	tab_to_space(char *line, char *new_line);
 void	skip_empty(int fd, char **line);
 
-void	get_map(t_cub *cubed, int *line_count)
+char	**init_map(char *name, int *line_count, int *i)
 {
-	char	*line;
-	char	*new_line;
 	char	**map;
-	int		i;
+	int		nl_c;
 
-	line = NULL;
-	map = (char **) malloc(sizeof(char *) * \
-	(nl_count(open(cubed->name, O_RDONLY), *line_count) + 2));
-	if (map)
+	map = NULL;
+	*i = 0;
+	nl_c = nl_count(open(name, O_RDONLY), *line_count);
+	*line_count = nl_c;
+	if (*line_count > 0 && *line_count != 10)
 	{
-		skip_empty(cubed->fd, &line);
-		i = 0;
-		while (line)
-		{
-			new_line = ft_strtrim(line, "\n");
-			free_return(line);
-			line = convert_line(new_line);
-			free_return(new_line);
-			map[i++] = ft_strdup(line);
-			free_return(line);
-			line = get_next_line(cubed->fd);
-		}
-		map[i] = NULL;
-		cubed->map = map;
+		map = (char **) malloc(sizeof(char *) * (*line_count));
 	}
+	return (map);
 }
 
 int	nl_count(int fd, int l_count)
@@ -60,11 +44,13 @@ int	nl_count(int fd, int l_count)
 	char	*line;
 	int		count;
 
-	count = 1;
-	line = get_next_line(fd);
+	count = -1;
+	line = ft_strdup(" ");
+	if (line == NULL)
+		return (10);
 	while (line)
 	{
-		if (l_count == 0 && count++)
+		if (l_count == 0 && ++count)
 			break ;
 		else if (l_count != 0)
 			l_count--;
@@ -72,12 +58,9 @@ int	nl_count(int fd, int l_count)
 		line = get_next_line(fd);
 	}
 	skip_empty(fd, &line);
-	free(line);
-	line = get_next_line(fd);
-	while (line)
+	while (line && free_return(line))
 	{
 		count++;
-		free(line);
 		line = get_next_line(fd);
 	}
 	return (count);
@@ -100,7 +83,8 @@ char	*convert_line(char *line)
 		}
 		i = -1;
 		new_line = (char *) malloc(sizeof(char) * (count + 1));
-		tab_to_space(line, new_line);
+		if (new_line != NULL)
+			tab_to_space(line, new_line);
 	}
 	else
 		new_line = ft_strdup(line);
@@ -134,15 +118,13 @@ void	skip_empty(int fd, char **line)
 {
 	char	*trim;
 
-	free(*line);
-	*line = get_next_line(fd);
 	trim = ft_strtrim(*line, "\n\t ");
 	while (*line && ft_strlen(trim) == 0)
 	{
-		free(*line);
-		free(trim);
+		free_return(*line);
+		free_return(trim);
 		*line = get_next_line(fd);
 		trim = ft_strtrim(*line, "\n\t ");
 	}
-	free(trim);
+	free_return(trim);
 }

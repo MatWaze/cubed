@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 06:48:28 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/21 03:00:03 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:15:47 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "t_mat.h"
 #include "error/error.h"
 #include "error/codes.h"
+#include <stdio.h>
 
 bool	create_mat(t_mat *mat, unsigned int w, unsigned int h, t_err *error)
 {
@@ -35,7 +36,6 @@ bool	create_mat(t_mat *mat, unsigned int w, unsigned int h, t_err *error)
 				row -= w;
 			}
 		}
-		untrack(error);
 	}
 	return (!error->error);
 }

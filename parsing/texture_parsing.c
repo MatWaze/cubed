@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 14:16:52 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/10 12:59:18 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/10 16:28:01 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,54 +18,113 @@
 #include "common/common.h"
 #include "t_cub.h"
 
-int		is_valid_str(char *line, char **s, t_cub *args);
-int		free_mem(char *line, char *trim, char **split);
+int				is_valid_str(char *line, char **s, t_cub *args);
+static int		fr(char *line, char *trim, char **split);
+static int		ft_isspace(unsigned char c);
 
-int	free_mem(char *line, char *trim, char **split)
+int	ft_atoi_to_255(const char *str)
 {
-	if (line != NULL)
+	int		num;
+	char	sign;
+
+	num = 0;
+	sign = 1;
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		sign = 1 - 2 * (*str == '-');
+		str++;
+	}
+	while (ft_isdigit(*str))
+	{
+		num = num * 10 + (*str++ - '0') * sign;
+		if (num > 255)
+		{
+			num = -100;
+			break ;
+		}
+	}
+	return (num);
+}
+
+static int	ft_isspace(unsigned char c)
+{
+	return (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r'
+		|| c == ' ');
+}
+
+void	any_null(t_cub *args, int *res, int *ans)
+{
+	if (args->col_sides.east_found == 0 && \
+	args->col_sides.east == NULL)
+	{
+		*ans = 10;
+		*res = 10;
+	}
+	else if (args->col_sides.west_found == 0 && \
+	args->col_sides.west == NULL)
+	{
+		*ans = 10;
+		*res = 10;
+	}
+	else if (args->col_sides.south_found == 0 && \
+	args->col_sides.south == NULL)
+	{
+		*ans = 10;
+		*res = 10;
+	}
+	else if (args->col_sides.north_found == 0 && \
+	args->col_sides.north == NULL)
+	{
+		*ans = 10;
+		*res = 10;
+	}
+}
+
+static int	fr(char *line, char *trim, char **split)
+{
+	if (line)
 	{
 		free(line);
-		line = NULL;
 	}
-	if (trim != NULL)
+	if (trim)
 	{
 		free(trim);
-		trim = NULL;
 	}
-	if (split != NULL)
+	if (split)
 	{
 		free_arr(split);
-		split = NULL;
 	}
 	return (0);
 }
 
-int	get_textures_colors(t_cub *args, int *line_count)
+// (*line_count)++ > -100 - just to increase line_count
+int	get_textures_colors(t_cub *args, int *line_count, int *count, int *is_valid)
 {
-	int		count;
-	char	*line;
-	char	*trim;
-	char	**split;
+	char	*l;
+	char	*t;
+	char	**s;
 
-	count = 0;
-	while (count != 6)
+	while (*count != 6 && (*line_count)++ > -100)
 	{
-		(*line_count)++;
-		line = get_next_line(args->fd);
-		if (line == NULL)
+		l = get_next_line(args->fd);
+		if (l == NULL)
 			break ;
-		trim = ft_strtrim(line, "\t\b ");
-		split = ft_ssplit(line, " \t\n");
-		if (split_count(split) == 0 && free_mem(line, trim, split) == 0)
+		t = ft_strtrim(l, "\t\b ");
+		s = ft_ssplit(l, " \t\n");
+		if ((t == NULL || s == NULL) && fr(l, t, s) == 0)
+			return (10);
+		if (split_count(s) == 0 && fr(l, t, s) == 0)
 			continue ;
-		else if (is_valid_str(line, split, args) == 1)
-			count++;
-		else if ((ft_strcmp(trim, "\n") != 0 && count != 6) \
-			&& free_mem(line, trim, split) == 0)
+		*is_valid = is_valid_str(l, s, args);
+		if (*is_valid == 10)
+			return (10);
+		else if (*is_valid == 1)
+			(*count)++;
+		else if ((ft_strcmp(t, "\n") != 0 && *count != 6) && fr(l, t, s) == 0)
 			return (1);
-		free_mem(line, trim, split);
+		fr(l, t, s);
 	}
-	return (count != 6);
+	return (*count != 6);
 }
-

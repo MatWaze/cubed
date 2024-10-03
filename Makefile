@@ -4,7 +4,7 @@ mlx_dir = minilibx
 libft_dir = libft
 lflags = -L$(libft_dir) -L$(mlx_dir)
 iflags = -I. -I/usr/include
-cflags = -Wall -Wextra -Werror
+cflags = -Wall -Wextra -Werror -g
 
 all : make_dirs $(NAME)
 
@@ -21,7 +21,7 @@ sanitize : all
 #        (__)  \_/\_/(__\_)(____/(__)\_)__) \___/
 
 parsing_dir = $(BUILD_DIR)/parsing
-parsing_modules = validation check_characters texture_parsing valid_texture valid_map get_map
+parsing_modules = validation check_characters texture_parsing valid_texture valid_map get_map door_check
 obj += $(addprefix $(parsing_dir)/, $(addsuffix .o, $(parsing_modules)))
 $(parsing_dir): | $(BUILD_DIR)
 	mkdir $@

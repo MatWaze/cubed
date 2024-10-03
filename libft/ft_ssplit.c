@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ssplit.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: matevos <matevos@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 10:56:21 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/10 10:56:33 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/07 15:15:31 by matevos          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ static int	word_count(char *str, char *charset)
 	int	word;
 	int	count;
 
+	if (!str)
+		return (0);
 	i = 0;
 	word = 0;
 	count = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (!is_separator(str[i], charset) && word == 0)
 		{
@@ -49,7 +51,7 @@ static int	word_count(char *str, char *charset)
 			word = 0;
 		i++;
 	}
-	return (count);
+	return (count + 1);
 }
 
 static int	len(char *str, char *charset)
@@ -87,13 +89,13 @@ char	**ft_ssplit(char *str, char *charset)
 	int		word;
 	char	**ans;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	word = 0;
-	ans = malloc(sizeof(char *) * (word_count(str, charset) + 1));
-	if (!ans)
+	ans = malloc(sizeof(char *) * (word_count(str, charset)));
+	if (str == NULL || ans == NULL)
 		return (NULL);
-	while (str[i])
+	while (str[++i])
 	{
 		if (!is_separator(str[i], charset) && word == 0)
 		{
@@ -103,7 +105,6 @@ char	**ft_ssplit(char *str, char *charset)
 		}
 		else if (is_separator(str[i], charset))
 			word = 0;
-		i++;
 	}
 	ans[j] = NULL;
 	return (ans);

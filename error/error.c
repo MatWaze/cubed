@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 06:45:34 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/03 16:05:22 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:13:21 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,28 @@ static void	do_nothing(void *content)
 	return ;
 }
 
+static char	*print_error_parsing(t_err *err)
+{
+	char	*str;
+
+	str = NULL;
+	if (err->error == PARSING_MAP)
+		str = PARSING_MAP_DESK;
+	else if (err->error == PARSING_FILE_NOT_OPEN)
+		str = PARSING_FILE_NOT_OPEN_DESK;
+	else if (err->error == PARSING_TEXTURE_COLOR)
+		str = PARSING_TEXTURE_COLOR_DESK;
+	else if (err->error == MAIN_INV_FILE_NAME)
+		str = MAIN_INV_FILE_NAME_DESK;
+	else if (err->error == EMPTY_LINE)
+		str = EMPTY_LINE_DESK;
+	else if (err->error == DOOR_ERR)
+		str = DOOR_ERR_DESK;
+	else if (err->error == MAP_CREAT)
+		str = MAP_CREAT_DESK;
+	return (str);
+}
+
 static void	print_error(t_err *err)
 {
 	const char	*str;
@@ -72,12 +94,8 @@ static void	print_error(t_err *err)
 		str = C3D_ALL_DESK;
 	else if (err->error == C3D_MAIN_INV_PARAM)
 		str = C3D_MAIN_INV_PARAM_DESK;
-	else if (err->error == PARSING_MAP)
-		str = PARSING_MAP_DESK;
-	else if (err->error == PARSING_FILE_NOT_OPEN)
-		str = PARSING_FILE_NOT_OPEN_DESK;
-	else if (err->error == PARSING_TEXTURE_COLOR)
-		str = PARSING_TEXTURE_COLOR_DESK;
+	else if (print_error_parsing(err) != NULL)
+		str = print_error_parsing(err);
 	else
 		str = other_error(err);
 	if (!(err->error == C3D_TRACE_TRACK_ALL

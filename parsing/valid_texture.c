@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:48:36 by mamazari          #+#    #+#             */
-/*   Updated: 2024/08/16 16:20:27 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:36:35 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@
 #include "libft/libft.h"
 #include "common/common.h"
 
-void	check_textures(char **s, t_cub *args, int *res);
-int		check_colors(char *line, char **s, t_cub *args);
-int		set_rgb(char *str, char **split_rgb, t_cub *col);
-void	set_colors(char *str, char **split_rgb, t_cub *col, int *ans);
-int		is_xpm_file(char *filename);
-int		char_count(char *line, char *set);
+void		check_textures(char **s, t_cub *args, int *res);
+int			check_colors(char *line, char **s, t_cub *args);
+int			set_rgb(char *str, char **split_rgb, t_cub *col);
+void		set_colors(char *str, char **split_rgb, t_cub *col, int *ans);
+int			is_xpm_file(char *filename);
+int			char_count(char *line, char *set);
+void		any_null(t_cub *args, int *res, int *ans);
+int			ft_atoi_to_255(const char *str);
+int			condition_for_texture(t_cub *args, char **s);
 
 int	is_valid_str(char *line, char **s, t_cub *args)
 {
@@ -33,18 +36,16 @@ int	is_valid_str(char *line, char **s, t_cub *args)
 
 	ans = 0;
 	res = 0;
-	if (((split_count(s) == 2) && \
-		(access(s[1], F_OK) == 0 && is_xpm_file(s[1]) == 0) && \
-		((ft_strcmp(s[0], "NO") == 0 && args->col_sides.north_found \
-		== -1) || (ft_strcmp(s[0], "SO") == 0 && \
-		args->col_sides.south_found == -1) || (ft_strcmp(s[0], "WE") == 0 && \
-		args->col_sides.west_found == -1) || (ft_strcmp(s[0], "EA") == 0 && \
-		args->col_sides.east_found == -1))) || \
-		((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
-		(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
+	if (((split_count(s) == 2) && (access(s[1], F_OK | X_OK) == 0 && \
+	is_xpm_file(s[1]) == 0) && (condition_for_texture(args, s) == 1)) || \
+	((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
+	(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
 	{
 		temp = ft_strtrim(line, "\t\b ");
+		if (temp == NULL)
+			return (10);
 		check_textures(s, args, &res);
+		any_null(args, &res, &ans);
 		if (res == 0 || \
 			check_colors(ft_strnstr(temp, s[0], ft_strlen(s[0])), s, args) == 0)
 			ans = 1;
@@ -91,7 +92,7 @@ int	check_colors(char *line, char **s, t_cub *args)
 	if (line + 1 != NULL)
 	{
 		split_rgb = ft_split(line + 1, ',');
-		if (char_count(line, ",") == 2)
+		if (split_rgb && char_count(line, ",") == 2)
 		{
 			while (j < 3)
 			{
@@ -126,11 +127,11 @@ void	set_colors(char *str, char **split_rgb, t_cub *col, int *ans)
 	int	green;
 	int	blue;
 
-	red = ft_atoi(split_rgb[0]);
-	green = ft_atoi(split_rgb[1]);
-	blue = ft_atoi(split_rgb[2]);
-	if ((red < 0 || red > 255) || (green < 0 || green > 255) || \
-	(blue < 0 || blue > 255))
+	red = ft_atoi_to_255(split_rgb[0]);
+	green = ft_atoi_to_255(split_rgb[1]);
+	blue = ft_atoi_to_255(split_rgb[2]);
+	if ((red < 0 || red > 255) || (green < 0 || \
+	green > 255) || (blue < 0 || blue > 255))
 		*ans = 1;
 	if (ft_strcmp(str, "F") == 0)
 	{
