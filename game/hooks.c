@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:23:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/29 19:39:17 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/03 15:59:18 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "error/error.h"
 #include "t_game.h"
 #include "minilibx/mlx.h"
-#include "c3d_math/c3d_math.h"
 #include "config.h"
 
 void		render(t_game *game);
@@ -54,11 +53,11 @@ int	key_hook(int keycode, t_game *game)
 	else if (keycode == kVK_ANSI_W)
 		move(game, game->prot.x, game->prot.y);
 	else if (keycode == kVK_ANSI_S)
-		move(game, game->prot.x, -game->prot.y);
+		move(game, -game->prot.x, -game->prot.y);
 	else if (keycode == kVK_ANSI_A)
 		move(game, -game->prot.y, game->prot.x);
 	else if (keycode == kVK_ANSI_D)
-		move(game, game->prot.y, game->prot.x);
+		move(game, game->prot.y, -game->prot.x);
 	return (0);
 }
 
