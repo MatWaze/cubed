@@ -6,16 +6,16 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 06:41:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/23 18:09:04 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:06:11 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef C3D_MATH_H
 # define C3D_MATH_H
 
-#include "t_vec.h"
-#include "t_ivec.h"
-#include "t_segment.h"
+# include "t_vec.h"
+# include "t_ivec.h"
+# include "t_segment.h"
 # include "t_mat.h"
 # include "error/t_err.h"
 

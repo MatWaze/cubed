@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 06:45:34 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/11 18:43:27 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/03 16:05:22 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 #include "codes.h"
 #include "libft/libft.h"
 
-bool		track(t_err *err, const char *name);
-bool		check_err(t_err *err, bool pred, int code);
-void		pop_trace(t_trace **trace);
+bool				track(t_err *err, const char *name);
+bool				check_err(t_err *err, bool pred, int code);
+void				pop_trace(t_trace **trace);
 
-static void	do_nothing(void *content);
-static void	print_error(t_err *err);
+static void			do_nothing(void *content);
+static void			print_error(t_err *err);
 static const char	*other_error(t_err *err);
 
 void	print_trace(t_err *err)
