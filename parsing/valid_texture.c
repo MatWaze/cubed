@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:48:36 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/12 11:36:35 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/03 17:11:04 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_valid_str(char *line, char **s, t_cub *args)
 
 	ans = 0;
 	res = 0;
-	if (((split_count(s) == 2) && (access(s[1], F_OK | X_OK) == 0 && \
+	if (((split_count(s) == 2) && (access(s[1], F_OK) == 0 && \
 	is_xpm_file(s[1]) == 0) && (condition_for_texture(args, s) == 1)) || \
 	((ft_strcmp(s[0], "F") == 0 && args->col_sides.floor_found == -1) || \
 	(ft_strcmp(s[0], "C") == 0 && args->col_sides.ceiling_found == -1)))
