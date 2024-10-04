@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:15:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/12 11:36:18 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:23:55 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "error/error.h"
+#include "c3d_math/t_mat.h"
 #include "common/common.h"
 #include "c3d_math/c3d_math.h"
 #include "t_cub.h"
@@ -110,28 +110,25 @@ int	check_if_closed(t_mat *mat)
 int	is_map_valid(t_cub *cubed)
 {
 	int				ans;
-	t_mat			mat;
 	static t_err	err = {0};
 	int				other;
 
-	mat.m = NULL;
 	ans = 12;
-	if (create_mat(&mat, get_map_width(cubed->map), \
+	if (create_mat(&cubed->mat, get_map_width(cubed->map), \
 	get_map_height(cubed->map), &err))
 	{
 		ans = 0;
-		fill_matrix(&mat, cubed->map);
+		fill_matrix(&cubed->mat, cubed->map);
 		other = other_characters(cubed->map);
 		if (other != 10)
 		{
 			if (player_pos(cubed->map) == 0 || other == 0 \
-			|| check_if_closed(&mat) == 0)
+			|| check_if_closed(&cubed->mat) == 0)
 				ans = 1;
-			else if (door_surrounded(&mat) == 4)
+			else if (door_surrounded(&cubed->mat) == 4)
 				ans = 4;
 		}
-		if (mat.m)
-			free(mat.m);
+		cubed->mat = cubed->mat;
 	}
 	return (ans);
 }
