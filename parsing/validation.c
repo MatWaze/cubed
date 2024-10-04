@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:56:23 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/10 17:11:29 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/04 16:25:19 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		get_textures_colors(t_cub *args, int *line_count, int *count, \
 	int *is_valid);
 int		is_map_valid(t_cub *cubed);
 void	set_cubed(t_cub *cubed, char *name);
-void	valid_check(t_cub *cubed, t_err *err, int l_count, int *count);
+int		valid_check(t_cub *cubed, t_err *err, int l_count, int *count);
 void	set_cubed(t_cub *cubed, char *name);
 
 int	empty_check(char **map)
@@ -114,14 +114,14 @@ int	validation(char *filename, t_cub *cubed, t_err *err)
 		line = NULL;
 		new_line = NULL;
 		set_cubed(cubed, filename);
-		valid_check(cubed, err, l_count, &count);
+		ans = valid_check(cubed, err, l_count, &count);
 		untrack(err);
 	}
 	close(cubed->fd);
 	return (ans);
 }
 
-void	valid_check(t_cub *cubed, t_err *err, int l_count, int *count)
+int	valid_check(t_cub *cubed, t_err *err, int l_count, int *count)
 {
 	int		ans;
 	int		is_valid;
@@ -140,13 +140,14 @@ void	valid_check(t_cub *cubed, t_err *err, int l_count, int *count)
 			{
 				untrack(err);
 				ans = is_map_valid(cubed);
-				if (track(err, "is_map_valid") && check_err(err, \
-				ans != 12, MAP_CREAT) && check_err(err, ans != 4, DOOR_ERR) && \
+				if (track(err, "is_map_valid") && check_err(err, ans != 12, \
+				MAP_CREAT) && check_err(err, ans != 4, DOOR_ERR) && \
 				check_err(err, ans == 0, PARSING_MAP))
-					printf("No error\n");
+					is_valid = 25;
 				untrack(err);
 			}
 		}
 		untrack(err);
 	}
+	return is_valid;
 }
