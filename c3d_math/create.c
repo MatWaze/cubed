@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 06:48:28 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/04 14:58:18 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:43:04 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ bool	create_mat(t_mat *mat, unsigned int w, unsigned int h, t_err *error)
 				mat->m[h-- - 1] = row;
 				row -= w;
 			}
+			untrack(error);
 		}
 	}
 	return (!error->error);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/04 16:25:45 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:45:19 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void	set_cubed(t_cub *cubed, char *name)
 
 int	main2(int argc, char **argv)
 {
-	t_cub			cub;
+	static t_cub	cub = {0};
 	static t_err	err = {0};
 	static t_game	game = {.e = {0}, .r = {0}};
 	int				tmp;
@@ -212,7 +212,7 @@ int	main2(int argc, char **argv)
 	(void)argv;
 	game.r.mlx = mlx_init();
 	if (track(&err, "main") && check_err(&err, argc == 2, \
-	C3D_MAIN_INV_PARAM) && check_err(&err, access(argv[1], X_OK) == 0, \
+	C3D_MAIN_INV_PARAM) && check_err(&err, access(argv[1], F_OK) == 0, \
 	PARSING_FILE_NOT_OPEN) && check_err(&err, is_cub(argv[1]) == 1, \
 	MAIN_INV_FILE_NAME))
 	{
