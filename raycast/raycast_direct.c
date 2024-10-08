@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:27:30 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/30 19:51:10 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/08 20:29:56 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ bool	check_hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 		if (ri->symb != '0' && (hit_doors || ri->symb != 'D'))
 		{
 			hit->type = ri->symb;
-			hit->dist = distance(&game->ppos, &ri->cross);
 			hit->side = (ri->step.y == 1) * SOUTH + (ri->step.y == -1) * NORTH;
 			if (ri->step.y == 1)
 				hit->v_cord = ri->cross.x - (int)ri->cross.x;
@@ -101,12 +100,14 @@ bool	check_hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 		if (ri->symb != '0' && (hit_doors || ri->symb != 'D'))
 		{
 			hit->type = ri->symb;
-			hit->dist = distance(&game->ppos, &ri->cross);
 			hit->side = (ri->step.x == 1) * WEST + (ri->step.x == -1) * EAST;
 			if (ri->step.x == 1)
 				hit->v_cord = 1.0f - ri->cross.y + (int)ri->cross.y;
 			else
 				hit->v_cord = ri->cross.y - (int)ri->cross.y;
+			hit->width = (1.0f - hit->v_cord) * game->prot.y;
+			hit->dd = (1.0f - hit->v_cord) * game->prot.x;
+			hit->dist = distance(&game->ppos, &ri->cross);
 			hitted = true;
 		}
 	}

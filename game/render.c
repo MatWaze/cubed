@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/07 19:07:34 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/08 20:29:54 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "raycast/raycast.h"
 #include "t_game.h"
 
-static void				render_stripe(t_game *game, t_ivec *idx,
+static void				render_side(t_game *game, t_ivec *idx,
 							const t_rayhit *hit, bool draw_back);
 static void				render_color_stripe(int *img_buff, t_ivec *idx,
 							int color, int len);
@@ -45,23 +45,26 @@ void	render(t_game *game)
 		if (l1hit.type == 'D')
 		{
 			raycast(game, &dir, &l2hit, false);
-			render_stripe(game, &idx, &l2hit, false);
+			render_side(game, &idx, &l2hit, false);
 		}
-		render_stripe(game, &idx, &l1hit, true);
+		render_side(game, &idx, &l1hit, true);
 		vec_add(&dir, &step, &dir);
 		idx.x += 1;
 	}
 	mlx_put_image_to_window(game->r.mlx, game->r.win, game->r.img, 0, 0);
 }
 
-static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,
+static void	render_side(t_game *game, t_ivec *idx, const t_rayhit *hit,
 				bool draw_back)
 {
 	t_ivec			x_height;
 	const t_texture	*texture;
+	int				x;
 
-	idx->y = 0;
 	texture = choose_texture(hit->type, hit->side, &game->r);
+	x = 0;
+	while (x < )
+	idx->y = 0;
 	if (texture)
 	{
 		x_height.y = (int)(WIN_WIDTH / (2 * hit->dist * CAMERA_HALF_FOV_TAN));
