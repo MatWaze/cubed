@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/03 16:07:09 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/07 19:07:34 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,
 	texture = choose_texture(hit->type, hit->side, &game->r);
 	if (texture)
 	{
-		x_height.y = (int)(WIN_WIDTH * CAMERA_HALF_FOV_TAN / hit->dist / 2);
+		x_height.y = (int)(WIN_WIDTH / (2 * hit->dist * CAMERA_HALF_FOV_TAN));
 		if (draw_back)
 			render_color_stripe(game->r.img_buff, idx, game->r.ceil_color,
 				(WIN_HEIGHT - x_height.y) / 2);
@@ -116,9 +116,9 @@ static void	render_texture_stripe(int *buff, t_ivec *idx,
 	}
 	while (idx->y < len)
 	{
-		color = tb[t->h * y++ / x_height->y * t->w
-			+ x_height->x * t->w / WIN_HEIGHT];
-		buff[WIN_WIDTH * idx->y + idx->x] = color;
+		color = tb[t->h * y++ / x_height->y * t->w + x_height->x];
+		if (color)
+			buff[WIN_WIDTH * idx->y + idx->x] = color;
 		idx->y += 1;
 	}
 }
