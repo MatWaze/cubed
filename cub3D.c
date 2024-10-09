@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/04 18:45:19 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 16:03:49 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,45 +36,89 @@
 #include "common/common.h"
 #include <stdio.h>
 
-// bool	test_level(t_game *game);
-// void	free_game(t_render *r, t_mat *map, t_mat *states);
+bool	test_level(t_game *game);
+void	free_game(t_render *r, t_mat *map, t_mat *states);
 
-// int	main(int argc, char **argv)
-// {
-// 	static t_game	game = {.e = {0}, .r = {0}};
-// 	int				tmp;
+int	main(int argc, char **argv)
+{
+	static t_game	game = {.e = {0}, .r = {0}};
+	int				tmp;
 
-// 	(void)argv;
-// 	game.r.mlx = mlx_init();
-// 	if (track(&game.e, "main")
-// 		&& check_err(&game.e, game.r.mlx != NULL, MLX_INIT)
-// 		&& check_err(&game.e, argc == 2, C3D_MAIN_INV_PARAM)
-// 		&& test_level(&game))
-// 	{
-// 		game.r.win = mlx_new_window(game.r.mlx, WIN_WIDTH, WIN_HEIGHT,
-// 				"cub3D");
-// 		game.r.img = mlx_new_image(game.r.mlx, WIN_WIDTH, WIN_HEIGHT);
-// 		if (check_err(&game.e, game.r.win != NULL, MLX_ALLOC)
-// 			&& check_err(&game.e, game.r.img != NULL, MLX_ALLOC))
-// 		{
-// 			game.r.img_buff = (int *)mlx_get_data_addr(game.r.img, &tmp,
-// 					&tmp, &tmp);
-// 			mlx_do_key_autorepeaton(game.r.mlx);
-// 			mlx_hook(game.r.win, KeyPress, 0, key_hook, &game);
-// 			mlx_hook(game.r.win, DestroyNotify, 0, exit_game, &game);
-// 			mlx_loop_hook(game.r.mlx, mouse_look, &game);
-// 			mlx_mouse_move(game.r.win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
-// 			mlx_mouse_hide();
-// 			render(&game);
-// 			mlx_loop(game.r.mlx);
-// 		}
-// 	}
-// 	print_trace(&game.e);
-// 	free_game(&game.r, &game.map, &game.states);
-// 	return (game.e.error);
-// }
+	(void)argv;
+	game.r.mlx = mlx_init();
+	if (track(&game.e, "main")
+		&& check_err(&game.e, game.r.mlx != NULL, MLX_INIT)
+		&& check_err(&game.e, argc == 2, C3D_MAIN_INV_PARAM)
+		&& test_level(&game))
+	{
+		game.r.win = mlx_new_window(game.r.mlx, WIN_WIDTH, WIN_HEIGHT,
+				"cub3D");
+		game.r.img = mlx_new_image(game.r.mlx, WIN_WIDTH, WIN_HEIGHT);
+		if (check_err(&game.e, game.r.win != NULL, MLX_ALLOC)
+			&& check_err(&game.e, game.r.img != NULL, MLX_ALLOC))
+		{
+			game.r.img_buff = (int *)mlx_get_data_addr(game.r.img, &tmp,
+					&tmp, &tmp);
+			mlx_do_key_autorepeaton(game.r.mlx);
+			mlx_hook(game.r.win, KeyPress, 0, key_hook, &game);
+			mlx_hook(game.r.win, DestroyNotify, 0, exit_game, &game);
+			mlx_loop_hook(game.r.mlx, mouse_look, &game);
+			mlx_mouse_move(game.r.win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
+			mlx_mouse_hide();
+			render(&game);
+			mlx_loop(game.r.mlx);
+		}
+	}
+	print_trace(&game.e);
+	free_game(&game.r, &game.map, &game.states);
+	return (game.e.error);
+}
 
-bool	test_level(t_game *game, t_cub *cub)
+bool	test_level(t_game *game)
+{
+	if (track(&game->e, "test_level") && create_mat(&game->map, 18, 39,
+			&game->e))
+	{
+		memcpy(game->map.m[0],	"111111111111111111111111111111111111111", 39);
+		memcpy(game->map.m[1],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[2],	"101111110000000000000000000000000000001", 39);
+		memcpy(game->map.m[3],	"101000010000000000000000000000000000001", 39);
+		memcpy(game->map.m[4],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[5],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[6],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[7],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[8],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[9],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[10],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[11],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[12],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[13],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[14],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[15],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[16],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[17],	"100000000000000000000000000000000000001", 39);
+		memcpy(game->map.m[18],	"111111111111111111111111111111111111111", 39);
+		game->ppos.x = 8.5f;
+		game->ppos.y = 1.5f;
+		game->prot.x = 0.0f;
+		game->prot.y = 1.0f;
+		game->cam.x = CAMERA_HALF_FOV_TAN;
+		game->cam.y = 0.0f;
+		game->r.ceil_color = 0x6e5020;
+		game->r.floor_color = 0xa68444;
+		if (xpm_to_texture("textures/pool.xpm", game->r.mlx, game->r.wall_sides,
+				&game->e) && xpm_to_texture("textures/tubes.xpm", game->r.mlx,
+				game->r.wall_sides + 1, &game->e)
+			&& xpm_to_texture("textures/backrooms.xpm", game->r.mlx,
+				game->r.wall_sides + 2, &game->e)
+			&& xpm_to_texture("textures/wall.xpm", game->r.mlx,
+				game->r.wall_sides + 3, &game->e))
+			untrack(&game->e);
+	}
+	return (ok(&game->e));
+}
+
+/*bool	test_level(t_game *game, t_cub *cub)
 {
 	if (track(&game->e, "test_level"))
 	{
@@ -250,52 +294,9 @@ int	main2(int argc, char **argv)
 	return (err.error);
 }
 
-
-// bool	test_level(t_game *game)
-// {
-// 	if (track(&game->e, "test_level") && create_mat(&game->map, 10, 6,
-// 			&game->e))
-// 	{
-// 		memcpy(game->map.m[0], "1111111111", 10);
-// 		memcpy(game->map.m[1], "1000000001", 10);
-// 		memcpy(game->map.m[2], "1011111101", 10);
-// 		memcpy(game->map.m[3], "1010000101", 10);
-// 		memcpy(game->map.m[4], "1000000001", 10);
-// 		memcpy(game->map.m[5], "1111111111", 10);
-// 		game->ppos.x = 8.5f;
-// 		game->ppos.y = 1.5f;
-// 		game->prot.x = 0.0f;
-// 		game->prot.y = 1.0f;
-// 		game->cam.x = CAMERA_HALF_FOV_TAN;
-// 		game->cam.y = 0.0f;
-// 		game->r.ceil_color = 0x6e5020;
-// 		game->r.floor_color = 0xa68444;
-// 		game->r.wall_sides[0].img = mlx_xpm_file_to_image(game->r.mlx,
-// 				"textures/backrooms.xpm", &game->r.wall_sides[0].w,
-// 				&game->r.wall_sides[0].h);
-// 		game->r.wall_sides[1].img = mlx_xpm_file_to_image(game->r.mlx,
-// 				"textures/pool.xpm", &game->r.wall_sides[1].w,
-// 				&game->r.wall_sides[1].h);
-// 		game->r.wall_sides[2].img = mlx_xpm_file_to_image(game->r.mlx,
-// 				"textures/chess.xpm", &game->r.wall_sides[2].w,
-// 				&game->r.wall_sides[2].h);
-// 		game->r.wall_sides[3].img = mlx_xpm_file_to_image(game->r.mlx,
-// 				"textures/tubes.xpm", &game->r.wall_sides[3].w,
-// 				&game->r.wall_sides[3].h);
-// 		if (check_err(&game->e, game->r.wall_sides[0].img != NULL, MLX_ALLOC)
-// 			&& check_err(&game->e, game->r.wall_sides[1].img != NULL, MLX_ALLOC)
-// 			&& check_err(&game->e, game->r.wall_sides[2].img != NULL, MLX_ALLOC)
-// 			&& check_err(&game->e, game->r.wall_sides[3].img != NULL,
-// 				MLX_ALLOC))
-// 			untrack(&game->e);
-// 	}
-// 	return (!game->e.error);
-// }
-
-
 int	main(int argc, char **argv)
 {
 	main2(argc, argv);
 	// system("leaks cub3D");
 	return (0);
-}
+}*/

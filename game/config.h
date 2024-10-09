@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   config.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:53:31 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/07 19:12:13 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 09:39:20 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIG_H
 # define CONFIG_H
 
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
+# define WIN_WIDTH 1280
+# define WIN_HEIGHT 720
+# define CLIP_SQ_DIST 400.0f
 # define ROTATION_RESOLUTION_COS 0.999847695f
 # define ROTATION_RESOLUTION_SIN 0.017452406f
 # define MOVEMENT_RESOLUTION 0.1f

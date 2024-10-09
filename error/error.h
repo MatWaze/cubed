@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 03:16:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/24 19:11:28 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 15:40:09 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,5 @@ bool	track(t_err *err, const char *name);
 void	untrack(t_err *err);
 bool	check_err(t_err *err, bool pred, int code);
 void	print_trace(t_err *err);
+bool	ok(t_err *err);
 #endif

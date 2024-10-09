@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_game.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:33:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/29 18:56:29 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 11:34:18 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_render
 	void		*win;
 	void		*img;
 	int			*img_buff;
+	int			tmp;
 	t_texture	wall_sides[4];
 	t_texture	door_frames[DOOR_FRAMES_COUNT];
 	int			ceil_color;

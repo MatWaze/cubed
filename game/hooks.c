@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:23:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/04 16:29:01 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/09 16:12:34 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	move(t_game *game, float mdx, float mdy)
 int	exit_game(t_game *game)
 {
 	free_game(&game->r, &game->map, &game->states);
-	// untrack(&game->e);
+	untrack(&game->e);
 	print_trace(&game->e);
 	exit(game->e.error);
 }
