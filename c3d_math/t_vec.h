@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 04:38:36 by zanikin           #+#    #+#             */
-/*   Updated: 2024/08/14 04:39:18 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 20:00:12 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 typedef struct s_vec
 {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 }	t_vec;
 #endif

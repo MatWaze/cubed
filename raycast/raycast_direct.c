@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:27:30 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/30 19:51:10 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/10 16:04:03 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,23 @@ bool	check_hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 void	raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 			bool hit_doors)
 {
-	if (game->ppos.y - (int)game->ppos.y == 0.0f)
+	if (game->ppos.y - (int)game->ppos.y == 0.0)
 		set_vec(&ri->cross, game->ppos.x, (int)(game->ppos.y + ri->step.y));
 	else
 		set_vec(&ri->cross, game->ppos.x,
 			(int)(game->ppos.y + (ri->step.y == 1)));
 	set_ivec(&hit->idx, (int)game->ppos.x,
 		game->map.h - 1 - (int)(game->ppos.y + ri->step.y));
-	hit->type = 0;
 	while (hit->type == '0')
 	{
-		ri->symb = game->map.m[hit->idx.y][hit->idx.x];
-		if (!check_hit_x(game, ri, hit, hit_doors))
-			hit->idx.y += ri->step.y;
+		if (ri->i++ > (int)(WIN_WIDTH / CAMERA_HALF_FOV_TAN / 4))
+			hit->type = 0;
+		else
+		{
+			ri->symb = game->map.m[hit->idx.y][hit->idx.x];
+			if (!check_hit_x(game, ri, hit, hit_doors))
+				hit->idx.y += ri->step.y;
+		}
 	}
 	ri->cross.y = game->map.h - 1 - hit->idx.y + (ri->step.y == -1);
 }
@@ -44,19 +48,23 @@ void	raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 void	raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 			bool hit_doors)
 {
-	if (game->ppos.x - (int)game->ppos.x == 0.0f)
+	if (game->ppos.x - (int)game->ppos.x == 0.0)
 		set_vec(&ri->cross, (int)(game->ppos.x + ri->step.x), game->ppos.y);
 	else
 		set_vec(&ri->cross, (int)(game->ppos.x + (ri->step.x == 1)),
 			game->ppos.y);
 	set_ivec(&hit->idx, (int)(game->ppos.x + ri->step.x),
 		game->map.h - 1 - (int)game->ppos.y);
-	hit->type = 0;
 	while (hit->type == '0')
 	{
-		ri->symb = game->map.m[hit->idx.y][hit->idx.x];
-		if (!check_hit_y(game, ri, hit, hit_doors))
-			hit->idx.x += ri->step.x;
+		if (ri->i++ > (int)(WIN_WIDTH / CAMERA_HALF_FOV_TAN / 4))
+			hit->type = 0;
+		else
+		{
+			ri->symb = game->map.m[hit->idx.y][hit->idx.x];
+			if (!check_hit_y(game, ri, hit, hit_doors))
+				hit->idx.x += ri->step.x;
+		}
 	}
 	ri->cross.x = hit->idx.x - (ri->step.x == -1);
 }
@@ -79,7 +87,7 @@ bool	check_hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 			if (ri->step.y == 1)
 				hit->v_cord = ri->cross.x - (int)ri->cross.x;
 			else
-				hit->v_cord = 1.0f - ri->cross.x + (int)ri->cross.x;
+				hit->v_cord = 1.0 - ri->cross.x + (int)ri->cross.x;
 			hitted = true;
 		}
 	}
@@ -104,7 +112,7 @@ bool	check_hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 			hit->dist = distance(&game->ppos, &ri->cross);
 			hit->side = (ri->step.x == 1) * WEST + (ri->step.x == -1) * EAST;
 			if (ri->step.x == 1)
-				hit->v_cord = 1.0f - ri->cross.y + (int)ri->cross.y;
+				hit->v_cord = 1.0 - ri->cross.y + (int)ri->cross.y;
 			else
 				hit->v_cord = ri->cross.y - (int)ri->cross.y;
 			hitted = true;

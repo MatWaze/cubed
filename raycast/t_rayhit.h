@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:36:26 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/03 16:07:23 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 20:00:18 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 typedef struct s_rayhit
 {
 	t_ivec	idx;
-	float	dist;
-	float	v_cord;
+	double	dist;
+	double	v_cord;
 	char	type;
 	char	side;
 }	t_rayhit;

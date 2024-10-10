@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/30 19:21:03 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/10 16:03:50 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ void	raycast(const t_game *game, const t_vec *dir, t_rayhit *hit,
 	t_raycast_internal	ri;
 
 	hit->type = '0';
+	ri.i = 0;
 	set_ivec(&ri.step, (dir->x > 0) * 2 - 1, (dir->y > 0) * 2 - 1);
-	if (dir->x == 0.0f)
+	if (dir->x == 0.0)
 		raycast_y(game, &ri, hit, hit_doors);
-	else if (dir->y == 0.0f)
+	else if (dir->y == 0.0)
 		raycast_x(game, &ri, hit, hit_doors);
 	else
 	{
@@ -88,6 +89,8 @@ static void	hit_xy(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 {
 	t_ivec	idx;
 
+	if (ri->i++ > (int)(WIN_WIDTH / CAMERA_HALF_FOV_TAN / 4))
+		hit->type = 0;
 	if (ri->sdy < ri->sdx)
 		hit_y(game, ri, hit, hit_doors);
 	else if (ri->sdy > ri->sdx)

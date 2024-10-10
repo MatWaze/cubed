@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/07 19:07:34 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/10 15:53:42 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	render(t_game *game)
 	t_ivec		idx;
 
 	vec_sub(&game->prot, &game->cam, &dir);
-	vec_div(&game->cam, WIN_WIDTH / 2.0f, &step);
+	vec_div(&game->cam, WIN_WIDTH / 2.0, &step);
 	idx.x = 0;
 	while (idx.x < WIN_WIDTH)
 	{
@@ -64,7 +64,11 @@ static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,
 	texture = choose_texture(hit->type, hit->side, &game->r);
 	if (texture)
 	{
-		x_height.y = (int)(WIN_WIDTH / (2 * hit->dist * CAMERA_HALF_FOV_TAN));
+		if (hit->type == 0)
+			x_height.y = 0;
+		else
+			x_height.y = (int)(WIN_WIDTH / (2 * hit->dist
+						* CAMERA_HALF_FOV_TAN));
 		if (draw_back)
 			render_color_stripe(game->r.img_buff, idx, game->r.ceil_color,
 				(WIN_HEIGHT - x_height.y) / 2);
@@ -86,7 +90,7 @@ static const t_texture	*choose_texture(char id, char side, const t_render *r)
 {
 	const t_texture	*texture;
 
-	if (id == '1')
+	if (id == '1' || id == 0)
 		texture = r->wall_sides + side;
 	else if (id == 'D')
 		texture = r->door_frames + side;

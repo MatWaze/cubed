@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/04 18:45:19 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 20:52:32 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ bool	test_level(t_game *game, t_cub *cub)
 		unsigned int	x;
 		unsigned int	y;
 
-		float	k;
-		float	l;
+		double	k;
+		double	l;
 
 		i = 0;
 		while (i < cub->mat.h)
@@ -103,15 +103,15 @@ bool	test_level(t_game *game, t_cub *cub)
 			}
 			i++;
 		}
-		k = x + 0.5f;
-		l = (cub->mat.h - 1 - y + 0.5f);
+		k = x + 0.5;
+		l = (cub->mat.h - 1 - y + 0.5);
 		game->map = cub->mat;
 		game->ppos.x = k;
 		game->ppos.y = l;
-		game->prot.x = 0.0f;
-		game->prot.y = 1.0f;
+		game->prot.x = 0.0;
+		game->prot.y = 1.0;
 		game->cam.x = CAMERA_HALF_FOV_TAN;
-		game->cam.y = 0.0f;
+		game->cam.y = 0.0;
 		game->r.ceil_color = 0x6e5020;
 		game->r.floor_color = 0xa68444;
 		game->r.wall_sides[NORTH].img = mlx_xpm_file_to_image(game->r.mlx,
@@ -262,12 +262,12 @@ int	main2(int argc, char **argv)
 // 		memcpy(game->map.m[3], "1010000101", 10);
 // 		memcpy(game->map.m[4], "1000000001", 10);
 // 		memcpy(game->map.m[5], "1111111111", 10);
-// 		game->ppos.x = 8.5f;
-// 		game->ppos.y = 1.5f;
-// 		game->prot.x = 0.0f;
-// 		game->prot.y = 1.0f;
+// 		game->ppos.x = 8.5;
+// 		game->ppos.y = 1.5;
+// 		game->prot.x = 0.0;
+// 		game->prot.y = 1.0;
 // 		game->cam.x = CAMERA_HALF_FOV_TAN;
-// 		game->cam.y = 0.0f;
+// 		game->cam.y = 0.0;
 // 		game->r.ceil_color = 0x6e5020;
 // 		game->r.floor_color = 0xa68444;
 // 		game->r.wall_sides[0].img = mlx_xpm_file_to_image(game->r.mlx,

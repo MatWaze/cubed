@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:11:49 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/30 19:21:11 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 20:47:20 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef struct s_raycast_internal
 	t_vec	cx;
 	t_vec	cy;
 	t_vec	k;
-	float	sdx;
-	float	sdy;
+	double	sdx;
+	double	sdy;
+	int		i;
 }	t_raycast_internal;
 #endif
