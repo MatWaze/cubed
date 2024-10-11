@@ -6,12 +6,13 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/10 16:03:50 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 16:59:33 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "c3d_math/c3d_math.h"
 #include "game/t_game.h"

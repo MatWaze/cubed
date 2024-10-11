@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:56:23 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/04 16:25:19 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:25:58 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	set_cubed(t_cub *cubed, char *name);
 int		valid_check(t_cub *cubed, t_err *err, int l_count, int *count);
 void	set_cubed(t_cub *cubed, char *name);
 
-int	empty_check(char **map)
+int	empty(char **map)
 {
 	int		i;
 	int		ans;
@@ -121,33 +121,31 @@ int	validation(char *filename, t_cub *cubed, t_err *err)
 	return (ans);
 }
 
-int	valid_check(t_cub *cubed, t_err *err, int l_count, int *count)
+int	valid_check(t_cub *cub, t_err *err, int l_count, int *count)
 {
 	int		ans;
 	int		is_valid;
 
-	ans = get_textures_colors(cubed, &l_count, count, &is_valid);
-	if (track(err, "valid_check") && check_err(err, ans != 10, C3D_ALL))
+	ans = get_textures_colors(cub, &l_count, count, &is_valid);
+	if (track(err, "valid_check") && check_err(err, ans != 10, C3D_ALL) && \
+	track(err, "get_textures_colors") && check_err(err, ans != 1, \
+	PARSING_TEXTURE_COLOR))
 	{
-		if (track(err, "get_textures_colors") && check_err(err, ans != 1, \
-			PARSING_TEXTURE_COLOR))
+		untrack(err);
+		ans = get_map(cub, &l_count, NULL, NULL);
+		if (track(err, "get_map") && check_err(err, ans != 10, C3D_ALL) \
+		&& check_err(err, empty(cub->map) != 1, EMPTY_LINE) \
+		&& check_err(err, empty(cub->map) != 10, C3D_ALL))
 		{
 			untrack(err);
-			ans = get_map(cubed, &l_count, NULL, NULL);
-			if (track(err, "get_map") && check_err(err, ans != 10, C3D_ALL) \
-			&& check_err(err, empty_check(cubed->map) != 1, EMPTY_LINE) \
-			&& check_err(err, empty_check(cubed->map) != 10, C3D_ALL))
-			{
-				untrack(err);
-				ans = is_map_valid(cubed);
-				if (track(err, "is_map_valid") && check_err(err, ans != 12, \
-				MAP_CREAT) && check_err(err, ans != 4, DOOR_ERR) && \
-				check_err(err, ans == 0, PARSING_MAP))
-					is_valid = 25;
-				untrack(err);
-			}
+			ans = is_map_valid(cub);
+			if (track(err, "is_map_valid") && check_err(err, ans != 12, \
+			MAP_CREAT) && check_err(err, ans != 4, DOOR_ERR) && \
+			check_err(err, ans == 0, PARSING_MAP))
+				is_valid = 25;
+			untrack(err);
 		}
-		untrack(err);
 	}
-	return is_valid;
+	untrack(err);
+	return (is_valid);
 }
