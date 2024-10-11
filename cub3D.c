@@ -28,7 +28,6 @@
 bool	set_level(t_game *game, t_cub *cub);
 void	free_game(t_render *r, t_mat *map, t_mat *states);
 
-
 void	set_col_sides(t_game *game, t_cub *cub)
 {
 	game->r.wall_sides[NORTH].img = mlx_xpm_file_to_image(game->r.mlx,\
