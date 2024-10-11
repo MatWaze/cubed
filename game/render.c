@@ -53,7 +53,6 @@ void	render(t_game *game)
 		idx.x += 1;
 	}
 	mlx_put_image_to_window(game->r.mlx, game->r.win, game->r.img, 0, 0);
-	system("leaks cub3D");
 }
 
 static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,
