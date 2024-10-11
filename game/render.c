@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/11 16:59:19 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 19:38:57 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@ static int				render_color_stripe(int *img_buff, int y,
 							int color, int len);
 static int				render_texture_stripe(int *buff, int y,
 							const t_ivec *x_height, const t_texture *t);
-static const t_texture	*choose_texture(char id, char side, const t_render *r);
+static void				render_recursion(t_game *game, const t_vec *pos,
+							const t_vec *dir, int x);
 
 void	render(t_game *game)
 {
-	t_rayhit	l1hit;
-	t_rayhit	l2hit;
 	t_vec		step;
 	t_vec		dir;
 	int			x;
@@ -41,18 +40,22 @@ void	render(t_game *game)
 	x = 0;
 	while (x < WIN_WIDTH)
 	{
-		raycast(game, &dir, &l1hit, true);
-		if (l1hit.type == 'D')
-		{
-			l1hit.side = game->states.m[l1hit.idx.y][l1hit.idx.x];
-			raycast(game, &dir, &l2hit, false);
-			render_stripe(game, x, &l2hit);
-		}
-		render_stripe(game, x, &l1hit);
+		render_recursion(game, &game->ppos, &dir, x);
 		vec_add(&dir, &step, &dir);
 		x += 1;
 	}
 	mlx_put_image_to_window(game->r.mlx, game->r.win, game->r.img, 0, 0);
+}
+
+static void	render_recursion(t_game *game, const t_vec *pos, const t_vec *dir,
+				int x)
+{
+	t_rayhit	hit;
+
+	raycast(game, pos, dir, &hit);
+	if (hit.type == 'D')
+		render_recursion(game, &hit.pos, dir, x);
+	render_stripe(game, x, &hit);
 }
 
 static void	render_stripe(t_game *game, int x, const t_rayhit *hit)
@@ -61,7 +64,12 @@ static void	render_stripe(t_game *game, int x, const t_rayhit *hit)
 	const t_texture	*texture;
 	int				y;
 
-	texture = choose_texture(hit->type, hit->side, &game->r);
+	if (hit->type == '1' || hit->type == 0)
+		texture = game->r.wall_sides + hit->side;
+	else if (hit->type == 'D')
+		texture = game->r.door_frames + game->states.m[hit->idx.y][hit->idx.x];
+	else
+		texture = NULL;
 	if (texture)
 	{
 		y = 0;
@@ -84,19 +92,6 @@ static int	render_color_stripe(int *img_buff, int y, int color, int len)
 	while (y < len)
 		img_buff[WIN_WIDTH * y++] = color;
 	return (y);
-}
-
-static const t_texture	*choose_texture(char id, char side, const t_render *r)
-{
-	const t_texture	*texture;
-
-	if (id == '1' || id == 0)
-		texture = r->wall_sides + side;
-	else if (id == 'D')
-		texture = r->door_frames + side;
-	else
-		texture = NULL;
-	return (texture);
 }
 
 static int	render_texture_stripe(int *buff, int gy,
