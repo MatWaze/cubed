@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/11 16:56:37 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 17:18:48 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ bool	set_level(t_game *game, t_cub *cub)
 
 	if (track(&game->e, "test_level"))
 	{
-		game->map = cub->mat;
-		get_orientation_pos(&game->map, cub);
+		game->map = &cub->mat;
+		get_orientation_pos(game->map, cub);
 		k = cub->init_pos.x + 0.5f;
 		l = (cub->mat.h - 1 - cub->init_pos.y + 0.5f);
 		game->ppos.x = k;
@@ -109,9 +109,11 @@ int	main2(int argc, char **argv)
 	{
 		tmp = set_imgs(&game);
 		if (track(&game.e, "set_imgs") && check_err(&game.e, tmp == 1, PARSING_FILE_NOT_OPEN))
+		{
+			untrack(&game.e);
 			valid = validation(argv[1], &cub, &game.e);
-		untrack(&game.e);
-		if (valid == 25 && set_level(&game, &cub) && check_err(&game.e, game.r.mlx != \
+		}
+		if (valid == 25 && set_level(&game, &cub) && create_mat(&game.states, game.map->w, game.map->h, &game.e) && check_err(&game.e, game.r.mlx != \
 		NULL, MLX_INIT) && check_err(&game.e, argc == 2, C3D_MAIN_INV_PARAM))
 		{
 			set_mat(&game.states, 0);

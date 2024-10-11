@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:23:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/11 17:02:32 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 17:12:43 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ static void	move(t_game *game, double mdx, double mdy)
 
 int	exit_game(t_game *game)
 {
-	free_game(&game->r, &game->map, &game->states);
+	free_game(&game->r, game->map, &game->states);
 	system("leaks cub3D");
 	// untrack(&game->e);
 	print_trace(&game->e);

@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/11 16:59:33 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 17:10:22 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	raycast(const t_game *game, const t_vec *dir, t_rayhit *hit,
 		ri.sdy = square_distance(&ri.cy, &game->ppos);
 		ri.sdx = square_distance(&ri.cx, &game->ppos);
 		set_ivec(&hit->idx, (int)ri.cross.x,
-			game->map.h - 1 - (int)(ri.cross.y));
+			game->map->h - 1 - (int)(ri.cross.y));
 		while (hit->type == '0')
 			hit_xy(game, &ri, hit, hit_doors);
 	}
@@ -71,7 +71,7 @@ static void	hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 				bool hit_doors)
 {
 	ri->cross = ri->cx;
-	hit->idx.y = game->map.h - 1 - ((int)(ri->cross.y - (ri->step.y == -1)));
+	hit->idx.y = game->map->h - 1 - ((int)(ri->cross.y - (ri->step.y == -1)));
 	check_hit_x(game, ri, hit, hit_doors);
 	cross_int_y(ri, &game->ppos);
 }
@@ -99,9 +99,9 @@ static void	hit_xy(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 	else
 	{
 		set_ivec(&idx, hit->idx.x + ri->step.x, hit->idx.y - ri->step.y);
-		if (game->map.m[idx.y][hit->idx.x] != '0')
+		if (game->map->m[idx.y][hit->idx.x] != '0')
 			hit_y(game, ri, hit, hit_doors);
-		else if (game->map.m[hit->idx.y][idx.x] != '0')
+		else if (game->map->m[hit->idx.y][idx.x] != '0')
 			hit_x(game, ri, hit, hit_doors);
 		else
 		{

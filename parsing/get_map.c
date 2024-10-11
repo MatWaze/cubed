@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 12:00:53 by mamazari          #+#    #+#             */
-/*   Updated: 2024/09/25 16:56:02 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:32:59 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**init_map(char *name, int *line_count, int *i)
 	*i = 0;
 	nl_c = nl_count(open(name, O_RDONLY), *line_count);
 	*line_count = nl_c;
-	if (*line_count > 0 && *line_count != 10)
+	if (*line_count > 0 && *line_count != -10)
 	{
 		map = (char **) malloc(sizeof(char *) * (*line_count));
 	}
@@ -47,7 +47,7 @@ int	nl_count(int fd, int l_count)
 	count = -1;
 	line = ft_strdup(" ");
 	if (line == NULL)
-		return (10);
+		return (-10);
 	while (line)
 	{
 		if (l_count == 0 && ++count)

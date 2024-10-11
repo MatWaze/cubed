@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:27:30 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/10 16:04:03 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 17:11:52 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ void	raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 		set_vec(&ri->cross, game->ppos.x,
 			(int)(game->ppos.y + (ri->step.y == 1)));
 	set_ivec(&hit->idx, (int)game->ppos.x,
-		game->map.h - 1 - (int)(game->ppos.y + ri->step.y));
+		game->map->h - 1 - (int)(game->ppos.y + ri->step.y));
 	while (hit->type == '0')
 	{
 		if (ri->i++ > (int)(WIN_WIDTH / CAMERA_HALF_FOV_TAN / 4))
 			hit->type = 0;
 		else
 		{
-			ri->symb = game->map.m[hit->idx.y][hit->idx.x];
+			ri->symb = game->map->m[hit->idx.y][hit->idx.x];
 			if (!check_hit_x(game, ri, hit, hit_doors))
 				hit->idx.y += ri->step.y;
 		}
 	}
-	ri->cross.y = game->map.h - 1 - hit->idx.y + (ri->step.y == -1);
+	ri->cross.y = game->map->h - 1 - hit->idx.y + (ri->step.y == -1);
 }
 
 void	raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
@@ -54,14 +54,14 @@ void	raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 		set_vec(&ri->cross, (int)(game->ppos.x + (ri->step.x == 1)),
 			game->ppos.y);
 	set_ivec(&hit->idx, (int)(game->ppos.x + ri->step.x),
-		game->map.h - 1 - (int)game->ppos.y);
+		game->map->h - 1 - (int)game->ppos.y);
 	while (hit->type == '0')
 	{
 		if (ri->i++ > (int)(WIN_WIDTH / CAMERA_HALF_FOV_TAN / 4))
 			hit->type = 0;
 		else
 		{
-			ri->symb = game->map.m[hit->idx.y][hit->idx.x];
+			ri->symb = game->map->m[hit->idx.y][hit->idx.x];
 			if (!check_hit_y(game, ri, hit, hit_doors))
 				hit->idx.x += ri->step.x;
 		}
@@ -75,10 +75,10 @@ bool	check_hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 	bool	hitted;
 
 	hitted = false;
-	if (hit->idx.y > -1 && (unsigned int)hit->idx.y < game->map.h && hit->idx.x
-		> -1 && (unsigned int)hit->idx.x < game->map.w)
+	if (hit->idx.y > -1 && (unsigned int)hit->idx.y < game->map->h && hit->idx.x
+		> -1 && (unsigned int)hit->idx.x < game->map->w)
 	{
-		ri->symb = game->map.m[hit->idx.y][hit->idx.x];
+		ri->symb = game->map->m[hit->idx.y][hit->idx.x];
 		if (ri->symb != '0' && (hit_doors || ri->symb != 'D'))
 		{
 			hit->type = ri->symb;
@@ -102,10 +102,10 @@ bool	check_hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit,
 	bool	hitted;
 
 	hitted = false;
-	if (hit->idx.y > -1 && (unsigned int)hit->idx.y < game->map.h && hit->idx.x
-		> -1 && (unsigned int)hit->idx.x < game->map.w)
+	if (hit->idx.y > -1 && (unsigned int)hit->idx.y < game->map->h && hit->idx.x
+		> -1 && (unsigned int)hit->idx.x < game->map->w)
 	{
-		ri->symb = game->map.m[hit->idx.y][hit->idx.x];
+		ri->symb = game->map->m[hit->idx.y][hit->idx.x];
 		if (ri->symb != '0' && (hit_doors || ri->symb != 'D'))
 		{
 			hit->type = ri->symb;

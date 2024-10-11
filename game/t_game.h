@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_game.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:33:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/08 17:56:02 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:09:48 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_game
 	t_vec		ppos;
 	t_vec		prot;
 	t_vec		cam;
-	t_mat		map;
+	t_mat		*map;
 	t_mat		states;
 	t_render	r;
 	t_err		e;

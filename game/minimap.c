@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:26:54 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/10 17:11:39 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/11 17:11:24 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,19 +89,19 @@ void	put_image(t_game *game, int i, int j)
 	int	y;
 
 	x = game->ppos.x;
-	y = game->map.h - 1 - (int)game->ppos.y;
-	if (((x + j) >= 0 && (x + j) < (int) game->map.w) && ((y + i) >= 0 && \
-		(y + i) < (int) game->map.h))
+	y = game->map->h - 1 - (int)game->ppos.y;
+	if (((x + j) >= 0 && (x + j) < (int) game->map->w) && ((y + i) >= 0 && \
+		(y + i) < (int) game->map->h))
 	{
 		mlx_put_image_to_window(game->r.mlx, game->r.win, \
 			game->r.img_bg, 50 + (10 * j), 50 + (10 * i));
-		if (game->map.m[y + i][x + j] == '1')
+		if (game->map->m[y + i][x + j] == '1')
 			mlx_put_image_to_window(game->r.mlx, game->r.win, \
 			game->r.img_block, 50 + (10 * j), 50 + (10 * i));
-		else if (game->map.m[y + i][x + j] == 'D' /* && door closed */)
+		else if (game->map->m[y + i][x + j] == 'D' /* && door closed */)
 			mlx_put_image_to_window(game->r.mlx, game->r.win, \
 			game->r.img_door, 50 + (10 * j), 50 + (10 * i));
-		/* else if (game->map.m[y + i][x + j] == 'D' && door open) */
+		/* else if (game->map->m[y + i][x + j] == 'D' && door open) */
 	}
 }
 
@@ -111,7 +111,7 @@ void	draw_minimap(t_game *game)
 	int		j;
 	int		y;
 
-	y = game->map.h - 1 - (int)game->ppos.y;
+	y = game->map->h - 1 - (int)game->ppos.y;
 	i = -4;
 	while (++i < 5)
 	{
