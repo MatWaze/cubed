@@ -6,14 +6,11 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 17:15:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/04 16:23:55 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/04 18:53:27 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <time.h>
 #include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "c3d_math/t_mat.h"
 #include "common/common.h"
 #include "c3d_math/c3d_math.h"
