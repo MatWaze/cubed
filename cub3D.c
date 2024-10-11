@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/09 20:52:32 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 16:33:18 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,23 +114,20 @@ bool	test_level(t_game *game, t_cub *cub)
 		game->cam.y = 0.0;
 		game->r.ceil_color = 0x6e5020;
 		game->r.floor_color = 0xa68444;
-		game->r.wall_sides[NORTH].img = mlx_xpm_file_to_image(game->r.mlx,
-				cub->col_sides.north, &game->r.wall_sides[NORTH].w,
-				&game->r.wall_sides[NORTH].h);
-		game->r.wall_sides[WEST].img = mlx_xpm_file_to_image(game->r.mlx,
-				cub->col_sides.west, &game->r.wall_sides[WEST].w,
-				&game->r.wall_sides[WEST].h);
-		game->r.wall_sides[SOUTH].img = mlx_xpm_file_to_image(game->r.mlx,
-				cub->col_sides.south, &game->r.wall_sides[SOUTH].w,
-				&game->r.wall_sides[SOUTH].h);
-		game->r.wall_sides[EAST].img = mlx_xpm_file_to_image(game->r.mlx,
-				cub->col_sides.east, &game->r.wall_sides[EAST].w,
-				&game->r.wall_sides[EAST].h);
-		if (check_err(&game->e, game->r.wall_sides[NORTH].img != NULL, \
-		MLX_ALLOC) && check_err(&game->e, game->r.wall_sides[WEST].img != NULL, \
-		MLX_ALLOC) && check_err(&game->e, game->r.wall_sides[SOUTH].img != \
-		NULL, MLX_ALLOC) && check_err(&game->e, game->r.wall_sides[EAST].img \
-		!= NULL, MLX_ALLOC))
+		if (xpm_to_texture(cub->col_sides.north, game->r.mlx, game->r.wall_sides + NORTH, &game->e) &&
+		xpm_to_texture(cub->col_sides.west, game->r.mlx, game->r.wall_sides + WEST, &game->e) &&
+		xpm_to_texture(cub->col_sides.south, game->r.mlx, game->r.wall_sides + SOUTH, &game->e) &&
+		xpm_to_texture(cub->col_sides.east, game->r.mlx, game->r.wall_sides + EAST, &game->e) &&
+		xpm_to_texture("textures/sliding_door_1.xpm", game->r.mlx, game->r.door_frames, &game->e) &&
+		xpm_to_texture("textures/sliding_door_2.xpm", game->r.mlx, game->r.door_frames + 1, &game->e) &&
+		xpm_to_texture("textures/sliding_door_3.xpm", game->r.mlx, game->r.door_frames + 2, &game->e) &&
+		xpm_to_texture("textures/sliding_door_4.xpm", game->r.mlx, game->r.door_frames + 3, &game->e) &&
+		xpm_to_texture("textures/sliding_door_5.xpm", game->r.mlx, game->r.door_frames + 4, &game->e) &&
+		xpm_to_texture("textures/sliding_door_6.xpm", game->r.mlx, game->r.door_frames + 5, &game->e) &&
+		xpm_to_texture("textures/sliding_door_7.xpm", game->r.mlx, game->r.door_frames + 6, &game->e) &&
+		xpm_to_texture("textures/sliding_door_8.xpm", game->r.mlx, game->r.door_frames + 7, &game->e) &&
+		xpm_to_texture("textures/sliding_door_9.xpm", game->r.mlx, game->r.door_frames + 8, &game->e) &&
+		xpm_to_texture("textures/sliding_door_10.xpm", game->r.mlx, game->r.door_frames + 9, &game->e))
 			untrack(&game->e);
 	}
 	return (!game->e.error);
@@ -203,23 +200,23 @@ void	set_cubed(t_cub *cubed, char *name)
 int	main2(int argc, char **argv)
 {
 	static t_cub	cub = {0};
-	static t_err	err = {0};
-	static t_game	game = {.e = {0}, .r = {0}};
+	static t_game	game = {.e = {0}, .r = {0}, .states = {0}};
 	int				tmp;
 	int				valid;
 
 	valid = 0;
 	(void)argv;
 	game.r.mlx = mlx_init();
-	if (track(&err, "main") && check_err(&err, argc == 2, \
-	C3D_MAIN_INV_PARAM) && check_err(&err, access(argv[1], F_OK) == 0, \
-	PARSING_FILE_NOT_OPEN) && check_err(&err, is_cub(argv[1]) == 1, \
+	if (track(&game.e, "main") && check_err(&game.e, argc == 2, \
+	C3D_MAIN_INV_PARAM) && check_err(&game.e, access(argv[1], F_OK) == 0, \
+	PARSING_FILE_NOT_OPEN) && check_err(&game.e, is_cub(argv[1]) == 1, \
 	MAIN_INV_FILE_NAME))
 	{
-		valid = validation(argv[1], &cub, &err);
-		if (valid == 25 && test_level(&game, &cub) && check_err(&game.e, game.r.mlx != \
+		valid = validation(argv[1], &cub, &game.e);
+		if (valid == 25 && test_level(&game, &cub) && create_mat(&game.states, game.map.w, game.map.h, &game.e) && check_err(&game.e, game.r.mlx != \
 		NULL, MLX_INIT) && check_err(&game.e, argc == 2, C3D_MAIN_INV_PARAM))
 		{
+			set_mat(&game.states, 0);
 			game.r.win = mlx_new_window(game.r.mlx, WIN_WIDTH, WIN_HEIGHT,
 					"cub3D");
 			game.r.img = mlx_new_image(game.r.mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -245,9 +242,9 @@ int	main2(int argc, char **argv)
 	free_return(cub.col_sides.south) && free_return(cub.col_sides.east) \
 	&& free_return(cub.col_sides.west))
 		;
-	untrack(&err);
-	print_trace(&err);
-	return (err.error);
+	untrack(&game.e);
+	print_trace(&game.e);
+	return (game.e.error);
 }
 
 

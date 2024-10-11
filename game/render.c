@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/10 15:53:42 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 15:49:21 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 #include "raycast/raycast.h"
 #include "t_game.h"
 
-static void				render_stripe(t_game *game, t_ivec *idx,
-							const t_rayhit *hit, bool draw_back);
-static void				render_color_stripe(int *img_buff, t_ivec *idx,
+static void				render_stripe(t_game *game, int x, const t_rayhit *hit);
+static int				render_color_stripe(int *img_buff, int y,
 							int color, int len);
-static void				render_texture_stripe(int *buff, t_ivec *idx,
+static int				render_texture_stripe(int *buff, int y,
 							const t_ivec *x_height, const t_texture *t);
 static const t_texture	*choose_texture(char id, char side, const t_render *r);
 
@@ -34,56 +33,56 @@ void	render(t_game *game)
 	t_rayhit	l2hit;
 	t_vec		step;
 	t_vec		dir;
-	t_ivec		idx;
+	int			x;
 
 	vec_sub(&game->prot, &game->cam, &dir);
 	vec_div(&game->cam, WIN_WIDTH / 2.0, &step);
-	idx.x = 0;
-	while (idx.x < WIN_WIDTH)
+	x = 0;
+	while (x < WIN_WIDTH)
 	{
 		raycast(game, &dir, &l1hit, true);
 		if (l1hit.type == 'D')
 		{
+			l1hit.side = game->states.m[l1hit.idx.y][l1hit.idx.x];
 			raycast(game, &dir, &l2hit, false);
-			render_stripe(game, &idx, &l2hit, false);
+			render_stripe(game, x, &l2hit);
 		}
-		render_stripe(game, &idx, &l1hit, true);
+		render_stripe(game, x, &l1hit);
 		vec_add(&dir, &step, &dir);
-		idx.x += 1;
+		x += 1;
 	}
 	mlx_put_image_to_window(game->r.mlx, game->r.win, game->r.img, 0, 0);
 }
 
-static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,
-				bool draw_back)
+static void	render_stripe(t_game *game, int x, const t_rayhit *hit)
 {
 	t_ivec			x_height;
 	const t_texture	*texture;
+	int				y;
 
-	idx->y = 0;
 	texture = choose_texture(hit->type, hit->side, &game->r);
 	if (texture)
 	{
+		y = 0;
 		if (hit->type == 0)
 			x_height.y = 0;
 		else
 			x_height.y = (int)(WIN_WIDTH / (2 * hit->dist
 						* CAMERA_HALF_FOV_TAN));
-		if (draw_back)
-			render_color_stripe(game->r.img_buff, idx, game->r.ceil_color,
+		y = render_color_stripe(game->r.img_buff + x, y, game->r.ceil_color,
 				(WIN_HEIGHT - x_height.y) / 2);
 		x_height.x = (int)(texture->w * hit->v_cord);
-		render_texture_stripe(game->r.img_buff, idx, &x_height, texture);
-		if (draw_back)
-			render_color_stripe(game->r.img_buff, idx, game->r.floor_color,
-				WIN_HEIGHT);
+		y = render_texture_stripe(game->r.img_buff + x, y, &x_height, texture);
+		y = render_color_stripe(game->r.img_buff + x, y,
+				game->r.floor_color, WIN_HEIGHT);
 	}
 }
 
-static void	render_color_stripe(int *img_buff, t_ivec *idx, int color, int len)
+static int	render_color_stripe(int *img_buff, int y, int color, int len)
 {
-	while (idx->y < len)
-		img_buff[WIN_WIDTH * idx->y++ + idx->x] = color;
+	while (y < len)
+		img_buff[WIN_WIDTH * y++] = color;
+	return (y);
 }
 
 static const t_texture	*choose_texture(char id, char side, const t_render *r)
@@ -99,30 +98,29 @@ static const t_texture	*choose_texture(char id, char side, const t_render *r)
 	return (texture);
 }
 
-static void	render_texture_stripe(int *buff, t_ivec *idx,
+static int	render_texture_stripe(int *buff, int gy,
 				const t_ivec *x_height, const t_texture *t)
 {
 	int	color;
 	int	y;
-	int	*tb;
 	int	len;
 
-	tb = (int *)mlx_get_data_addr(t->img, &color, &color, &color);
-	if (idx->y + x_height->y > WIN_HEIGHT)
+	if (gy + x_height->y > WIN_HEIGHT)
 	{
 		len = WIN_HEIGHT;
-		y = (idx->y + x_height->y - WIN_HEIGHT) / 2;
+		y = (gy + x_height->y - WIN_HEIGHT) / 2;
 	}
 	else
 	{
-		len = idx->y + x_height->y;
+		len = gy + x_height->y;
 		y = 0;
 	}
-	while (idx->y < len)
+	while (gy < len)
 	{
-		color = tb[t->h * y++ / x_height->y * t->w + x_height->x];
+		color = t->buff[t->h * y++ / x_height->y * t->w + x_height->x];
 		if (color)
-			buff[WIN_WIDTH * idx->y + idx->x] = color;
-		idx->y += 1;
+			buff[WIN_WIDTH * gy] = color;
+		gy += 1;
 	}
+	return (gy);
 }

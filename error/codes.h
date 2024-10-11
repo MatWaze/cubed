@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codes.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 07:45:33 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/03 16:13:23 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/09 13:14:12 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define MLX_INIT_DESK "minilibx failed initialization"
 # define MLX_ALLOC 6
 # define MLX_ALLOC_DESK "minilibx failed memory allocation"
+# define MLX_ADDR 7
+# define MLX_ADDR_DESK "Image's data address extraction failed"
 # define C3D_MAIN_INV_PARAM_DESK "Usage: cub3D path_to_cub_file"
 # define PARSING_FILE_NOT_OPEN 10
 # define PARSING_FILE_NOT_OPEN_DESK "Can't open a file"

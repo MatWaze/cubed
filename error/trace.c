@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 07:32:47 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/11 17:35:06 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/10 19:54:26 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	untrack(t_err *err)
 		pop_trace(&err->trace);
 }
 
-bool	ok(t_err *err)
+bool	no_err(t_err *err)
 {
 	return (!err->error);
 }
