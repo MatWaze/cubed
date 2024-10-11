@@ -6,19 +6,22 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:23:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/04 16:29:01 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/10 16:03:50 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <Carbon/Carbon.h>
 #include <math.h>
+#include <time.h>
 
 #include "c3d_math/t_vec.h"
+#include "common/common.h"
 #include "error/error.h"
 #include "t_game.h"
 #include "minilibx/mlx.h"
 #include "config.h"
+#include "parsing/parsing.h"
 
 void		render(t_game *game);
 void		free_game(t_render *r, t_mat *map, t_mat *states);
@@ -72,6 +75,7 @@ static void	rotate(t_game *game, float cos_v, float sin_v)
 	game->cam.x = cos_v * x - sin_v * game->cam.y;
 	game->cam.y = sin_v * x + cos_v * game->cam.y;
 	render(game);
+	draw_minimap(game);
 }
 
 static void	move(t_game *game, float mdx, float mdy)
@@ -79,11 +83,13 @@ static void	move(t_game *game, float mdx, float mdy)
 	game->ppos.x += mdx * MOVEMENT_RESOLUTION;
 	game->ppos.y += mdy * MOVEMENT_RESOLUTION;
 	render(game);
+	draw_minimap(game);
 }
 
 int	exit_game(t_game *game)
 {
 	free_game(&game->r, &game->map, &game->states);
+	system("leaks cub3D");
 	// untrack(&game->e);
 	print_trace(&game->e);
 	exit(game->e.error);

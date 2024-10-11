@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/03 16:07:09 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/11 14:46:41 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 #include "c3d_math/c3d_math.h"
 #include "c3d_math/t_ivec.h"
@@ -52,6 +53,7 @@ void	render(t_game *game)
 		idx.x += 1;
 	}
 	mlx_put_image_to_window(game->r.mlx, game->r.win, game->r.img, 0, 0);
+	system("leaks cub3D");
 }
 
 static void	render_stripe(t_game *game, t_ivec *idx, const t_rayhit *hit,

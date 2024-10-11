@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/30 19:21:03 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/06 17:41:10 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "c3d_math/c3d_math.h"
 #include "game/t_game.h"

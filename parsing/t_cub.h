@@ -6,7 +6,7 @@
 /*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:07:30 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/10 16:14:05 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:38:06 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 # include "c3d_math/t_ivec.h"
 # include "c3d_math/t_mat.h"
 # include "common/t_color_sides.h"
+#include "game/config.h"
 
 typedef struct s_cub
 {
 	t_color_sides	col_sides;
 	int				fd;
 	char			*name;
-	char			door[5];
+	char			door[DOOR_FRAMES_COUNT];
 	char			orientation;
 	char			**map;
 	t_ivec			init_pos;

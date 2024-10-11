@@ -21,7 +21,7 @@ sanitize : all
 #        (__)  \_/\_/(__\_)(____/(__)\_)__) \___/
 
 parsing_dir = $(BUILD_DIR)/parsing
-parsing_modules = validation check_characters texture_parsing valid_texture valid_map get_map door_check
+parsing_modules = validation check_characters texture_parsing valid_texture valid_map get_map door_check minimap
 obj += $(addprefix $(parsing_dir)/, $(addsuffix .o, $(parsing_modules)))
 $(parsing_dir): | $(BUILD_DIR)
 	mkdir $@

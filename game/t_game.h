@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_game.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:33:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/09/29 18:56:29 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:56:02 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ typedef struct s_render
 	void		*mlx;
 	void		*win;
 	void		*img;
+	void		*img_block;
+	void		*img_bg;
+	void		*img_pl;
+	void		*img_door;
+	void		*img_open;
 	int			*img_buff;
 	t_texture	wall_sides[4];
 	t_texture	door_frames[DOOR_FRAMES_COUNT];
