@@ -6,13 +6,14 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/11 19:38:57 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:32:57 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stddef.h>
-#include <stdlib.h>
+#include <math.h>
+#include <stdint.h>
 
 #include "c3d_math/c3d_math.h"
 #include "c3d_math/t_ivec.h"
@@ -20,6 +21,9 @@
 #include "minilibx/mlx.h"
 #include "raycast/raycast.h"
 #include "t_game.h"
+
+const t_texture			*choose_texture(const t_render *r, const t_mat *states,
+							const t_rayhit *hit);
 
 static void				render_stripe(t_game *game, int x, const t_rayhit *hit);
 static int				render_color_stripe(int *img_buff, int y,
@@ -61,27 +65,26 @@ static void	render_recursion(t_game *game, const t_vec *pos, const t_vec *dir,
 static void	render_stripe(t_game *game, int x, const t_rayhit *hit)
 {
 	t_ivec			x_height;
-	const t_texture	*texture;
+	const t_texture	*t;
 	int				y;
 
-	if (hit->type == '1' || hit->type == 0)
-		texture = game->r.wall_sides + hit->side;
-	else if (hit->type == 'D')
-		texture = game->r.door_frames + game->states.m[hit->idx.y][hit->idx.x];
-	else
-		texture = NULL;
-	if (texture)
+	t = choose_texture(&game->r, &game->states, hit);
+	if (t)
 	{
 		y = 0;
 		if (hit->type == 0)
 			x_height.y = 0;
+		else if (isinf(hit->dist))
+			x_height.y = INT32_MAX;
 		else
 			x_height.y = (int)(WIN_WIDTH / (2 * hit->dist
 						* CAMERA_HALF_FOV_TAN));
+		if (x_height.y < 0)
+			x_height.y = INT32_MAX;
 		y = render_color_stripe(game->r.img_buff + x, y, game->r.ceil_color,
 				(WIN_HEIGHT - x_height.y) / 2);
-		x_height.x = (int)(texture->w * hit->v_cord);
-		y = render_texture_stripe(game->r.img_buff + x, y, &x_height, texture);
+		x_height.x = (int)(t->w * hit->v_cord);
+		y = render_texture_stripe(game->r.img_buff + x, y, &x_height, t);
 		y = render_color_stripe(game->r.img_buff + x, y,
 				game->r.floor_color, WIN_HEIGHT);
 	}
