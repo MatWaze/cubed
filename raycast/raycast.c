@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/11 19:35:48 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 15:33:36 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ void	raycast(const t_game *game, const t_vec *pos, const t_vec *dir,
 		cross(&ri, pos);
 		ri.sdy = square_distance(&ri.cy, pos);
 		ri.sdx = square_distance(&ri.cx, pos);
-		set_ivec(&hit->idx, (int)ri.cross.x,
-			game->map->h - 1 - (int)(ri.cross.y));
+		set_ivec(&hit->idx, (int)ri.cross.x
+			- (ri.cross.x - (int)ri.cross.x == 0.0) * (ri.step.x == -1),
+			game->map->h - 1 - (int)(ri.cross.y)
+			+ (ri.cross.y - (int)ri.cross.y == 0.0) * (ri.step.y == -1));
 		while (hit->type == '0')
 			hit_xy(game, pos, &ri, hit);
 	}

@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:33:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/11 17:09:48 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 16:08:35 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_render
 
 typedef struct s_game
 {
+	bool		p_on;
 	t_vec		ppos;
 	t_vec		prot;
 	t_vec		cam;
