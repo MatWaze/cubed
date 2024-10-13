@@ -65,7 +65,7 @@ $(c3d_math_dir): | $(BUILD_DIR)
 #         \___/(__)(__)(_/\/\_)(____)
 
 game_dir=$(BUILD_DIR)/game
-game_modules=hooks render image minimap movement
+game_modules=hooks render image minimap movement door_handle
 obj += $(addprefix $(game_dir)/, $(addsuffix .o, $(game_modules)))
 $(game_dir): | $(BUILD_DIR)
 	mkdir $@

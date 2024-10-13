@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:26:54 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/11 17:11:24 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:50:26 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ int	set_imgs(t_game *game)
 
 	x = 2;
 	ans = 0;
-	if (access("./textures/bl_11zon.xpm", R_OK) == 0 && access(\
-	"./textures/pl_11zon.xpm", R_OK) == 0 && access("./textures/bg2_11zon.xpm", R_OK) == 0\
-	&& access("./textures/door.xpm", R_OK) == 0 && access("./textures/open.xpm", \
-	R_OK) == 0)
+	if (access("./textures/bl_11zon.xpm", R_OK) == 0 \
+	&& access("./textures/pl_11zon.xpm", R_OK) == 0 \
+	&& access("./textures/bg2_11zon.xpm", R_OK) == 0 \
+	&& access("./textures/door.xpm", R_OK) == 0 \
+	&& access("./textures/open.xpm", R_OK) == 0)
 	{
 		ans = 1;
 		game->r.img_block = mlx_xpm_file_to_image(game->r.mlx, \
@@ -98,10 +99,13 @@ void	put_image(t_game *game, int i, int j)
 		if (game->map->m[y + i][x + j] == '1')
 			mlx_put_image_to_window(game->r.mlx, game->r.win, \
 			game->r.img_block, 50 + (10 * j), 50 + (10 * i));
-		else if (game->map->m[y + i][x + j] == 'D' /* && door closed */)
+		else if (game->map->m[y + i][x + j] == 'D' && \
+			game->states.m[y + i][x + j] == 9)
+			mlx_put_image_to_window(game->r.mlx, game->r.win, \
+			game->r.img_open, 50 + (10 * j), 50 + (10 * i));
+		else if (game->map->m[y + i][x + j] == 'D')
 			mlx_put_image_to_window(game->r.mlx, game->r.win, \
 			game->r.img_door, 50 + (10 * j), 50 + (10 * i));
-		/* else if (game->map->m[y + i][x + j] == 'D' && door open) */
 	}
 }
 

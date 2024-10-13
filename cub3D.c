@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/11 17:18:48 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:38:19 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ bool	set_level(t_game *game, t_cub *cub)
 		get_orientation_pos(game->map, cub);
 		k = cub->init_pos.x + 0.5f;
 		l = (cub->mat.h - 1 - cub->init_pos.y + 0.5f);
+		game->timer = 0;
 		game->ppos.x = k;
 		game->ppos.y = l;
 		game->prot.x = 0.0;
@@ -95,7 +96,7 @@ void	free_game(t_render *r, t_mat *map, t_mat *states)
 int	main2(int argc, char **argv)
 {
 	static t_cub	cub = {0};
-	static t_game	game = {.e = {0}, .r = {0}, .states = {0}};
+	static t_game	game = {.e = {0}, .r = {0}, .states = {0}, .door_hit = {0}};
 	int				tmp;
 	int				valid;
 
@@ -134,7 +135,7 @@ int	main2(int argc, char **argv)
 				mlx_do_key_autorepeaton(game.r.mlx);
 				mlx_hook(game.r.win, KeyPress, 0, key_hook, &game);
 				mlx_hook(game.r.win, DestroyNotify, 0, exit_game, &game);
-				mlx_loop_hook(game.r.mlx, mouse_look, &game);
+				mlx_loop_hook(game.r.mlx, loop_hook, &game);
 				mlx_mouse_move(game.r.win, WIN_WIDTH / 2, WIN_HEIGHT / 2);
 				mlx_mouse_hide();
 				render(&game);

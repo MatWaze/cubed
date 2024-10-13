@@ -17,7 +17,7 @@
 
 void	render(t_game *game);
 int		key_hook(int keycode, t_game *game);
-int		mouse_look(t_game *game);
+int		loop_hook(t_game *game);
 int		exit_game(t_game *game);
 bool	xpm_to_texture(const char *path, void *mlx, t_texture *texture,
 			t_err *err);

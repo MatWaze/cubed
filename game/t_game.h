@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   t_game.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
+/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:33:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/13 16:08:35 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:50:38 by mamazari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_GAME_H
 # define T_GAME_H
 
+# include "raycast/t_rayhit.h"
 # include "t_texture.h"
 # include "config.h"
 # include "c3d_math/t_vec.h"
@@ -42,6 +43,8 @@ typedef struct s_game
 	t_vec		ppos;
 	t_vec		prot;
 	t_vec		cam;
+	long		timer;
+	t_rayhit	door_hit;
 	t_mat		*map;
 	t_mat		states;
 	t_render	r;
