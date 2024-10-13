@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:11:35 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/08 19:30:30 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/13 21:03:48 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	get_orientation_pos(t_mat *mat, t_cub *cub)
 			if (is_set(mat->m[i][j], "NSEW"))
 			{
 				ans = 1;
-				mat->m[i][j] = '0';
 				cub->orientation = mat->m[i][j];
+				mat->m[i][j] = '0';
 				cub->init_pos.x = j;
 				cub->init_pos.y = i;
 				break ;

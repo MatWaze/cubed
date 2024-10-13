@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:42:15 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/13 15:33:36 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 21:24:15 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ void	raycast(const t_game *game, const t_vec *pos, const t_vec *dir,
 			+ (ri.cross.y - (int)ri.cross.y == 0.0) * (ri.step.y == -1));
 		while (hit->type == '0')
 			hit_xy(game, pos, &ri, hit);
+		hit->pos = ri.cross;
 	}
-	if (hit->type == 'D')
-		hit->side = game->states.m[hit->idx.y][hit->idx.x];
 }
 
 static void	hit_x(const t_game *game, const t_vec *pos, t_raycast_internal *ri,
