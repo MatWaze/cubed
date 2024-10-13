@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/13 21:41:57 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 22:05:11 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,46 +25,65 @@
 #include <stdio.h>
 #include <unistd.h>
 
-bool	set_level(t_game *game, t_cub *cub);
-void	free_game(t_render *r, t_mat *map, t_mat *states);
+bool		set_level(t_game *game, t_cub *cub);
+void		free_game(t_render *r, t_mat *map, t_mat *states);
+
+static bool	read_textures(t_game *game, t_cub *cub);
 
 bool	set_level(t_game *game, t_cub *cub)
 {
-	float	k;
-	float	l;
-
 	if (track(&game->e, "test_level"))
 	{
 		game->map = &cub->mat;
 		get_orientation_pos(cub);
-		k = cub->init_pos.x + 0.5f;
-		l = (cub->mat.h - 1 - cub->init_pos.y + 0.5f);
 		game->timer = 0;
-		game->ppos.x = k;
-		game->ppos.y = l;
-		game->prot.x = (cub->orientation == 'E') + (cub->orientation == 'W') * -1;
-		game->prot.y = (cub->orientation == 'N') + (cub->orientation == 'S') * -1;
-		game->cam.x = (cub->orientation == 'N') * CAMERA_HALF_FOV_TAN + (cub->orientation == 'S') * - CAMERA_HALF_FOV_TAN;
-		game->cam.y = (cub->orientation == 'W') * CAMERA_HALF_FOV_TAN + (cub->orientation == 'E') * - CAMERA_HALF_FOV_TAN;
-		game->r.ceil_color = (cub->col_sides.ceiling_color.red << 16) + (cub->col_sides.ceiling_color.green << 8) + cub->col_sides.ceiling_color.blue;
-		game->r.floor_color = (cub->col_sides.floor_color.red << 16) + (cub->col_sides.floor_color.green << 8) + cub->col_sides.floor_color.blue;
-		if (xpm_to_texture(cub->col_sides.north, game->r.mlx, game->r.wall_sides + NORTH, &game->e) &&
-		xpm_to_texture(cub->col_sides.west, game->r.mlx, game->r.wall_sides + WEST, &game->e) &&
-		xpm_to_texture(cub->col_sides.south, game->r.mlx, game->r.wall_sides + SOUTH, &game->e) &&
-		xpm_to_texture(cub->col_sides.east, game->r.mlx, game->r.wall_sides + EAST, &game->e) &&
-		xpm_to_texture("textures/sliding_door_1.xpm", game->r.mlx, game->r.door_frames, &game->e) &&
-		xpm_to_texture("textures/sliding_door_2.xpm", game->r.mlx, game->r.door_frames + 1, &game->e) &&
-		xpm_to_texture("textures/sliding_door_3.xpm", game->r.mlx, game->r.door_frames + 2, &game->e) &&
-		xpm_to_texture("textures/sliding_door_4.xpm", game->r.mlx, game->r.door_frames + 3, &game->e) &&
-		xpm_to_texture("textures/sliding_door_5.xpm", game->r.mlx, game->r.door_frames + 4, &game->e) &&
-		xpm_to_texture("textures/sliding_door_6.xpm", game->r.mlx, game->r.door_frames + 5, &game->e) &&
-		xpm_to_texture("textures/sliding_door_7.xpm", game->r.mlx, game->r.door_frames + 6, &game->e) &&
-		xpm_to_texture("textures/sliding_door_8.xpm", game->r.mlx, game->r.door_frames + 7, &game->e) &&
-		xpm_to_texture("textures/sliding_door_9.xpm", game->r.mlx, game->r.door_frames + 8, &game->e) &&
-		xpm_to_texture("textures/sliding_door_10.xpm", game->r.mlx, game->r.door_frames + 9, &game->e))
+		set_vec(&game->ppos, cub->init_pos.x + 0.5f,
+			cub->mat.h - 1 - cub->init_pos.y + 0.5f);
+		set_vec(&game->prot, (cub->orientation == 'E')
+			+ (cub->orientation == 'W') * -1, (cub->orientation == 'N')
+			+ (cub->orientation == 'S') * -1);
+		set_vec(&game->cam, (cub->orientation == 'N') * CAMERA_HALF_FOV_TAN
+			+ (cub->orientation == 'S') * -CAMERA_HALF_FOV_TAN,
+			(cub->orientation == 'W') * CAMERA_HALF_FOV_TAN
+			+ (cub->orientation == 'E') * -CAMERA_HALF_FOV_TAN);
+		game->r.ceil_color = (cub->col_sides.ceiling_color.red << 16)
+			+ (cub->col_sides.ceiling_color.green << 8)
+			+ cub->col_sides.ceiling_color.blue;
+		game->r.floor_color = (cub->col_sides.floor_color.red << 16)
+			+ (cub->col_sides.floor_color.green << 8)
+			+ cub->col_sides.floor_color.blue;
+		if (read_textures(game, cub))
 			untrack(&game->e);
 	}
 	return (!game->e.error);
+}
+
+static bool	read_textures(t_game *game, t_cub *cub)
+{
+	if (track(&game->e, "read_textures") && xpm_to_texture(cub->col_sides.north \
+	, game->r.mlx, game->r.wall_sides + NORTH, &game->e) && \
+	xpm_to_texture(cub->col_sides.west, game->r.mlx, game->r.wall_sides + WEST, \
+	&game->e) && xpm_to_texture(cub->col_sides.south, game->r.mlx, \
+	game->r.wall_sides + SOUTH, &game->e) && xpm_to_texture(cub->col_sides.east \
+	, game->r.mlx, game->r.wall_sides + EAST, &game->e) && \
+	xpm_to_texture("textures/sliding_door_1.xpm", game->r.mlx, \
+	game->r.door_frames, &game->e) && xpm_to_texture(\
+	"textures/sliding_door_2.xpm", game->r.mlx, game->r.door_frames + 1, \
+	&game->e) && xpm_to_texture("textures/sliding_door_3.xpm", game->r.mlx, \
+	game->r.door_frames + 2, &game->e) && xpm_to_texture(\
+	"textures/sliding_door_4.xpm", game->r.mlx, game->r.door_frames + 3, \
+	&game->e) && xpm_to_texture("textures/sliding_door_5.xpm", game->r.mlx, \
+	game->r.door_frames + 4, &game->e) && xpm_to_texture(\
+	"textures/sliding_door_6.xpm", game->r.mlx, game->r.door_frames + 5, \
+	&game->e) && xpm_to_texture("textures/sliding_door_7.xpm", game->r.mlx, \
+	game->r.door_frames + 6, &game->e) && xpm_to_texture(\
+	"textures/sliding_door_8.xpm", game->r.mlx, game->r.door_frames + 7, \
+	&game->e) && xpm_to_texture("textures/sliding_door_9.xpm", game->r.mlx, \
+	game->r.door_frames + 8, &game->e) && xpm_to_texture(\
+	"textures/sliding_door_10.xpm", game->r.mlx, game->r.door_frames + 9, \
+	&game->e))
+		untrack(&game->e);
+	return (no_err(&game->e));
 }
 
 void	free_game(t_render *r, t_mat *map, t_mat *states)
@@ -93,7 +112,7 @@ void	free_game(t_render *r, t_mat *map, t_mat *states)
 	free_mat(states);
 }
 
-int	main2(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	static t_cub	cub = {0};
 	static t_game	game = {.e = {0}, .r = {0}, .states = {0}, .door_hit = {0}};
@@ -147,11 +166,4 @@ int	main2(int argc, char **argv)
 	untrack(&game.e);
 	print_trace(&game.e);
 	return (game.e.error);
-}
-
-int	main(int argc, char **argv)
-{
-	main2(argc, argv);
-	// system("leaks cub3D");
-	return (0);
 }

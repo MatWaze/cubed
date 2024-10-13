@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:26:54 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/13 20:50:26 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/13 22:25:59 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "common/common.h"
+#include "error/error.h"
+#include "game/game.h"
 #include "game/t_game.h"
 #include "libft/libft.h"
 #include "parsing/t_cub.h"
@@ -20,28 +22,20 @@
 
 int	set_imgs(t_game *game)
 {
-	int	x;
 	int	ans;
 
-	x = 2;
 	ans = 0;
-	if (access("./textures/bl_11zon.xpm", R_OK) == 0 \
-	&& access("./textures/pl_11zon.xpm", R_OK) == 0 \
-	&& access("./textures/bg2_11zon.xpm", R_OK) == 0 \
-	&& access("./textures/door.xpm", R_OK) == 0 \
-	&& access("./textures/open.xpm", R_OK) == 0)
+	if (track(&game->e, "set_imgs"))
 	{
 		ans = 1;
-		game->r.img_block = mlx_xpm_file_to_image(game->r.mlx, \
-			"./textures/bl_11zon.xpm", &x, &x);
-		game->r.img_pl = mlx_xpm_file_to_image(game->r.mlx, \
-			"./textures/pl_11zon.xpm", &x, &x);
-		game->r.img_bg = mlx_xpm_file_to_image(game->r.mlx, \
-			"./textures/bg2_11zon.xpm", &x, &x);
-		game->r.img_door = mlx_xpm_file_to_image(game->r.mlx, \
-			"./textures/door.xpm", &x, &x);
-		game->r.img_open = mlx_xpm_file_to_image(game->r.mlx, \
-			"./textures/open.xpm", &x, &x);
+		if (xpm_to_texture("textures/pl_11zon.xpm", game->r.mlx, \
+		&game->r.img_pl, &game->e) && xpm_to_texture(\
+		"./textures/bl_11zon.xpm", game->r.mlx, &game->r.img_block, \
+		&game->e) && xpm_to_texture("textures/bg2_11zon.xpm", game->r.mlx, \
+		&game->r.img_bg, &game->e) && xpm_to_texture("textures/door.xpm", \
+		game->r.mlx, &game->r.img_door, &game->e) && xpm_to_texture(\
+		"textures/open.xpm", game->r.mlx, &game->r.img_open, &game->e))
+			untrack(&game->e);
 	}
 	return (ans);
 }
@@ -95,17 +89,17 @@ void	put_image(t_game *game, int i, int j)
 		(y + i) < (int) game->map->h))
 	{
 		mlx_put_image_to_window(game->r.mlx, game->r.win, \
-			game->r.img_bg, 50 + (10 * j), 50 + (10 * i));
+			game->r.img_bg.img, 50 + (10 * j), 50 + (10 * i));
 		if (game->map->m[y + i][x + j] == '1')
 			mlx_put_image_to_window(game->r.mlx, game->r.win, \
-			game->r.img_block, 50 + (10 * j), 50 + (10 * i));
+			game->r.img_block.img, 50 + (10 * j), 50 + (10 * i));
 		else if (game->map->m[y + i][x + j] == 'D' && \
 			game->states.m[y + i][x + j] == 9)
 			mlx_put_image_to_window(game->r.mlx, game->r.win, \
-			game->r.img_open, 50 + (10 * j), 50 + (10 * i));
+			game->r.img_open.img, 50 + (10 * j), 50 + (10 * i));
 		else if (game->map->m[y + i][x + j] == 'D')
 			mlx_put_image_to_window(game->r.mlx, game->r.win, \
-			game->r.img_door, 50 + (10 * j), 50 + (10 * i));
+			game->r.img_door.img, 50 + (10 * j), 50 + (10 * i));
 	}
 }
 
@@ -123,5 +117,6 @@ void	draw_minimap(t_game *game)
 		while (++j < 5)
 			put_image(game, i, j);
 	}
-	mlx_put_image_to_window(game->r.mlx, game->r.win, game->r.img_pl, 50, 50);
+	mlx_put_image_to_window(game->r.mlx, game->r.win, game->r.img_pl.img, \
+		50, 50);
 }

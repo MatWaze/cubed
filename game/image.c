@@ -6,12 +6,13 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:36:32 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/13 20:29:53 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 21:48:43 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <unistd.h>
 
 #include "minilibx/mlx.h"
 #include "t_render.h"
@@ -28,7 +29,8 @@ bool	xpm_to_texture(const char *path, void *mlx, t_texture *texture,
 {
 	int	tmp;
 
-	if (track(err, "xpm_to_texture"))
+	if (track(err, "xpm_to_texture") && check_err(err, access(path, R_OK) == 0,
+			PARSING_FILE_NOT_OPEN))
 	{
 		texture->img = mlx_xpm_file_to_image(mlx, (char *)path, &texture->w,
 				&texture->h);
