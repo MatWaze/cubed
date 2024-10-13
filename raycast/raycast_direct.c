@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 17:27:30 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/11 19:14:48 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 21:24:05 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	raycast_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit)
 			hit->type = 0;
 		else
 		{
-			ri->symb = game->map->m[hit->idx.y][hit->idx.x];
 			if (!check_hit_x(game, ri, hit))
-				hit->idx.y += ri->step.y;
+				hit->idx.y -= ri->step.y;
 		}
 	}
 	ri->cross.y = game->map->h - 1 - hit->idx.y + (ri->step.y == -1);
+	hit->pos = ri->cross;
 }
 
 void	raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit)
@@ -57,12 +57,12 @@ void	raycast_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit)
 			hit->type = 0;
 		else
 		{
-			ri->symb = game->map->m[hit->idx.y][hit->idx.x];
 			if (!check_hit_y(game, ri, hit))
 				hit->idx.x += ri->step.x;
 		}
 	}
 	ri->cross.x = hit->idx.x - (ri->step.x == -1);
+	hit->pos = ri->cross;
 }
 
 bool	check_hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit)
@@ -76,7 +76,6 @@ bool	check_hit_x(const t_game *game, t_raycast_internal *ri, t_rayhit *hit)
 		ri->symb = game->map->m[hit->idx.y][hit->idx.x];
 		if (ri->symb != '0')
 		{
-			hit->pos = ri->cross;
 			hit->type = ri->symb;
 			hit->dist = distance(&game->ppos, &ri->cross);
 			hit->side = (ri->step.y == 1) * SOUTH + (ri->step.y == -1) * NORTH;
@@ -103,7 +102,6 @@ bool	check_hit_y(const t_game *game, t_raycast_internal *ri, t_rayhit *hit)
 		ri->symb = game->map->m[hit->idx.y][hit->idx.x];
 		if (ri->symb != '0')
 		{
-			hit->pos = ri->cross;
 			hit->type = ri->symb;
 			hit->dist = distance(&game->ppos, &ri->cross);
 			hit->side = (ri->step.x == 1) * WEST + (ri->step.x == -1) * EAST;
