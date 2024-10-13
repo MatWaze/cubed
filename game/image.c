@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 11:36:32 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/10 20:14:46 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:29:53 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 #include <stddef.h>
 
 #include "minilibx/mlx.h"
+#include "t_render.h"
 #include "t_texture.h"
 #include "error/error.h"
 #include "error/codes.h"
+#include "c3d_math/t_mat.h"
+#include "raycast/t_rayhit.h"
 
 #include <stdio.h>
 
@@ -38,4 +41,18 @@ bool	xpm_to_texture(const char *path, void *mlx, t_texture *texture,
 		}
 	}
 	return (no_err(err));
+}
+
+const t_texture	*choose_texture(const t_render *r, const t_mat *states,
+				const t_rayhit *hit)
+{
+	const t_texture	*t;
+
+	if (hit->type == '1' || hit->type == 0)
+		t = r->wall_sides + hit->side;
+	else if (hit->type == 'D')
+		t = r->door_frames + states->m[hit->idx.y][hit->idx.x];
+	else
+		t = NULL;
+	return (t);
 }
