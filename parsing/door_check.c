@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 19:11:35 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/13 21:03:48 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 21:29:19 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	is_surrounded(t_mat *map, size_t i, size_t j);
 int	is_set(char c, char *set);
 
-void	get_orientation_pos(t_mat *mat, t_cub *cub)
+void	get_orientation_pos(t_cub *cub)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -25,16 +25,16 @@ void	get_orientation_pos(t_mat *mat, t_cub *cub)
 
 	i = -1;
 	ans = 0;
-	while (++i < mat->h)
+	while (++i < cub->mat.h)
 	{
 		j = -1;
-		while (++j < mat->w)
+		while (++j < cub->mat.w)
 		{
-			if (is_set(mat->m[i][j], "NSEW"))
+			if (is_set(cub->mat.m[i][j], "NSEW"))
 			{
 				ans = 1;
-				cub->orientation = mat->m[i][j];
-				mat->m[i][j] = '0';
+				cub->orientation = cub->mat.m[i][j];
+				cub->mat.m[i][j] = '0';
 				cub->init_pos.x = j;
 				cub->init_pos.y = i;
 				break ;

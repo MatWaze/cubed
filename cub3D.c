@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/13 20:38:19 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/13 21:41:57 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ bool	set_level(t_game *game, t_cub *cub)
 	if (track(&game->e, "test_level"))
 	{
 		game->map = &cub->mat;
-		get_orientation_pos(game->map, cub);
+		get_orientation_pos(cub);
 		k = cub->init_pos.x + 0.5f;
 		l = (cub->mat.h - 1 - cub->init_pos.y + 0.5f);
 		game->timer = 0;
 		game->ppos.x = k;
 		game->ppos.y = l;
-		game->prot.x = 0.0;
-		game->prot.y = 1.0;
-		game->cam.x = CAMERA_HALF_FOV_TAN;
-		game->cam.y = 0.0;
-		game->r.ceil_color = 0x6e5020;
-		game->r.floor_color = 0xa68444;
+		game->prot.x = (cub->orientation == 'E') + (cub->orientation == 'W') * -1;
+		game->prot.y = (cub->orientation == 'N') + (cub->orientation == 'S') * -1;
+		game->cam.x = (cub->orientation == 'N') * CAMERA_HALF_FOV_TAN + (cub->orientation == 'S') * - CAMERA_HALF_FOV_TAN;
+		game->cam.y = (cub->orientation == 'W') * CAMERA_HALF_FOV_TAN + (cub->orientation == 'E') * - CAMERA_HALF_FOV_TAN;
+		game->r.ceil_color = (cub->col_sides.ceiling_color.red << 16) + (cub->col_sides.ceiling_color.green << 8) + cub->col_sides.ceiling_color.blue;
+		game->r.floor_color = (cub->col_sides.floor_color.red << 16) + (cub->col_sides.floor_color.green << 8) + cub->col_sides.floor_color.blue;
 		if (xpm_to_texture(cub->col_sides.north, game->r.mlx, game->r.wall_sides + NORTH, &game->e) &&
 		xpm_to_texture(cub->col_sides.west, game->r.mlx, game->r.wall_sides + WEST, &game->e) &&
 		xpm_to_texture(cub->col_sides.south, game->r.mlx, game->r.wall_sides + SOUTH, &game->e) &&

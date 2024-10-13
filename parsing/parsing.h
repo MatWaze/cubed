@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:29:34 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/11 16:58:43 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/13 21:29:31 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 int		validation(char *filename, t_cub *cubed, t_err *err);
 int		is_cub(char *filename);
-void	get_orientation_pos(t_mat *mat, t_cub *cub);
+void	get_orientation_pos(t_cub *cub);
 int		set_imgs(t_game *game);
 
 #endif
