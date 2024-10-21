@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/13 22:05:11 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:54:41 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,7 @@ int	main(int argc, char **argv)
 	PARSING_FILE_NOT_OPEN) && check_err(&game.e, is_cub(argv[1]) == 1, \
 	MAIN_INV_FILE_NAME))
 	{
-		tmp = set_imgs(&game);
-		if (track(&game.e, "set_imgs") && check_err(&game.e, tmp == 1, PARSING_FILE_NOT_OPEN))
-		{
-			untrack(&game.e);
-			valid = validation(argv[1], &cub, &game.e);
-		}
-		if (valid == 25 && set_level(&game, &cub) && create_mat(&game.states, game.map->w, game.map->h, &game.e) && check_err(&game.e, game.r.mlx != \
+		if (validation(argv[1], &cub, &game.e) && set_imgs(&game) && set_level(&game, &cub) && create_mat(&game.states, game.map->w, game.map->h, &game.e) && check_err(&game.e, game.r.mlx != \
 		NULL, MLX_INIT) && check_err(&game.e, argc == 2, C3D_MAIN_INV_PARAM))
 		{
 			set_mat(&game.states, 0);

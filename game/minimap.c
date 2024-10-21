@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 19:26:54 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/13 22:25:59 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/21 15:58:20 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,15 @@
 
 int	set_imgs(t_game *game)
 {
-	int	ans;
-
-	ans = 0;
-	if (track(&game->e, "set_imgs"))
-	{
-		ans = 1;
-		if (xpm_to_texture("textures/pl_11zon.xpm", game->r.mlx, \
-		&game->r.img_pl, &game->e) && xpm_to_texture(\
-		"./textures/bl_11zon.xpm", game->r.mlx, &game->r.img_block, \
-		&game->e) && xpm_to_texture("textures/bg2_11zon.xpm", game->r.mlx, \
-		&game->r.img_bg, &game->e) && xpm_to_texture("textures/door.xpm", \
-		game->r.mlx, &game->r.img_door, &game->e) && xpm_to_texture(\
-		"textures/open.xpm", game->r.mlx, &game->r.img_open, &game->e))
-			untrack(&game->e);
-	}
-	return (ans);
+	if (track(&game->e, "set_imgs") && xpm_to_texture("textures/pl_11zon.xpm", \
+	game->r.mlx, &game->r.img_pl, &game->e) && xpm_to_texture(\
+	"./textures/bl_11zon.xpm", game->r.mlx, &game->r.img_block, \
+	&game->e) && xpm_to_texture("textures/bg2_11zon.xpm", game->r.mlx, \
+	&game->r.img_bg, &game->e) && xpm_to_texture("textures/door.xpm", \
+	game->r.mlx, &game->r.img_door, &game->e) && xpm_to_texture(\
+	"textures/open.xpm", game->r.mlx, &game->r.img_open, &game->e))
+		untrack(&game->e);
+	return (no_err(&game->e));
 }
 
 void	set_cubed(t_cub *cubed, char *name)

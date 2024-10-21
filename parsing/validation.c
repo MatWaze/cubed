@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamazari <mamazari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 18:56:23 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/10 16:25:58 by mamazari         ###   ########.fr       */
+/*   Updated: 2024/10/21 15:53:25 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	validation(char *filename, t_cub *cubed, t_err *err)
 		untrack(err);
 	}
 	close(cubed->fd);
-	return (ans);
+	return (ans == 25);
 }
 
 int	valid_check(t_cub *cub, t_err *err, int l_count, int *count)
