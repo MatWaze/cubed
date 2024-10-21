@@ -12,7 +12,6 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-#include <math.h>
 #include <stdint.h>
 
 #include "c3d_math/c3d_math.h"
