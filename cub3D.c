@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/21 16:20:05 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/21 17:02:06 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static bool	set_level(t_game *game, t_cub *cub);
 void		free_game(t_render *r, t_mat *map, t_mat *states);
 
-static bool	read_textures(t_game *game, t_cub *cub);
 static void	start_game(t_game *game, t_cub *cub, int tmp);
+static void	free_minimap(t_render *r);
 
-int	main(int argc, char **argv)
+int	main2(int argc, char **argv)
 {
 	static t_cub	cub = {0};
 	static t_game	game = {.e = {0}, .r = {0}, .states = {0}, .door_hit = {0}};
@@ -48,91 +47,16 @@ int	main(int argc, char **argv)
 		check_err(&game.e, argc == 2, C3D_MAIN_INV_PARAM))
 			start_game(&game, &cub, 0);
 	}
-	untrack(&game.e);
 	print_trace(&game.e);
+	free_game(&game.r, &cub.mat, &game.states);
 	return (game.e.error);
 }
 
-static bool	set_level(t_game *game, t_cub *cub)
+int	main(int argc, char **argv)
 {
-	if (track(&game->e, "test_level"))
-	{
-		game->map = &cub->mat;
-		get_orientation_pos(cub);
-		game->timer = 0;
-		set_vec(&game->ppos, cub->init_pos.x + 0.5f,
-			cub->mat.h - 1 - cub->init_pos.y + 0.5f);
-		set_vec(&game->prot, (cub->orientation == 'E')
-			+ (cub->orientation == 'W') * -1, (cub->orientation == 'N')
-			+ (cub->orientation == 'S') * -1);
-		set_vec(&game->cam, (cub->orientation == 'N') * CAMERA_HALF_FOV_TAN
-			+ (cub->orientation == 'S') * -CAMERA_HALF_FOV_TAN,
-			(cub->orientation == 'W') * CAMERA_HALF_FOV_TAN
-			+ (cub->orientation == 'E') * -CAMERA_HALF_FOV_TAN);
-		game->r.ceil_color = (cub->col_sides.ceiling_color.red << 16)
-			+ (cub->col_sides.ceiling_color.green << 8)
-			+ cub->col_sides.ceiling_color.blue;
-		game->r.floor_color = (cub->col_sides.floor_color.red << 16)
-			+ (cub->col_sides.floor_color.green << 8)
-			+ cub->col_sides.floor_color.blue;
-		if (read_textures(game, cub))
-			untrack(&game->e);
-	}
-	return (!game->e.error);
-}
-
-static bool	read_textures(t_game *game, t_cub *cub)
-{
-	if (track(&game->e, "read_textures") && xpm_to_texture(cub->col_sides.north \
-	, game->r.mlx, game->r.wall_sides + NORTH, &game->e) && \
-	xpm_to_texture(cub->col_sides.west, game->r.mlx, game->r.wall_sides + WEST, \
-	&game->e) && xpm_to_texture(cub->col_sides.south, game->r.mlx, \
-	game->r.wall_sides + SOUTH, &game->e) && xpm_to_texture(cub->col_sides.east \
-	, game->r.mlx, game->r.wall_sides + EAST, &game->e) && \
-	xpm_to_texture("textures/sliding_door_1.xpm", game->r.mlx, \
-	game->r.door_frames, &game->e) && xpm_to_texture(\
-	"textures/sliding_door_2.xpm", game->r.mlx, game->r.door_frames + 1, \
-	&game->e) && xpm_to_texture("textures/sliding_door_3.xpm", game->r.mlx, \
-	game->r.door_frames + 2, &game->e) && xpm_to_texture(\
-	"textures/sliding_door_4.xpm", game->r.mlx, game->r.door_frames + 3, \
-	&game->e) && xpm_to_texture("textures/sliding_door_5.xpm", game->r.mlx, \
-	game->r.door_frames + 4, &game->e) && xpm_to_texture(\
-	"textures/sliding_door_6.xpm", game->r.mlx, game->r.door_frames + 5, \
-	&game->e) && xpm_to_texture("textures/sliding_door_7.xpm", game->r.mlx, \
-	game->r.door_frames + 6, &game->e) && xpm_to_texture(\
-	"textures/sliding_door_8.xpm", game->r.mlx, game->r.door_frames + 7, \
-	&game->e) && xpm_to_texture("textures/sliding_door_9.xpm", game->r.mlx, \
-	game->r.door_frames + 8, &game->e) && xpm_to_texture(\
-	"textures/sliding_door_10.xpm", game->r.mlx, game->r.door_frames + 9, \
-	&game->e))
-		untrack(&game->e);
-	return (no_err(&game->e));
-}
-
-void	free_game(t_render *r, t_mat *map, t_mat *states)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		if (r->wall_sides[i].img)
-			mlx_destroy_image(r->mlx, r->wall_sides[i].img);
-		i += 1;
-	}
-	i = 0;
-	while (i < DOOR_FRAMES_COUNT)
-	{
-		if (r->door_frames[i].img)
-			mlx_destroy_image(r->mlx, r->door_frames[i].img);
-		i += 1;
-	}
-	if (r->img)
-		mlx_destroy_image(r->mlx, r->img);
-	if (r->win)
-		mlx_destroy_window(r->mlx, r->win);
-	free_mat(map);
-	free_mat(states);
+	main2(argc, argv);
+	system("leaks cub3D");
+	return (0);
 }
 
 static void	start_game(t_game *game, t_cub *cub, int tmp)
@@ -162,4 +86,45 @@ static void	start_game(t_game *game, t_cub *cub, int tmp)
 		draw_minimap(game);
 		mlx_loop(game->r.mlx);
 	}
+}
+
+void	free_game(t_render *r, t_mat *map, t_mat *states)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (r->wall_sides[i].img)
+			mlx_destroy_image(r->mlx, r->wall_sides[i].img);
+		i += 1;
+	}
+	i = 0;
+	while (i < DOOR_FRAMES_COUNT)
+	{
+		if (r->door_frames[i].img)
+			mlx_destroy_image(r->mlx, r->door_frames[i].img);
+		i += 1;
+	}
+	free_minimap(r);
+	if (r->img)
+		mlx_destroy_image(r->mlx, r->img);
+	if (r->win)
+		mlx_destroy_window(r->mlx, r->win);
+	free_mat(map);
+	free_mat(states);
+}
+
+static void	free_minimap(t_render *r)
+{
+	if (r->img_bg.img)
+		mlx_destroy_image(r->mlx, r->img_bg.img);
+	if (r->img_block.img)
+		mlx_destroy_image(r->mlx, r->img_block.img);
+	if (r->img_door.img)
+		mlx_destroy_image(r->mlx, r->img_door.img);
+	if (r->img_open.img)
+		mlx_destroy_image(r->mlx, r->img_open.img);
+	if (r->img_pl.img)
+		mlx_destroy_image(r->mlx, r->img_pl.img);
 }

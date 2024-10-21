@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 15:04:21 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/13 19:59:32 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/21 18:43:40 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	move(t_game *game, double mdx, double mdy)
 	vec_mul(&dir, MOVEMENT_RESOLUTION, &dir);
 	if (!(hit.type == 'D' && game->states.m[hit.idx.y][hit.idx.x] == 9))
 	{
-		if (fabs(dist.x) < fabs(dir.x))
+		if (fabs(dist.x) < fabs(dir.x) + WALL_OFFSET)
 			dir.x = 0;
-		if (fabs(dist.y) < fabs(dir.y))
+		if (fabs(dist.y) < fabs(dir.y) + WALL_OFFSET)
 			dir.y = 0;
 	}
 	vec_add(&game->ppos, &dir, &game->ppos);

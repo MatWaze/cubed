@@ -4,7 +4,7 @@ mlx_dir = minilibx
 libft_dir = libft
 lflags = -L$(libft_dir) -L$(mlx_dir)
 iflags = -I. -I/usr/include
-cflags = -Wall -Wextra -Werror -g
+cflags = -Wall -Wextra -Werror
 
 all : make_dirs $(NAME)
 
@@ -65,7 +65,7 @@ $(c3d_math_dir): | $(BUILD_DIR)
 #         \___/(__)(__)(_/\/\_)(____)
 
 game_dir=$(BUILD_DIR)/game
-game_modules=hooks render image minimap movement door_handle
+game_modules=hooks render image minimap movement door_handle setters
 obj += $(addprefix $(game_dir)/, $(addsuffix .o, $(game_modules)))
 $(game_dir): | $(BUILD_DIR)
 	mkdir $@

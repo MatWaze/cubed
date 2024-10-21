@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 19:54:05 by zanikin           #+#    #+#             */
-/*   Updated: 2024/10/13 20:32:57 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/21 18:38:04 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	render_stripe(t_game *game, int x, const t_rayhit *hit)
 		y = 0;
 		if (hit->type == 0)
 			x_height.y = 0;
-		else if (isinf(hit->dist))
+		else if (hit->dist < NEAR_CLIP_DIST)
 			x_height.y = INT32_MAX;
 		else
 			x_height.y = (int)(WIN_WIDTH / (2 * hit->dist
