@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 20:30:01 by mamazari          #+#    #+#             */
-/*   Updated: 2024/10/21 17:02:06 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/10/21 19:31:01 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void		free_game(t_render *r, t_mat *map, t_mat *states);
 static void	start_game(t_game *game, t_cub *cub, int tmp);
 static void	free_minimap(t_render *r);
 
-int	main2(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	static t_cub	cub = {0};
 	static t_game	game = {.e = {0}, .r = {0}, .states = {0}, .door_hit = {0}};
@@ -50,13 +50,6 @@ int	main2(int argc, char **argv)
 	print_trace(&game.e);
 	free_game(&game.r, &cub.mat, &game.states);
 	return (game.e.error);
-}
-
-int	main(int argc, char **argv)
-{
-	main2(argc, argv);
-	system("leaks cub3D");
-	return (0);
 }
 
 static void	start_game(t_game *game, t_cub *cub, int tmp)

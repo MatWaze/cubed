@@ -1,5 +1,5 @@
 cub="./cub3D"
-dir="/Users/mamazari/Desktop/42-cursus/cub3d/maps/invalid/*/*"
+dir="maps/invalid/*/*"
 
 for subdir in $dir;
     do
