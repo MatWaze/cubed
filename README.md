@@ -1,1 +1,2 @@
-Wolfenstein 3D like game
+# Cub3D
+## A Wolfenstein3D like game
